@@ -13,7 +13,7 @@ class ProjectController extends Controller
 
         return request()->validate([
             'title' => 'required | min:3 | max:255',
-            'description' => 'required | min:3'
+            'description' => 'required | min:3',
         ]);
 
     }
@@ -52,7 +52,10 @@ class ProjectController extends Controller
     {
 
         $attributes = $this->validateProject();
-        Project::create($attributes);
+        // dd(auth()->id());
+        // $attributes['user_id'] = auth()->id();
+        // Project::create($attributes);
+        auth()->user()->projects()->create($attributes);
 
         return redirect('projects');
     }
