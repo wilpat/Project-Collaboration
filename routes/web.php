@@ -16,13 +16,22 @@
 });*/
 
 Route::get('/', function () {
-    return view('app');
+    return view('welcome');
 });
 
-Route::post('/projects', 'ProjectController@store')->middleware('auth');
-Route::get('/projects', 'ProjectController@index');
-Route::get('/project/{project}', 'ProjectController@show');
+Route::group(['middleware' => 'auth'], function(){
+	Route::post('/projects', 'ProjectController@store');
+	Route::get('/projects', 'ProjectController@index');
+	Route::get('/project/{project}', 'ProjectController@show');
+	Route::get('/projects/create', 'ProjectController@create');
+
+	Route::get('/home', 'HomeController@index')->name('home');
+
+});
+
+Auth::routes();
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+

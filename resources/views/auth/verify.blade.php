@@ -2,14 +2,17 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="columns is-marginless is-centered">
+        <div class="column is-5">
             <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+                <header class="card-header">
+                    <p class="card-header-title">{{ __('Verify Your Email Address') }}</p>
+                </header>
 
-                <div class="card-body">
+                <div class="card-content">
                     @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
+                        <div class="notification is-success">
+                            <button class="delete"></button>
                             {{ __('A fresh verification link has been sent to your email address.') }}
                         </div>
                     @endif

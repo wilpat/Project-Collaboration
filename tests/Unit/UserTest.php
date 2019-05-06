@@ -19,6 +19,6 @@ class UserTest extends TestCase
     public function a_user_has_projects_relationship()
     {
     	$user = factory('App\User')->create();
-        $this->assertInstanceOf(Collection::class, $user->projects);
+        $this->assertInstanceOf(Collection::class, $user->projects);//THis is how you handle a hasMany r/ship
     }
 }

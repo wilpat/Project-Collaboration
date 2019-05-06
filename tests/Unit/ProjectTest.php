@@ -24,4 +24,11 @@ class ProjectTest extends TestCase
     	//Check that there is a method in the model that generates it's path properly
         $this->assertEquals('/project/' . $project->id, $project->path());
     }
+
+    /** @test */
+    public function a_project_has_a_user_relationship()
+    {
+        $project = factory('App\Project')->create();
+        $this->assertInstanceOf('App\User', $project->user);//THis is how you handle a belongsTo r/ship
+    }
 }

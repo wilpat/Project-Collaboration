@@ -11,27 +11,82 @@ class ProjectsTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /** @test */
-    public function only_authenticated_users_can_create_projects()
+    public function guests_cannot_manage_projects()
     {
         // $this->withoutExceptionHandling();
-        $attributes = factory('App\Project')->raw();
-        
+        $project = factory('App\Project')->create();
+
+        // Given that i am not logged in
         // If i submit an incomplete dataset, check that it throws an error
-        $this->post('/projects', $attributes)->assertRedirect('login');
+        $this->post('/projects', $project->toArray())->assertRedirect('login');
+        // if i try viewing all projects
+        $this->get('/projects')->assertRedirect('login');//Assert that i was redirected to the login page
+        // IF i go to the project creation page
+        $this->get('/projects/create')->assertRedirect('login');//Assert that i was redirected to the login page
+        // And if i try viewing the the individual created project
+        $this->get($project->path())->assertRedirect('login');//Assert that i was redirected to the login page
 
     }
 
+
     /** @test */
-    public function a_user_can_create_projects()
+    public function a_user_can_view_their_project(){
+
+        // Given that i am logged in
+        $this->be(factory('App\User')->create());
+        //Given that I have a project created with my id associated with it
+        $project = factory('App\Project')->create(['user_id' => auth()->id()]); // This automatically persists the record
+
+        // When i visit the page of the project
+        $this->get($project->path())
+             ->assertSee($project->title) // Check that we have it's title and description rendered on the page
+             ->assertSee($project->description);
+    }
+
+    /** @test */
+    public function an_authenticated_user_cannot_view_projects_of_others(){
+
+        // Given that i am logged in
+        $this->be(factory('App\User')->create());
+        //Given that I have a project created without my id associated with it
+        $project = factory('App\Project')->create(); // This automatically persists the record
+
+        // When i visit the page of the project
+        $this->get($project->path())
+             ->assertStatus(403);
+    }
+
+    /** @test */
+    public function a_user_can_view_create_projects_page()
     {
         // $this->withoutExceptionHandling();
+        
+        // Given that i am signed in,
         $this->actingAs(factory('App\User')->create());
+        // Check that we the title of the project gets rendered on the projects page 
+        $this->get('/projects/create')->assertStatus(200);
+        // $this->get('/projects/create')->assertSee('Create');
+
+    }
+
+     /** @test */
+    public function a_user_can_create_projects()
+    {
+        $this->withoutExceptionHandling();
+
+        //If i am logged in
+        $this->actingAs(factory('App\User')->create());
+
+        //If i hit the create url, i get a page there
+        $this->get('/projects/create')->assertStatus(200);
+
+        // Assumming the form is ready, if i get the form data
         $attributes = [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph
         ];
-
-        //If we submit a project, check that we get redirected to the projects path
+        // dd(auth()->id());
+        //If we submit the form data, check that we get redirected to the projects path
         $this->post('/projects', $attributes)->assertRedirect('/projects');
 
         // check that the database has the data we just submitted
@@ -62,19 +117,6 @@ class ProjectsTest extends TestCase
         // If i submit an incomplete dataset, check that it throws an error
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
 
-    }
-
-    /** @test */
-    public function a_user_can_view_a_project(){
-
-        $this->actingAs(factory('App\User')->create());
-        //Given that we have a project
-        $project = factory('App\Project')->create(); // This automatically persists the record
-
-        // When we visit the page of the projece
-        $this->get('/project/' . $project->id)
-             ->assertSee($project->title) // Check that we have it's title and description rendered on the page
-             ->assertSee($project->description);
     }
 
 }

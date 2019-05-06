@@ -27,7 +27,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        // dd(auth()->id());
+        // $projects = Project::all();
+        $projects = auth()->user()->projects;
         // dd($projects);
         return view('projects.index', compact('projects'));
     }
@@ -39,7 +41,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -57,7 +59,7 @@ class ProjectController extends Controller
         // Project::create($attributes);
         auth()->user()->projects()->create($attributes);
 
-        return redirect('projects');
+        return redirect('/projects');
     }
 
     /**
@@ -67,7 +69,10 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Project $project)
-    {
+    {   
+        if(auth()->user()->isNot($project->user)){
+            abort(403);
+        }
         return view('projects.show',compact('project'));
     }
 
