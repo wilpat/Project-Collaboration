@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Create Project</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-	<!-- Latest CSS files for bulma and font-awesome -->
-</head>
-<body>
-
-	<form class="container" method="POST" action="/projects/">
+@extends('layouts.app')
+@section('content')
+	<form method="POST" action="/projects/">
 		@csrf
-	<h1 class="heading is-1" style="padding-top: 40px">Create project</h1>
+	<h1 class="heading is-1">Create project</h1>
 		<div class="field">
 		  <label class="label">Title</label>
 		  <div class="control">
@@ -30,9 +21,8 @@
 		<div class="field">
 		  	<div class="control">
 			  <button class="button is-primary">Create Project</button>
+			  <a href="/projects">Cancel</a>
 			</div>
 		</div>
 	</form>
-	
-</body>
-</html>
+@endsection

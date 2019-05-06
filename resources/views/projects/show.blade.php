@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>{{ $project->title }}</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('title')
+{{ $project->title }}
+@endsection
+@section('content')
 
 	<h1>{{ $project->title }}</h1>
 	<div> {{ $project->description }} </div>
+	<a href="/projects">Go back</a>
 		
-</body>
-</html>
+@endsection
