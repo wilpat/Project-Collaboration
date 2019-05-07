@@ -33,7 +33,7 @@ class ProjectsTest extends TestCase
     public function a_user_can_view_their_project(){
 
         // Given that i am logged in
-        $this->be(factory('App\User')->create());
+        $this->signIn();
         //Given that I have a project created with my id associated with it
         $project = factory('App\Project')->create(['user_id' => auth()->id()]); // This automatically persists the record
 
@@ -47,7 +47,7 @@ class ProjectsTest extends TestCase
     public function an_authenticated_user_cannot_view_projects_of_others(){
 
         // Given that i am logged in
-        $this->be(factory('App\User')->create());
+        $this->signIn();
         //Given that I have a project created without my id associated with it
         $project = factory('App\Project')->create(); // This automatically persists the record
 
@@ -62,7 +62,8 @@ class ProjectsTest extends TestCase
         // $this->withoutExceptionHandling();
         
         // Given that i am signed in,
-        $this->actingAs(factory('App\User')->create());
+        $res = $this->signIn();
+        // dd(auth()->id());
         // Check that we the title of the project gets rendered on the projects page 
         $this->get('/projects/create')->assertStatus(200);
         // $this->get('/projects/create')->assertSee('Create');
@@ -72,10 +73,10 @@ class ProjectsTest extends TestCase
      /** @test */
     public function a_user_can_create_projects()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         //If i am logged in
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
         //If i hit the create url, i get a page there
         $this->get('/projects/create')->assertStatus(200);
@@ -100,7 +101,7 @@ class ProjectsTest extends TestCase
 
     /** @test */
     public function a_project_requires_a_title(){
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
         $attributes = factory('App\Project')->raw(['title' => '']);// This is because we already created factory data for project in database/factories
                                                                    // We used raw because we needed an array here. the other option 'make' returns an object
 
@@ -111,7 +112,7 @@ class ProjectsTest extends TestCase
 
     /** @test */
     public function a_project_requires_a_decription(){
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
         $attributes = factory('App\Project')->raw(['description' => '']);
 
         // If i submit an incomplete dataset, check that it throws an error

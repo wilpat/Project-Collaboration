@@ -22,7 +22,7 @@ class ProjectTest extends TestCase
     	$project = factory('App\Project')->create();
 
     	//Check that there is a method in the model that generates it's path properly
-        $this->assertEquals('/project/' . $project->id, $project->path());
+        $this->assertEquals('/projects/' . $project->id, $project->path());
     }
 
     /** @test */
@@ -30,5 +30,22 @@ class ProjectTest extends TestCase
     {
         $project = factory('App\Project')->create();
         $this->assertInstanceOf('App\User', $project->user);//THis is how you handle a belongsTo r/ship
+    }
+
+    /** @test */
+    public function a_project_can_add_a_task()
+    {   
+        // GIven a new project
+        $project = factory('App\Project')->create();
+
+        //If we add a task to it directly from the model
+        $task = $project->addTask('Test Task');
+
+        // Assert there there's only one task connected to this project
+        $this->assertCount(1, $project->tasks);
+
+        // Assert that it contains this newly assigned task
+
+        $this->assertTrue($project->tasks->contains($task));
     }
 }

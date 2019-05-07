@@ -23,10 +23,12 @@
 				<div class="mb-8">
 
 					<h2 class="text-grey font-normal text-lg mb-3">Tasks</h2>
-					<div class="card mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </div>
-					<div class="card mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </div>
-					<div class="card mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </div>
-					<div class="card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </div>
+
+					@forelse ($project->tasks as $task)
+						<div class="card mb-3"> {{ $task->body }}</div>
+					@empty
+						<div class="card mb-3">No task yet. </div>
+					@endforelse
 
 				</div>
 				<div class="mb-3">
