@@ -88,7 +88,7 @@ class ProjectsTest extends TestCase
         ];
         // dd(auth()->id());
         //If we submit the form data, check that we get redirected to the projects path
-        $this->post('/projects', $attributes)->assertRedirect('/projects');
+        $this->post('/projects', $attributes)->assertRedirect('/projects/1');
 
         // check that the database has the data we just submitted
         $this->assertDatabaseHas('projects', $attributes);

@@ -57,9 +57,9 @@ class ProjectController extends Controller
         // dd(auth()->id());
         // $attributes['user_id'] = auth()->id();
         // Project::create($attributes);
-        auth()->user()->projects()->create($attributes);
+        $project = auth()->user()->projects()->create($attributes);
 
-        return redirect('/projects');
+        return redirect($project->path());
     }
 
     /**

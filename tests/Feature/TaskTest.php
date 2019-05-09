@@ -18,6 +18,39 @@ class TaskTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function guests_cannot_add_tasks_to_projects()
+    {
+        // If a project exists
+        $project = factory(Project::class)->create();
+        //And i am not logged in
+
+        //Then if i try posting a task to that project, 
+        // Asser that i was redirected to the login page
+        $this->post($project->path() . '/tasks', ['body' => 'Test task'])->assertRedirect('login');
+
+
+    }
+
+    /** @test */
+    public function only_the_project_owner_can_may_add_tasks()
+    {   
+        //If i am signed
+        $this->signIn();
+
+        // If a project is created that doesnt belong to me
+        $project = factory(Project::class)->create();
+        //And i am not logged in
+
+        //Then if i try posting a task to that project, 
+        // Asser that i was get a 403
+        $this->post($project->path() . '/tasks', ['body' => 'Test task'])->assertForbidden();
+
+        $this->assertDatabaseMissing('tasks', ['body' => 'Test task']);
+
+
+    }
+
+    /** @test */
     public function a_user_can_create_tasks()
     {   
         // $this->withoutExceptionHandling();
