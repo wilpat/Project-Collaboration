@@ -13,7 +13,8 @@ class ProjectController extends Controller
 
         return request()->validate([
             'title' => 'required | min:3 | max:255',
-            'description' => 'required | min:3',
+            'description' => 'required | min:3 | max:100',
+            'notes' => 'min:3',
         ]);
 
     }
@@ -94,9 +95,14 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
-    {
-        //
+    public function update(Project $project)
+    {   
+        $this->authorize('update', $project);
+        /*if(auth()->user()->isNot($project->user)){
+            abort(403);
+        }*/
+        $project->update(request(['notes']));
+        return redirect($project->path());
     }
 
     /**

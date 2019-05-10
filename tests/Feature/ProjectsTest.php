@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +15,7 @@ class ProjectsTest extends TestCase
     public function guests_cannot_manage_projects()
     {
         // $this->withoutExceptionHandling();
-        $project = factory('App\Project')->create();
+        $project = factory(Project::class)->create();
 
         // Given that i am not logged in
         // If i submit an incomplete dataset, check that it throws an error
@@ -35,7 +36,7 @@ class ProjectsTest extends TestCase
         // Given that i am logged in
         $this->signIn();
         //Given that I have a project created with my id associated with it
-        $project = factory('App\Project')->create(['user_id' => auth()->id()]); // This automatically persists the record
+        $project = factory(Project::class)->create(['user_id' => auth()->id()]); // This automatically persists the record
 
         // When i visit the page of the project
         $this->get($project->path())
@@ -49,7 +50,7 @@ class ProjectsTest extends TestCase
         // Given that i am logged in
         $this->signIn();
         //Given that I have a project created without my id associated with it
-        $project = factory('App\Project')->create(); // This automatically persists the record
+        $project = factory(Project::class)->create(); // This automatically persists the record
 
         // When i visit the page of the project
         $this->get($project->path())
@@ -73,28 +74,39 @@ class ProjectsTest extends TestCase
      /** @test */
     public function a_user_can_create_projects()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         //If i am logged in
         $this->signIn();
 
         //If i hit the create url, i get a page there
-        $this->get('/projects/create')->assertStatus(200);
+        $this->get('/projects/create')->assertOk();
 
         // Assumming the form is ready, if i get the form data
         $attributes = [
             'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph
+            'description' => $this->faker->sentence,
+            'notes' => 'General notes here.'
         ];
         // dd(auth()->id());
-        //If we submit the form data, check that we get redirected to the projects path
-        $this->post('/projects', $attributes)->assertRedirect('/projects/1');
+        // dd($this->grabDataFromResponseByJsonPath('$.id'));
+        //If we submit the form data, 
+        $response = $this->post('/projects', $attributes);
+
+        //Get the project we just created
+        $project = Project::where($attributes)->first();
+
+        // Check that we get redirected to the projects path
+        $response->assertRedirect($project->path());
 
         // check that the database has the data we just submitted
         $this->assertDatabaseHas('projects', $attributes);
 
         // Check that we the title of the project gets rendered on the projects page 
-        $this->get('/projects')->assertSee($attributes['title']);
+        $this->get($project->path())
+             ->assertSee($attributes['title'])
+             ->assertSee($attributes['description'])
+             ->assertSee($attributes['notes']);
 
     }
 
@@ -102,7 +114,7 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_a_title(){
         $this->signIn();
-        $attributes = factory('App\Project')->raw(['title' => '']);// This is because we already created factory data for project in database/factories
+        $attributes = factory(Project::class)->raw(['title' => '']);// This is because we already created factory data for project in database/factories
                                                                    // We used raw because we needed an array here. the other option 'make' returns an object
 
         // If i submit an incomplete dataset, check that it throws an error
@@ -113,11 +125,41 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_a_decription(){
         $this->signIn();
-        $attributes = factory('App\Project')->raw(['description' => '']);
+        $attributes = factory(Project::class)->raw(['description' => '']);
 
         // If i submit an incomplete dataset, check that it throws an error
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
 
+    }
+
+    /** @test */
+    public function a_user_can_update_a_project()
+    {   
+        $this->withoutExceptionHandling();
+        // If i am signed
+        $this->signIn();
+        //And a project exists that was created by me
+        $project = auth()->user()->projects()->create(
+            factory(Project::class)->raw()
+        );
+
+        // If i post a project update request
+        $this->patch($project->path(), ['notes' => 'Changed']);
+        $this->assertDatabaseHas('projects', ['notes' => 'Changed']);
+
+    }
+
+    /** @test */
+    public function an_authenticated_user_cannot_update_projects_of_others(){
+
+        // Given that i am logged in
+        $this->signIn();
+        //Given that I have a project created without my id associated with it
+        $project = factory(Project::class)->create(); // This automatically persists the record
+
+        // When i try updating the project
+        $this->patch($project->path(), ['notes' => 'Changed'])
+             ->assertForbidden();
     }
 
 }

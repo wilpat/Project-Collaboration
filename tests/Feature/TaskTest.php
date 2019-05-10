@@ -69,6 +69,46 @@ class TaskTest extends TestCase
     }
 
     /** @test */
+    public function a_user_can_update_tasks()
+    {   
+        $this->withoutExceptionHandling();
+        // If i am signed
+        $this->signIn();
+        //And a project exists that was created by me
+        $project = auth()->user()->projects()->create(
+            factory(Project::class)->raw()
+        );
+
+        // And a task exists for that project
+        $task = $project->addTask('Test task');
+
+        // If i post a task update request
+        $this->patch($task->path(), ['body' => 'Changed']);
+        $this->assertDatabaseHas('tasks', ['body' => 'Changed']);
+
+    }
+
+    /** @test */
+    public function only_the_project_owner_can_may_update_its_tasks(){
+
+        // Given that i am logged in
+        $this->signIn();
+
+        //Given that I have a project created without my id associated with it
+        $project = factory('App\Project')->create(); 
+
+        // And a task exists for that project
+        $task = $project->addTask('Test task');
+
+        // If i post a task update request for the task
+        $this->patch($task->path(), ['body' => 'Changed'])
+             ->assertForbidden();
+
+        $this->assertDatabaseMissing('tasks', ['body' => 'Changed']);
+
+    }
+
+    /** @test */
     public function a_task_requires_a_body(){
         // $this->withoutExceptionHandling();
         

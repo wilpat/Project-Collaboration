@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Project;
+use App\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -16,6 +17,17 @@ class TaskController extends Controller
 
     	$project->addTask(request('body'));
 
+    	return redirect($project->path());
+    }
+
+    public function update(Project $project, Task $task){
+    	if(auth()->user()->isNot($task->project->user)){
+    		abort(403);
+    	}
+    	$task->update([
+    		'body' => request('body'),
+    		'completed' => request()->has('completed')
+    	]);
     	return redirect($project->path());
     }
 }
