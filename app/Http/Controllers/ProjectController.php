@@ -101,7 +101,8 @@ class ProjectController extends Controller
         /*if(auth()->user()->isNot($project->user)){
             abort(403);
         }*/
-        $project->update(request(['notes']));
+        $attributes = $this->validateProject();
+        $project->update($attributes);
         return redirect($project->path());
     }
 
