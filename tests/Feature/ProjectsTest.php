@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Project;
 use Tests\TestCase;
+use Facades\Tests\Setup\ProjectFactory;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -33,13 +34,17 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_user_can_view_their_project(){
 
+       /* 
+        Refactor
         // Given that i am logged in
         $this->signIn();
         //Given that I have a project created with my id associated with it
         $project = factory(Project::class)->create(['user_id' => auth()->id()]); // This automatically persists the record
-
+        */
+        $project = ProjectFactory::create();
         // When i visit the page of the project
-        $this->get($project->path())
+        $this->actingAs($project->user)
+             ->get($project->path())
              ->assertSee($project->title) // Check that we have it's title and description rendered on the page
              ->assertSee($project->description);
     }
@@ -54,7 +59,7 @@ class ProjectsTest extends TestCase
 
         // When i visit the page of the project
         $this->get($project->path())
-             ->assertStatus(403);
+             ->assertForbidden(403);
     }
 
     /** @test */
@@ -74,7 +79,7 @@ class ProjectsTest extends TestCase
      /** @test */
     public function a_user_can_create_projects()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         //If i am logged in
         $this->signIn();
@@ -98,9 +103,6 @@ class ProjectsTest extends TestCase
 
         // Check that we get redirected to the projects path
         $response->assertRedirect($project->path());
-
-        // check that the database has the data we just submitted
-        $this->assertDatabaseHas('projects', $attributes);
 
         // Check that we the title of the project gets rendered on the projects page 
         $this->get($project->path())
@@ -135,17 +137,23 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_user_can_update_a_project()
     {   
-        $this->withoutExceptionHandling();
-        // If i am signed
-        $this->signIn();
-        //And a project exists that was created by me
-        $project = auth()->user()->projects()->create(
-            factory(Project::class)->raw()
-        );
-
+        // $this->withoutExceptionHandling();
+        /*
+            Refactor
+            // If i am signed
+            $this->signIn();
+            //And a project exists that was created by me
+            $project = auth()->user()->projects()->create(
+                factory(Project::class)->raw()
+            );
+        */
+        $project = ProjectFactory::create();
         // If i post a project update request
-        $this->patch($project->path(), ['notes' => 'Changed']);
-        $this->assertDatabaseHas('projects', ['notes' => 'Changed']);
+        $this->actingAs($project->user)
+             ->patch($project->path(), $attributes = ['notes' => 'Changed'])
+             ->assertRedirect($project->path());
+
+        $this->assertDatabaseHas('projects', $attributes);
 
     }
 
