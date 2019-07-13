@@ -49,6 +49,23 @@ class ProjectsTest extends TestCase
              ->patch($project->path(), $attributes = ['notes' => 'Changed', 'title' => 'Changed', 'description' => 'Changed'])
              ->assertRedirect($project->path());
 
+        $this->get($project->path().'/edit')->assertOk();
+
+        $this->assertDatabaseHas('projects', $attributes);
+
+    }
+
+
+    /** @test */
+    public function a_user_can_update_a_project_note()
+    {   
+        $project = ProjectFactory::create();
+        $this->actingAs($project->user)
+             ->patch($project->path(), $attributes = ['notes' => 'Changed'])
+             ->assertRedirect($project->path());
+
+        $this->get($project->path().'/edit')->assertOk();
+
         $this->assertDatabaseHas('projects', $attributes);
 
     }

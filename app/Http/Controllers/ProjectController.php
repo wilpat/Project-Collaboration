@@ -3,23 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {   
 
-    // Helpers
+    /**
+     * Validate the request attributes
+     *
+     * @return array
+     */
     protected function validateProject(){
 
         return request()->validate([
-            'title' => 'required | min:3 | max:255',
-            'description' => 'required | min:3 | max:100',
-            'notes' => 'min:3',
+            'title' => 'sometimes|required | min:3 | max:255',
+            'description' => 'sometimes|required | min:3 | max:100',
+            'notes' => 'nullable',
         ]);
 
     }
-
-    // End Helpers
 
     /**
      * Display a listing of the resource.
@@ -89,22 +92,29 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the project
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param  \App\Requests\UpdateProjectRequest  $request - Form request
+     * @param  Project                             $project
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {   
-        $this->authorize('update', $project); // This is a policy
+        // $this->authorize('update', $project); // This is a policy
         /*if(auth()->user()->isNot($project->user)){
             abort(403);
         }*/
         // dd(request()->all());
         // $attributes = request(['notes']);
-        $attributes = $this->validateProject();
-        $project->update($attributes);
+        // $attributes = $this->validateProject();
+
+        // Now validation is done with the UpdateProjectRequest form request class
+        // $attributes = $request->validated();
+        // $project->update($attributes);
+
+        // Now the update happens with the save method of the UpdateProjectRequest form request class
+        $request->save();
+
         return redirect($project->path());
     }
 
