@@ -18,7 +18,10 @@
 		public function withTasks($count){
 			$this->tasksCount = $count;
 
-			return $this; // This is needed for the class to work, dunno why yet
+			return $this; // This is needed for the class to work because we want a fluent apc_inc(key)
+
+						  // It's because we use this class in a way where we chain functions together, so after each function, it makes sense
+						  // To return the class again with it's current state to be used in performing the next set of functions
 		}
 
 		public function ownedBy($user){

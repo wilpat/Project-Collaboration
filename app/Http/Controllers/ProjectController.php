@@ -85,7 +85,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -97,10 +97,12 @@ class ProjectController extends Controller
      */
     public function update(Project $project)
     {   
-        $this->authorize('update', $project);
+        $this->authorize('update', $project); // This is a policy
         /*if(auth()->user()->isNot($project->user)){
             abort(403);
         }*/
+        // dd(request()->all());
+        // $attributes = request(['notes']);
         $attributes = $this->validateProject();
         $project->update($attributes);
         return redirect($project->path());

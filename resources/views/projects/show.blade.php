@@ -12,7 +12,7 @@
 				<a href="/projects" class="no-underline text-grey">My Projects</a> / {{ $project->title }}
 			</p>
 
-			<a href="/projects/create" class="button">New Project</a>
+			<a href="/projects/{{ $project->id }}/edit" class="button">Edit Project</a>
 		</div>
 
 	</header>

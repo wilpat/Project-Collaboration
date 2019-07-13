@@ -40,7 +40,6 @@ class TaskTest extends TestCase
 
         // If a project is created that doesnt belong to me
         $project = factory(Project::class)->create();
-        //And i am not logged in
 
         //Then if i try posting a task to that project, 
         // Asser that i was get a 403

@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Project;
 use Tests\TestCase;
-use Facades\Tests\Setup\ProjectFactory;
+use Facades\Tests\Setup\ProjectFactory; #Enables us use the ProjectFactory class directly without needing the path to it
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -30,6 +30,28 @@ class ProjectsTest extends TestCase
 
     }
 
+    /** @test */
+    public function a_user_can_update_a_project()
+    {   
+        // $this->withoutExceptionHandling();
+        /*
+            Refactor
+            // If i am signed
+            $this->signIn();
+            //And a project exists that was created by me
+            $project = auth()->user()->projects()->create(
+                factory(Project::class)->raw()
+            );
+        */
+        $project = ProjectFactory::create();
+        // If i post a project update request
+        $this->actingAs($project->user)
+             ->patch($project->path(), $attributes = ['notes' => 'Changed', 'title' => 'Changed', 'description' => 'Changed'])
+             ->assertRedirect($project->path());
+
+        $this->assertDatabaseHas('projects', $attributes);
+
+    }
 
     /** @test */
     public function a_user_can_view_their_project(){
@@ -131,29 +153,6 @@ class ProjectsTest extends TestCase
 
         // If i submit an incomplete dataset, check that it throws an error
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
-
-    }
-
-    /** @test */
-    public function a_user_can_update_a_project()
-    {   
-        // $this->withoutExceptionHandling();
-        /*
-            Refactor
-            // If i am signed
-            $this->signIn();
-            //And a project exists that was created by me
-            $project = auth()->user()->projects()->create(
-                factory(Project::class)->raw()
-            );
-        */
-        $project = ProjectFactory::create();
-        // If i post a project update request
-        $this->actingAs($project->user)
-             ->patch($project->path(), $attributes = ['notes' => 'Changed', 'title' => 'Changed', 'description' => 'Changed'])
-             ->assertRedirect($project->path());
-
-        $this->assertDatabaseHas('projects', $attributes);
 
     }
 
