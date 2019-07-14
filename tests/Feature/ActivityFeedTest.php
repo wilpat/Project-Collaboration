@@ -67,8 +67,25 @@ class ActivityFeedTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
-        $project->tasks[0]->incomplete();
+
+        // Decided to go through the url this time
+        $this->actingAs($project->user)
+            ->patch($project->tasks[0]->path(), [
+                'body' => 'foobar',
+                'completed' => true
+            ]);
+
         $this->assertCount(3, $project->fresh()->activities);
+
+        $this->patch($project->tasks[0]->path(), [
+            'body' => 'foobar',
+            'completed' => false
+        ]);
+
+        $project = $project->fresh();
+        
+        $this->assertCount(4, $project->activities);
+
         $this->assertEquals('incompleted_task', $project->activities->last()->description);
     }
 }

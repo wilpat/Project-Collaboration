@@ -20,6 +20,15 @@ class TaskController extends Controller
     	return redirect($project->path());
     }
 
+
+    /**
+    * Updates the project
+    * 
+    * @param Project $project
+    * @param Task    $task
+    * @return \Illuminate\Http\RedirectResponse
+    * @throws \Illuminate\Auth\Access\AuthorizationException
+    */
     public function update(Project $project, Task $task){
     	// if(auth()->user()->isNot($task->project->user)){
     	// 	abort(403);
@@ -28,10 +37,10 @@ class TaskController extends Controller
         $this->authorize('update', $task->project);
 
         $attributes = request()->validate(['body' => 'required']);
-    	$task->update($attributes);
-        $method = request('completed') ? 'complete' : 'incomplete';
 
-        $task->$method();
+    	$task->update($attributes);
+
+        request('completed') ? $task->complete() : $task->incomplete();
         
     	return redirect($project->path());
     }

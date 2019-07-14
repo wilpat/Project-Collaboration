@@ -49,6 +49,8 @@ class Task extends Model
     */
 	public function complete(){
 		$this->update(['completed' => true]);
+
+
 		$this->project->recordActivity('completed_task');
 	}
 
@@ -58,6 +60,8 @@ class Task extends Model
     */
 	public function incomplete(){
 		$this->update(['completed' => false]);
+
+
 		$this->project->recordActivity('incompleted_task');
 	}
 }

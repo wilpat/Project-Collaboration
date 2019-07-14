@@ -58,7 +58,7 @@ class Project extends Model
 	* @return \Illuminate\Database\Eloquent\Relations\Many
     */
     public function activities() {
-    	return $this->hasMany(Activity::class);
+    	return $this->hasMany(Activity::class)->latest();
     }
 
     /**
