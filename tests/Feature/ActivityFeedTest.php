@@ -34,6 +34,9 @@ class ActivityFeedTest extends TestCase
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::create();
         $project->update( ['title' => 'changed'] );
+
+        // We should find one activity for the project creation, and the project update
+        // Activity creation resulting from the project creation is triggered by the project observer
         $this->assertCount(2, $project->activities);
         $this->assertEquals('updated', $project->activities->last()->description);
         
@@ -57,6 +60,15 @@ class ActivityFeedTest extends TestCase
         $project->tasks[0]->complete();
         $this->assertCount(3, $project->fresh()->activities);
         $this->assertEquals('completed_task', $project->activities->last()->description);
-        
+    }
+
+    /** @test */
+    public function a_task_incompletion_records_an_activity()
+    {
+        // $this->withoutExceptionHandling();
+        $project = ProjectFactory::withTasks(1)->create();
+        $project->tasks[0]->incomplete();
+        $this->assertCount(3, $project->fresh()->activities);
+        $this->assertEquals('incompleted_task', $project->activities->last()->description);
     }
 }

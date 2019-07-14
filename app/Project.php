@@ -8,10 +8,24 @@ class Project extends Model
 {
     protected $guarded = [];
 
+    /**
+	* Generates the url of the project
+	* 
+	* @return url string
+    */
+
     public function path(){
 
 		return '/projects/'.$this->id;
 	}
+
+	/**
+	* Adds a task to the project
+	* 
+	* @param string $body
+	* 
+	* @return \Illuminate\Database\Eloquent\Relations\Many
+    */
 
 	public function addTask($body){
 
@@ -19,22 +33,40 @@ class Project extends Model
 
 	}
 
+	/**
+	* The tasks of the project
+	* 
+	* @return \Illuminate\Database\Eloquent\Relations\Many
+    */
+
 	public function tasks(){
 		return $this->hasMany(Task::class);
 	}
 
+	/**
+	* Gets the owning user
+	* 
+	* @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
 	public function user(){
     	return $this->belongsTo(User::class);
     }
 
+    /**
+	* The activity feed for the project
+	* 
+	* @return \Illuminate\Database\Eloquent\Relations\Many
+    */
     public function activities() {
     	return $this->hasMany(Activity::class);
     }
 
-    public function recordActivity($type) {
-        Activity::create([
-            'project_id' => $this->id,
-            'description' => $type
-        ]);
+    /**
+	* Records the activity of a project
+	* 
+	* @param string $description
+    */
+    public function recordActivity($description) {
+        $this->activities()->create(compact('description'));
     }
 }

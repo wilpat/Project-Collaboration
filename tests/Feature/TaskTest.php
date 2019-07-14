@@ -100,7 +100,7 @@ class TaskTest extends TestCase
     /** @test */
     public function a_user_can_update_tasks()
     {   
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         /*
         Refactoring These
             // If i am signed
@@ -129,6 +129,52 @@ class TaskTest extends TestCase
         // If i post a task update request
         $this->patch($project->tasks->first()->path(), ['body' => 'Changed']);
         $this->assertDatabaseHas('tasks', ['body' => 'Changed']);
+
+    }
+
+    /** @test */
+    public function a_task_can_be_completed()
+    {   
+        
+        $project = ProjectFactory::ownedBy($this->signIn())->withTasks(1)->create(); 
+
+
+        // If i post a task update request
+        $this->patch($project->tasks->first()
+             ->path(), [
+                'body' => 'Changed',
+                'completed' => true
+             ]);
+        $this->assertDatabaseHas('tasks', [
+            'body' => 'Changed',
+            'completed' => true
+            ]);
+
+    }
+
+    /** @test */
+    public function a_task_can_be_marked_incompleted()
+    {   
+        
+        $this->withoutExceptionHandling();
+        $project = ProjectFactory::ownedBy($this->signIn())->withTasks(1)->create(); 
+
+        $this->patch($project->tasks->first()
+             ->path(), [
+                'body' => 'Changed',
+                'completed' => true
+             ]);
+
+        $this->patch($project->tasks->first()
+             ->path(), [
+                'body' => 'Changed',
+                'completed' => false
+             ]);
+
+        $this->assertDatabaseHas('tasks', [
+            'body' => 'Changed',
+            'completed' => false
+            ]);
 
     }
 

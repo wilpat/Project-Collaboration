@@ -21,16 +21,18 @@ class TaskController extends Controller
     }
 
     public function update(Project $project, Task $task){
-    	if(auth()->user()->isNot($task->project->user)){
-    		abort(403);
-    	}
-    	$task->update([
-    		'body' => request('body'),
-    	]);
+    	// if(auth()->user()->isNot($task->project->user)){
+    	// 	abort(403);
+    	// }
 
-        if(request()->has('completed')){
-            $task->complete();
-        }
+        $this->authorize('update', $task->project);
+
+        $attributes = request()->validate(['body' => 'required']);
+    	$task->update($attributes);
+        $method = request('completed') ? 'complete' : 'incomplete';
+
+        $task->$method();
+        
     	return redirect($project->path());
     }
 }
