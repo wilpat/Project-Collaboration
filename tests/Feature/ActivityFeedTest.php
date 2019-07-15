@@ -47,16 +47,16 @@ class ActivityFeedTest extends TestCase
     public function a_task_creation_records_an_activity()
     {
         $this->withoutExceptionHandling();
-        // $project = ProjectFactory::withTasks(1)->create();
-        $project = ProjectFactory::create();
-        $project->addTask('Some Task');
+        $project = ProjectFactory::withTasks(1)->create();
         $this->assertCount(2, $project->activities);
-        tap($project->activities->last(), function($activity){
+        tap($project->activities->last(), function($activity) use ($project){
             $this->assertEquals('created_task', $activity->description);
             //Assert that subject column for this activity was populated by the Task Model
             //Certifying that this activity was triggered by a task related action
             // This is laravel's polymorphic relationship
             $this->assertInstanceOf(Task::class, $activity->subject);
+            $this->assertEquals($project->tasks[0]->body, $activity->subject->body);
+
         });
         
     }

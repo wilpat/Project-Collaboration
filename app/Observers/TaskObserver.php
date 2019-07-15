@@ -17,5 +17,16 @@ class TaskObserver
         $task->recordActivity('created_task');
     }
 
+    /**
+     * Handle the task "deleted" event.
+     *
+     * @param  \App\Task  $task
+     * @return void
+     */
+    public function deleted(Task $task)
+    {
+        $task->recordActivity('deleted_task');
+    }
+
     
 }
