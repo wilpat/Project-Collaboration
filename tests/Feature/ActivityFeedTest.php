@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Project;
 use App\Activity;
+use App\Task;
 use Facades\Tests\Setup\ProjectFactory; #Enables us use the ProjectFactory class directly without needing the path to it
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,10 +46,18 @@ class ActivityFeedTest extends TestCase
     /** @test */
     public function a_task_creation_records_an_activity()
     {
-        // $this->withoutExceptionHandling();
-        $project = ProjectFactory::withTasks(1)->create();
+        $this->withoutExceptionHandling();
+        // $project = ProjectFactory::withTasks(1)->create();
+        $project = ProjectFactory::create();
+        $project->addTask('Some Task');
         $this->assertCount(2, $project->activities);
-        $this->assertEquals('created_task', $project->activities->last()->description);
+        tap($project->activities->last(), function($activity){
+            $this->assertEquals('created_task', $activity->description);
+            //Assert that subject column for this activity was populated by the Task Model
+            //Certifying that this activity was triggered by a task related action
+            // This is laravel's polymorphic relationship
+            $this->assertInstanceOf(Task::class, $activity->subject);
+        });
         
     }
 
@@ -81,11 +90,9 @@ class ActivityFeedTest extends TestCase
             'body' => 'foobar',
             'completed' => false
         ]);
-
-        $project = $project->fresh();
         
         $this->assertCount(4, $project->activities);
 
-        $this->assertEquals('incompleted_task', $project->activities->last()->description);
+        $this->assertEquals('incompleted_task', $project->fresh()->activities->last()->description);
     }
 }
