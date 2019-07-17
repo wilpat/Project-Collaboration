@@ -8,6 +8,8 @@ class Project extends Model
 {
     protected $guarded = [];
 
+    public $old = [];
+
     /**
 	* Generates the url of the project
 	* 
@@ -67,6 +69,20 @@ class Project extends Model
 	* @param string $description
     */
     public function recordActivity($description) {
-        $this->activities()->create(compact('description'));
+        $this->activities()->create(
+        	[
+	        	'description' => $description,
+	        	'changes' => $this->changes($description)
+	        ]
+        );
+    }
+
+    public function changes($description) {
+    	if($description === 'updated') {
+    		return [
+	        		'before' => array_diff($this->old, $this->getAttributes()),
+	        		'after' => array_diff($this->getAttributes(), $this->old),
+	        	];
+    	}
     }
 }

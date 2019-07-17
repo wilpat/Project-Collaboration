@@ -8,6 +8,8 @@ class Task extends Model
 {
     protected $guarded = [];
 
+    public $old = [];
+
     /**
 	* The relationships that should be touched on save
 	* 
@@ -59,10 +61,17 @@ class Task extends Model
 	* 
     */
 	public function incomplete(){
-		$this->update(['completed' => false]);
+		// dd($this->completed);
+		// var_dump($this->old);
+		if($this->old && ($this->old['completed'] == $this->completed)){
+			$this->recordActivity('updated_task');
+			// return;
+		}else{
+			$this->update(['completed' => false]);
 
 
-		$this->recordActivity('incompleted_task');
+			$this->recordActivity('incompleted_task');
+		}
 	}
 
 	/**

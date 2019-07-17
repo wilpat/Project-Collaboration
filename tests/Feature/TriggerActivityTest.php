@@ -10,7 +10,7 @@ use Facades\Tests\Setup\ProjectFactory; #Enables us use the ProjectFactory class
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ActivityFeedTest extends TestCase
+class TriggerActivityTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -20,31 +20,47 @@ class ActivityFeedTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_project_creation_records_an_activity()
+    public function creating_a_project()
     {
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::create();
         $this->assertCount(1, $project->activities);
-        $this->assertEquals('created', $project->activities[0]->description);
+         tap($project->activities->last(), function($activity){
+            
+            // Assert that no change was recorded, because our logic updated the changes column of the activity table
+            $this->assertNull($activity->changes);
+            $this->assertEquals('created', $activity->description);
+        });
         
     }
 
     /** @test */
-    public function a_project_update_records_an_activity()
+    public function updating_a_project()
     {
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::create();
+        $originalTitle = $project->title;
+
         $project->update( ['title' => 'changed'] );
 
         // We should find one activity for the project creation, and the project update
         // Activity creation resulting from the project creation is triggered by the project observer
         $this->assertCount(2, $project->activities);
-        $this->assertEquals('updated', $project->activities->last()->description);
+
+        tap($project->activities->last(), function($activity) use($originalTitle){
+            $this->assertEquals('updated', $activity->description);
+            $expected = [
+                'before' => ['title' => $originalTitle],
+                'after' => ['title' => 'changed']
+            ];
+
+            $this->assertEquals($expected, $activity->changes);
+        });
         
     }
 
     /** @test */
-    public function a_task_creation_records_an_activity()
+    public function creating_a_task()
     {
         $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
@@ -62,7 +78,7 @@ class ActivityFeedTest extends TestCase
     }
 
     /** @test */
-    public function a_task_completion_records_an_activity()
+    public function completing_a_task()
     {
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
@@ -72,7 +88,7 @@ class ActivityFeedTest extends TestCase
     }
 
     /** @test */
-    public function a_task_incompletion_records_an_activity()
+    public function incompleting_a_task()
     {
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
@@ -92,7 +108,6 @@ class ActivityFeedTest extends TestCase
         ]);
         
         $this->assertCount(4, $project->activities);
-
         $this->assertEquals('incompleted_task', $project->fresh()->activities->last()->description);
     }
 }

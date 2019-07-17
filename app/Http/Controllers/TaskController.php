@@ -38,8 +38,7 @@ class TaskController extends Controller
 
         $attributes = request()->validate(['body' => 'required']);
 
-    	$task->update($attributes);
-
+        $task->update($attributes);
         request('completed') ? $task->complete() : $task->incomplete();
         
     	return redirect($project->path());

@@ -8,6 +8,8 @@ class Activity extends Model
 {
     protected $guarded = [];
 
+    protected $casts = ['changes' => 'array'];
+
     /**
      * Get the owning model.
      */
