@@ -83,6 +83,7 @@ class TriggerActivityTest extends TestCase
         // $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
         $project->tasks[0]->complete();
+        // dd($project->fresh()->activities->toArray());
         $this->assertCount(3, $project->fresh()->activities);
         $this->assertEquals('completed_task', $project->activities->last()->description);
     }
@@ -100,6 +101,7 @@ class TriggerActivityTest extends TestCase
                 'completed' => true
             ]);
 
+        // dd($project->fresh()->activities->toArray());
         $this->assertCount(3, $project->fresh()->activities);
 
         $this->patch($project->tasks[0]->path(), [

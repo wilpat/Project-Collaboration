@@ -10,6 +10,10 @@ class Task extends Model
 
     use RecordsActivity;
 
+    // We're moving the observer methods to the trait, so we declare the events that we 
+    // want the model to trigger a record event to as seen on the task observer
+    protected static $recordableEvents = ['created', 'deleted'];
+
     /**
 	* The relationships that should be touched on save
 	* 
@@ -62,8 +66,8 @@ class Task extends Model
     */
 	public function incomplete(){
 		// dd($this->completed);
-		// var_dump($this->old);
-		if($this->old && ($this->old['completed'] == $this->completed)){
+		// If the task was updated and the completed status was not changed,
+		if($this->wasChanged() && ($this->oldAttributes['completed'] == $this->completed)){
 			$this->recordActivity('updated_task');
 			// return;
 		}else{
