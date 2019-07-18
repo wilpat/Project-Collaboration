@@ -8,7 +8,7 @@ class Task extends Model
 {
     protected $guarded = [];
 
-    public $old = [];
+    use RecordsActivity;
 
     /**
 	* The relationships that should be touched on save
@@ -72,26 +72,5 @@ class Task extends Model
 
 			$this->recordActivity('incompleted_task');
 		}
-	}
-
-	/**
-	* Records the activity of a task
-	* 
-	* @param string $description
-    */
-    public function recordActivity($description) {
-        $this->activities()->create([
-        	'description' => $description,
-        	'project_id' => $this->project_id
-        ]);
-    }
-
-    /**
-	* Getting the owning activity model
-	* 
-	* @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-	public function activities(){
-		return $this->morphMany(Activity::class, 'subject')->latest();
 	}
 }

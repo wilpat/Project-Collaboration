@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $guarded = [];
+	use RecordsActivity; // This is a trait stored in App\RecordsActivity
 
-    public $old = [];
+    protected $guarded = [];
 
     /**
 	* Generates the url of the project
@@ -61,28 +61,5 @@ class Project extends Model
     */
     public function activities() {
     	return $this->hasMany(Activity::class)->latest();
-    }
-
-    /**
-	* Records the activity of a project
-	* 
-	* @param string $description
-    */
-    public function recordActivity($description) {
-        $this->activities()->create(
-        	[
-	        	'description' => $description,
-	        	'changes' => $this->changes($description)
-	        ]
-        );
-    }
-
-    public function changes($description) {
-    	if($description === 'updated') {
-    		return [
-	        		'before' => array_diff($this->old, $this->getAttributes()),
-	        		'after' => array_diff($this->getAttributes(), $this->old),
-	        	];
-    	}
     }
 }
