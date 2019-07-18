@@ -29,7 +29,7 @@ class TriggerActivityTest extends TestCase
             
             // Assert that no change was recorded, because our logic updated the changes column of the activity table
             $this->assertNull($activity->changes);
-            $this->assertEquals('created', $activity->description);
+            $this->assertEquals('created_project', $activity->description);
         });
         
     }
@@ -48,7 +48,7 @@ class TriggerActivityTest extends TestCase
         $this->assertCount(2, $project->activities);
 
         tap($project->activities->last(), function($activity) use($originalTitle){
-            $this->assertEquals('updated', $activity->description);
+            $this->assertEquals('updated_project', $activity->description);
             $expected = [
                 'before' => ['title' => $originalTitle],
                 'after' => ['title' => 'changed']

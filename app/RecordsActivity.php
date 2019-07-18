@@ -39,18 +39,21 @@ trait RecordsActivity
     	}
     }
 
+    /**
+     * Get the desctiption of the activity
+     *
+     * @param  string $description
+     * @return string
+     */
     protected function activityDescription($description){
 
-		if(class_basename($this) !== 'Project'){ // Only projects use the model event name directly
-			return "{$description}_".strtolower(class_basename($this)); // created_task, created_user, created_file etc
-		}
-
-		return $description;
+		return "{$description}_".strtolower(class_basename($this)); // created_task, created_user, created_file etc
 
     }
 
 
     /**
+	* Fetch the model events that should trigger activity
 	* 
 	* @return array
     */
@@ -83,6 +86,16 @@ trait RecordsActivity
         );
     }
 
+    
+    /**
+	* Getting the owning activity model
+	* 
+	* @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+	public function activities(){
+		return $this->morphMany(Activity::class, 'subject')->latest();
+	}
+
     /**
 	* Fetch the activityChanges on the model
 	* 
@@ -97,12 +110,4 @@ trait RecordsActivity
     	}
     }
 
-    /**
-	* Getting the owning activity model
-	* 
-	* @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-	public function activities(){
-		return $this->morphMany(Activity::class, 'subject')->latest();
-	}
 }
