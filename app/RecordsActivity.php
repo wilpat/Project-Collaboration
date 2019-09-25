@@ -1,8 +1,9 @@
 <?php
 
 namespace App;
+use Illuminate\Support\Arr;
 
-#This is a trait used in Model and Project Model
+#This is a trait used in Task Model and Project Model
 trait RecordsActivity
 {
 
@@ -40,7 +41,7 @@ trait RecordsActivity
     }
 
     /**
-     * Get the desctiption of the activity
+     * Get the description of the activity
      *
      * @param  string $description
      * @return string
@@ -78,6 +79,7 @@ trait RecordsActivity
     public function recordActivity($description) {
         $this->activities()->create(
         	[
+				'user_id' => ($this->project ?? $this)->user->id,
 	        	'description' => $description,
 	        	'changes' => $this->activityChanges(),
         		'project_id' => class_basename($this) === 'Project' ? $this->id : $this->project_id
@@ -104,8 +106,8 @@ trait RecordsActivity
     public function activityChanges() {
     	if($this->wasChanged()) { // Because we don't want it triggered when a record is created, only when it's updated
     		return [
-	        		'before' => array_diff($this->oldAttributes, $this->getAttributes()),
-	        		'after' => array_diff($this->getAttributes(), $this->oldAttributes),
+	        		'before' => Arr::except(array_diff($this->oldAttributes, $this->getAttributes()), ['updated_at']),
+	        		'after' => Arr::except(array_diff($this->getAttributes(), $this->oldAttributes), ['updated_at']),
 	        	];
     	}
     }

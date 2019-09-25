@@ -77,6 +77,7 @@ class ProjectController extends Controller
         if(auth()->user()->isNot($project->user)){
             abort(403);
         }
+        // dd(compact('project'));
         return view('projects.show',compact('project'));
     }
 

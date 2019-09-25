@@ -1,1 +1,1 @@
-You updated "{{ $activity->subject->body }}"
+{{ $activity->username() }} updated "{{ $activity->subject->body }}"
