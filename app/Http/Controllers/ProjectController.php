@@ -127,6 +127,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $this->authorize('update', $project); // A Policy
+        $project->delete();
+        return redirect('/projects');
     }
 }

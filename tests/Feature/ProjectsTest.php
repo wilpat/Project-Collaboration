@@ -33,7 +33,7 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_user_can_update_a_project()
     {   
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         /*
             Refactor
             // If i am signed
@@ -52,6 +52,39 @@ class ProjectsTest extends TestCase
         $this->get($project->path().'/edit')->assertOk();
 
         $this->assertDatabaseHas('projects', $attributes);
+
+    }
+
+    /** @test */
+    public function a_user_can_delete_a_project()
+    {   
+        // $this->withoutExceptionHandling();
+        $project = ProjectFactory::create();
+        $this->actingAs($project->user)
+             ->delete($project->path())
+             ->assertRedirect('/projects');
+
+        $this->assertDatabaseMissing('projects', $project->only('id'));
+
+    }
+
+    /** @test */
+    public function guests_cannot_delete_projects()
+    {   
+        // $this->withoutExceptionHandling();
+        $project = ProjectFactory::create();
+        $this->delete($project->path())
+             ->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function only_project_owners_can_delete_their_project()
+    {   
+        $project = ProjectFactory::create();
+        $this->signIn();
+        $this->delete($project->path())
+            ->assertForbidden();
+
 
     }
 
