@@ -73,6 +73,6 @@ class Project extends Model
 	public function users()
 	{
 		// Many to many r/ship 
-		return $this->belongsToMany(User::class, 'project_users');
+		return $this->belongsToMany(User::class, 'project_users')->withTimestamps();
 	}
 }

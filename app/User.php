@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\Project;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -39,5 +40,14 @@ class User extends Authenticatable
 
     public function projects() {
         return $this->hasMany(Project::class)->latest('updated_at');
+    }
+
+    public function accessibleProjects()
+    {
+        return Project::where('user_id', $this->id)
+            ->orWhereHas('users', function($query) { // Because projects has a belongsToMany relationship with users
+                $query->where('user_id', $this->id);
+            })
+            ->get();
     }
 }

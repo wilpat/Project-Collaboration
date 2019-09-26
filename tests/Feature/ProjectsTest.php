@@ -218,5 +218,17 @@ class ProjectsTest extends TestCase
         $this->patch($project->path(), ['notes' => 'Changed'])
              ->assertForbidden();
     }
+    
+    /** @test */
+    public function a_user_can_see_all_projects_they_have_been_invited_to_on_their_dashboard(){
 
+        // Given that i am logged in
+        $user = $this->signIn();
+        //Given that I have a project created without my id associated with it, but i get invited into it
+        $project = tap(ProjectFactory::create())->invite($user);
+
+        // I should see the project on my dashboard
+        $this->get('/projects')
+             ->assertSee($project->title);
+    }
 }

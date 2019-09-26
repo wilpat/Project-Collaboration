@@ -33,7 +33,7 @@ class ProjectController extends Controller
     {
         // dd(auth()->id());
         // $projects = Project::all();
-        $projects = auth()->user()->projects;
+        $projects = auth()->user()->accessibleProjects();
         // dd($projects);
         return view('projects.index', compact('projects'));
     }
