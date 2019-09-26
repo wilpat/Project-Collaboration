@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     public function store(Project $project){
-    	if(auth()->user()->isNot($project->user)){
-            abort(403);
-        }
+    	// if(auth()->user()->isNot($project->user)){
+        //     abort(403);
+        // }
+        $this->authorize('update', $project);
     	request()->validate([
             'body' => 'required',
         ]);

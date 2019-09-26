@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Project extends Model
 {
@@ -61,5 +62,17 @@ class Project extends Model
     */
     public function activities() {
     	return $this->hasMany(Activity::class)->latest();
-    }
+	}
+	
+	public function invite(User $user)
+	{
+
+		return $this->users()->attach($user);
+	}
+
+	public function users()
+	{
+		// Many to many r/ship 
+		return $this->belongsToMany(User::class, 'project_users');
+	}
 }
