@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $projects = auth()->user()->accessibleProjects();
+        return view('projects.index', compact('projects'));
     }
 }
