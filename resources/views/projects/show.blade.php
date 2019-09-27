@@ -12,7 +12,20 @@
 				<a href="/projects" class="no-underline text-grey">My Projects</a> / {{ $project->title }}
 			</p>
 
-			<a href="/projects/{{ $project->id }}/edit" class="button">Edit Project</a>
+			<div class="flex items-center">
+				@foreach ($project->users as $user)
+					<img 
+					src="{{ gravatar_url($user->email) }}" 
+					alt="{{$user->name}}"
+					class="rounded-full w-8 mr-2">
+				@endforeach
+
+				<img 
+					src="{{ gravatar_url($project->user->email) }}" 
+					alt="{{$project->user->name}}"
+					class="rounded-full w-8 mr-2">
+				<a href="/projects/{{ $project->id }}/edit" class="button ml-4">Edit Project</a>
+			</div>
 		</div>
 
 	</header>
