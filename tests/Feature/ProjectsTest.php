@@ -84,8 +84,6 @@ class ProjectsTest extends TestCase
         $this->signIn();
         $this->delete($project->path())
             ->assertForbidden();
-
-
     }
 
 

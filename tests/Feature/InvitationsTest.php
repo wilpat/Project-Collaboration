@@ -83,4 +83,34 @@ class InvitationsTest extends TestCase
         ], null, 'invitations'); // By default assertSessionHasErrors checks the 'default' error bag, but we changed this in the form request
  
      }
+
+    /** @test */
+    public function invited_users_can_view_project(){
+        $project = ProjectFactory::create();
+
+        $user = factory(User::class)->create();
+        $this->actingAs($user)
+             ->get($project->path())
+             ->assertForbidden();
+
+        $project->invite($user);
+
+        $this->actingAs($user)
+             ->get($project->path())
+             ->assertSee($project->title)
+             ->assertSee($project->description);
+    }
+
+    /** @test */
+    public function invited_users_cannot_delete_project(){
+        $project = ProjectFactory::create();
+
+        $user = factory(User::class)->create();
+
+        $project->invite($user);
+
+        $this->actingAs($user)
+             ->delete($project->path())
+             ->assertForbidden();
+     }
 }

@@ -74,9 +74,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {   
-        if(auth()->user()->isNot($project->user)){
-            abort(403);
-        }
+        // if(auth()->user()->isNot($project->user)){
+        //     abort(403);
+        // }
+        $this->authorize('update', $project);
         // dd(compact('project'));
         return view('projects.show',compact('project'));
     }
@@ -113,7 +114,7 @@ class ProjectController extends Controller
         // $attributes = $request->validated();
         // $project->update($attributes);
 
-        // Now the update happens with the save method of the UpdateProjectRequest form request class
+        // Now the update happens with the save method of the UpdateProjectRequest form request handler
         $request->save();
 
         return redirect($project->path());
@@ -127,7 +128,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $this->authorize('update', $project); // A Policy
+        $this->authorize('manage', $project); // A Policy
         $project->delete();
         return redirect('/projects');
     }
