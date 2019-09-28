@@ -149,7 +149,7 @@ class ProjectsTest extends TestCase
      /** @test */
     public function a_user_can_create_projects()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         //If i am logged in
         $this->signIn();
@@ -157,25 +157,12 @@ class ProjectsTest extends TestCase
         //If i hit the create url, i get a page there
         $this->get('/projects/create')->assertOk();
 
-        // Assumming the form is ready, if i get the form data
-        $attributes = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->sentence,
-            'notes' => 'General notes here.'
-        ];
+        $attributes = factory(Project::class)->raw();
+        // dd($attributes);
         // dd(auth()->id());
         // dd($this->grabDataFromResponseByJsonPath('$.id'));
         //If we submit the form data, 
-        $response = $this->post('/projects', $attributes);
-
-        //Get the project we just created
-        $project = Project::where($attributes)->first();
-
-        // Check that we get redirected to the projects path
-        $response->assertRedirect($project->path());
-
-        // Check that we the title of the project gets rendered on the projects page 
-        $this->get($project->path())
+        $this->followingRedirects()->post('/projects', $attributes)// followingRedirects tells the test to ride out the http redirect till it loads then end page
              ->assertSee($attributes['title'])
              ->assertSee($attributes['description'])
              ->assertSee($attributes['notes']);
