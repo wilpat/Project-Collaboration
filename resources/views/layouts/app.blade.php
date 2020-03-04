@@ -8,14 +8,14 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', config('app.name', 'Laravel')) {{ app()->version() }}</title>
+        <title>@yield('title', config('app.name', 'Laravel')) </title>
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body class="bg-grey-light">
         <div id="app">
-            <nav class="bg-white">
+            <!-- <nav class="bg-white">
                 <div class="container mx-auto">
 
                     <div class="flex justify-between items-center py-2">
@@ -68,10 +68,10 @@
             </nav>
             <main class="container mx-auto">
                  @yield('content')
-            </main>
+            </main> -->
         </div>
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}" defer></script>
     </body>
 </html>

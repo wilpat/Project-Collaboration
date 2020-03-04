@@ -13,6 +13,25 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
+
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('logout', 'AuthController@logout')->name('logout');
+    Route::post('refresh', 'AuthController@refresh')->name('refresh');
+    Route::post('register', 'AuthController@register')->name('register');
+    Route::post('me', 'AuthController@me');
+
 });
+
+Route::group(['middleware' => 'jwt.auth'], function(){
+	Route::resource('projects', 'ProjectController');
+
+	Route::get('/home', 'HomeController@index')->name('home');
+
+	Route::patch('/projects/{project}/tasks/{task}', 'TaskController@update');
+	Route::post('/projects/{project}/tasks', 'TaskController@store');
+	Route::post('/projects/{project}/invitations','InvitationController@store');
+
+});
+
+// Auth::routes();

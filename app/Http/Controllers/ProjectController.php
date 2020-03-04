@@ -35,7 +35,8 @@ class ProjectController extends Controller
         // $projects = Project::all();
         $projects = auth()->user()->accessibleProjects();
         // dd($projects);
-        return view('projects.index', compact('projects'));
+        return $projects;
+        // return view('projects.index', compact('projects'));
     }
 
     /**
