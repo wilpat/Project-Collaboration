@@ -59,12 +59,8 @@ class ProjectController extends Controller
     {
 
         $attributes = $this->validateProject();
-        // dd(auth()->id());
-        // $attributes['user_id'] = auth()->id();
-        // Project::create($attributes);
         $project = auth()->user()->projects()->create($attributes);
-
-        return redirect($project->path());
+        return $project;
     }
 
     /**
@@ -75,12 +71,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {   
-        // if(auth()->user()->isNot($project->user)){
-        //     abort(403);
-        // }
         $this->authorize('update', $project);
-        // dd(compact('project'));
-        return view('projects.show',compact('project'));
+        return $project;
     }
 
     /**

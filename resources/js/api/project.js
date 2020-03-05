@@ -17,7 +17,7 @@ const ProjectEndpoints =  {
     register: 'auth/create',
     
 
-    async allProjects (dargs) {
+    async all (dargs) {
         try {
         ProjectEndpoints.setToken(dargs.token)
         const response = blackAxios.get(this.project, {
@@ -30,7 +30,34 @@ const ProjectEndpoints =  {
         }
     },
 
-    async deleteProject (dargs) {
+    async create (dargs) {
+        try {
+        ProjectEndpoints.setToken(dargs.token)
+        delete dargs.token;
+        const response = blackAxios.post(this.project, dargs, {
+            headers
+        })
+        return response
+        } catch (e) {
+        console.log(e)
+        return false
+        }
+    },
+
+    async get (dargs) {
+        try {
+        ProjectEndpoints.setToken(dargs.token)
+        const response = blackAxios.get(this.project + '/' + dargs.id, {
+            headers
+        })
+        return response
+        } catch (e) {
+        console.log(e)
+        return false
+        }
+    },
+
+    async delete (dargs) {
         try {
         ProjectEndpoints.setToken(dargs.token)
         const response = blackAxios.post(this.project+ '/' + dargs.id,{_method: 'delete'}, {

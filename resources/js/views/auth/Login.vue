@@ -127,7 +127,7 @@ export default {
                     if(typeof destination !== 'undefined'){
                         this.$router.push(destination)
                     } else {
-                        this.$router.push('/')
+                        this.$router.push('/projects')
                     }
                     
                 } else {

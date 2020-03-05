@@ -5,8 +5,8 @@
             <div class="flex items-end justify-between">
                 
                 <h2 class="text-grey text-sm font-normal">My Projects</h2>
-
-                <a href="/projects/create" class="button">New Project</a>
+                <router-link class ="button" :to="{ name: 'create' }">New Project</router-link>
+                <!-- <a href="/projects/create" class="button">New Project</a> -->
             </div>
 
         </header>
@@ -25,7 +25,7 @@
     </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import projectApi from '../../api/project';
 
 import Card from '../../components/projects/Card.vue';
@@ -45,7 +45,7 @@ export default {
     methods: {
         async fetchProjects() {
             try {
-                let response = await projectApi.allProjects({token:this.user.token})
+                let response = await projectApi.all({token:this.user.token})
                 if (response.status === 200) {
                     this.projects = response.data;
                 } else if( response.status === 401 ) {
@@ -62,7 +62,7 @@ export default {
                     token:this.user.token,
                     id
                 }
-                let response = await projectApi.deleteProject(data)
+                let response = await projectApi.delete(data)
                 if (response.status === 200) {
                     this.fetchProjects();
                 } else if( response.status === 401 ) {
