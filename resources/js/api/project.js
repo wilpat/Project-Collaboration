@@ -67,7 +67,24 @@ const ProjectEndpoints =  {
         console.log(e)
         return false
         }
-    }
+    },
+
+    async addNote (dargs) {
+        try {
+        ProjectEndpoints.setToken(dargs.token);
+        delete dargs.user;
+        delete dargs.users;
+        delete dargs.tasks;
+        delete dargs.token;
+        const response = blackAxios.post(this.project+ '/' + dargs.id, {_method: 'patch', ...dargs}, {
+            headers
+        })
+        return response
+        } catch (e) {
+        console.log(e)
+        return false
+        }
+    },
 
     
 }

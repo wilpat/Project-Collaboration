@@ -66,7 +66,7 @@ export default {
                 if (response.status === 200) {
                     this.fetchProjects();
                 } else if( response.status === 401 ) {
-                    this.$router.push('login');
+                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
                 }
             } catch (error) {
                 console.log(error);

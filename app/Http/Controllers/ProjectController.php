@@ -72,7 +72,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {   
         $this->authorize('update', $project);
-        return $project;
+        return $project->with('tasks','users','user')->get()[0];
     }
 
     /**
@@ -109,8 +109,8 @@ class ProjectController extends Controller
 
         // Now the update happens with the save method of the UpdateProjectRequest form request handler
         $request->save();
-
-        return redirect($project->path());
+        return $project;
+        // return redirect($project->path());
     }
 
     /**

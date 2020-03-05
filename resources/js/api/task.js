@@ -13,7 +13,7 @@ const TaskEndpoints =  {
      * Routes
      */
 
-    task: 'tasks',
+    task: 'tasks/',
     
 
     async all (dargs) {
@@ -43,10 +43,11 @@ const TaskEndpoints =  {
         }
     },
 
-    async get (dargs) {
+    async update (dargs) {
         try {
         TaskEndpoints.setToken(dargs.token)
-        const response = blackAxios.get(this.task + '/' + dargs.id, {
+        dargs._method = 'patch';
+        const response = blackAxios.post('projects/' + dargs.project_id +'/'+this.task + dargs.id, dargs, {
             headers
         })
         return response
@@ -59,7 +60,7 @@ const TaskEndpoints =  {
     async delete (dargs) {
         try {
         TaskEndpoints.setToken(dargs.token)
-        const response = blackAxios.post(this.task+ '/' + dargs.id,{_method: 'delete'}, {
+        const response = blackAxios.post(this.task + dargs.id,{_method: 'delete'}, {
             headers
         })
         return response

@@ -377,6 +377,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     AppForm: _components_projects_Form_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
+  data: function data() {
+    return {
+      project: []
+    };
+  },
   methods: {
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -397,8 +402,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (response.status === 201) {
-                  // this.projects = response.data;
-                  console.log(response);
+                  this.project = response.data;
+                  this.$router.push({
+                    name: 'view',
+                    params: {
+                      id: this.project.id
+                    }
+                  }); // console.log(response)
                 } else if (response.status === 401) {
                   this.$router.push('login');
                 }
@@ -567,7 +577,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 if (response.status === 200) {
                   this.fetchProjects();
                 } else if (response.status === 401) {
-                  this.$router.push('login');
+                  this.$router.push({
+                    name: 'login',
+                    query: {
+                      redirect: this.$route.fullPath
+                    }
+                  });
                 }
 
                 _context2.next = 11;
@@ -612,6 +627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _api_project__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/project */ "./resources/js/api/project.js");
 /* harmony import */ var _api_task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/task */ "./resources/js/api/task.js");
+/* harmony import */ var _components_projects_Card_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/projects/Card.vue */ "./resources/js/components/projects/Card.vue");
 
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -709,19 +725,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'project-view',
+  components: {
+    Card: _components_projects_Card_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
   mounted: function mounted() {
     this.getProject();
   },
   data: function data() {
     return {
-      project: {}
+      project: [],
+      newTask: ''
     };
   },
   methods: {
@@ -746,6 +765,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (response.status === 200) {
                   this.project = response.data;
+                } else if (response.status === 404) {
+                  this.$router.push({
+                    name: 'projects'
+                  });
                 } else if (response.status === 401) {
                   this.$router.push({
                     name: 'login',
@@ -789,18 +812,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.prev = 0;
                 data = _objectSpread({
                   token: this.user.token,
-                  body: body
+                  body: this.newTask
                 }, this.$route.params);
                 _context2.next = 4;
                 return _api_task__WEBPACK_IMPORTED_MODULE_3__["default"].create(data);
 
               case 4:
                 response = _context2.sent;
-                console.log(response); // if (response.status === 200) {
-                //     this.project = response.data;
-                // } else if( response.status === 401 ) {
-                //     this.$router.push({name:'login'});
-                // }
+
+                if (response.status === 201) {
+                  this.getProject();
+                  this.newTask = '';
+                } else if (response.status === 401) {
+                  this.$router.push({
+                    name: 'login',
+                    query: {
+                      redirect: this.$route.fullPath
+                    }
+                  });
+                }
 
                 _context2.next = 11;
                 break;
@@ -827,7 +857,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     updateTask: function () {
       var _updateTask = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(task) {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
@@ -836,18 +866,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context3.prev = 0;
                 data = _objectSpread({
                   token: this.user.token
-                }, this.$route.params);
+                }, task);
                 _context3.next = 4;
-                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].get(data);
+                return _api_task__WEBPACK_IMPORTED_MODULE_3__["default"].update(data);
 
               case 4:
                 response = _context3.sent;
 
-                if (response.status === 200) {
-                  this.project = response.data;
+                // console.log(response);
+                if (response.status === 200) {// this.project = response.data;
                 } else if (response.status === 401) {
                   this.$router.push({
-                    name: 'login'
+                    name: 'login',
+                    query: {
+                      redirect: this.$route.fullPath
+                    }
                   });
                 }
 
@@ -867,11 +900,118 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3, this, [[0, 8]]);
       }));
 
-      function updateTask() {
+      function updateTask(_x2) {
         return _updateTask.apply(this, arguments);
       }
 
       return updateTask;
+    }(),
+    addNote: function () {
+      var _addNote = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var data, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                data = _objectSpread({
+                  token: this.user.token
+                }, this.project);
+                _context4.next = 4;
+                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].addNote(data);
+
+              case 4:
+                response = _context4.sent;
+
+                if (response.status === 200) {
+                  this.project = response.data;
+                } else if (response.status === 401) {
+                  this.$router.push({
+                    name: 'login',
+                    query: {
+                      redirect: this.$route.fullPath
+                    }
+                  });
+                }
+
+                _context4.next = 11;
+                break;
+
+              case 8:
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                console.log(_context4.t0);
+
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[0, 8]]);
+      }));
+
+      function addNote() {
+        return _addNote.apply(this, arguments);
+      }
+
+      return addNote;
+    }(),
+    deleteProject: function () {
+      var _deleteProject = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+        var data, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                data = {
+                  token: this.user.token,
+                  id: id
+                };
+                _context5.next = 4;
+                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"](data);
+
+              case 4:
+                response = _context5.sent;
+
+                if (response.status === 200) {
+                  this.$router.push({
+                    name: 'projects'
+                  });
+                } else if (response.status === 401) {
+                  this.$router.push({
+                    name: 'login',
+                    query: {
+                      redirect: this.$route.fullPath
+                    }
+                  });
+                }
+
+                _context5.next = 11;
+                break;
+
+              case 8:
+                _context5.prev = 8;
+                _context5.t0 = _context5["catch"](0);
+                console.log(_context5.t0);
+
+              case 11:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this, [[0, 8]]);
+      }));
+
+      function deleteProject(_x3) {
+        return _deleteProject.apply(this, arguments);
+      }
+
+      return deleteProject;
     }()
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
@@ -1447,7 +1587,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.project.user
+  return _vm.project.id
     ? _c("div", [
         _c("header", { staticClass: "py-4" }, [
           _c("div", { staticClass: "flex items-end justify-between" }, [
@@ -1514,43 +1654,95 @@ var render = function() {
                   _vm._v(" "),
                   _vm._l(_vm.project.tasks, function(task, index) {
                     return _c("div", { key: index, staticClass: "card mb-3" }, [
-                      _c("form", [
-                        _c("div", { staticClass: "flex" }, [
-                          _c("input", {
-                            staticClass: "w-full",
-                            class: { "text-grey": task.completed },
-                            attrs: { type: "text", name: "body" },
-                            domProps: { value: task.body }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: { type: "checkbox", name: "completed" },
-                            domProps: { checked: task.completed },
-                            on: {
-                              keyup: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.update()
-                              }
+                      _c(
+                        "form",
+                        {
+                          on: {
+                            submit: function($event) {
+                              $event.preventDefault()
+                              return _vm.updateTask(task)
                             }
-                          }),
-                          _vm._v(
-                            "\n                                Tasks " +
-                              _vm._s(task) +
-                              "\n                            "
-                          )
-                        ])
-                      ])
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "flex" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: task.body,
+                                  expression: "task.body"
+                                }
+                              ],
+                              staticClass: "w-full",
+                              class: { "text-grey": task.completed },
+                              attrs: { type: "text", name: "body" },
+                              domProps: { value: task.body },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(task, "body", $event.target.value)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: task.completed,
+                                  expression: "task.completed"
+                                }
+                              ],
+                              attrs: { type: "checkbox", name: "completed" },
+                              domProps: {
+                                checked: Array.isArray(task.completed)
+                                  ? _vm._i(task.completed, null) > -1
+                                  : task.completed
+                              },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$a = task.completed,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            task,
+                                            "completed",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            task,
+                                            "completed",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(task, "completed", $$c)
+                                    }
+                                  },
+                                  function($event) {
+                                    return _vm.updateTask(task)
+                                  }
+                                ]
+                              }
+                            })
+                          ])
+                        ]
+                      )
                     ])
                   }),
                   _vm._v(" "),
@@ -1565,12 +1757,20 @@ var render = function() {
                     },
                     [
                       _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newTask,
+                            expression: "newTask"
+                          }
+                        ],
                         staticClass: "card mb-3 w-full",
                         attrs: {
                           type: "text",
-                          placeholder: "Add a new task and hit enter.",
-                          name: "body"
+                          placeholder: "Add a new task and hit enter."
                         },
+                        domProps: { value: _vm.newTask },
                         on: {
                           keyup: function($event) {
                             if (
@@ -1585,7 +1785,13 @@ var render = function() {
                             ) {
                               return null
                             }
-                            return _vm.addTask($event.target.value)
+                            return _vm.addTask()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.newTask = $event.target.value
                           }
                         }
                       })
@@ -1602,46 +1808,68 @@ var render = function() {
                   [_vm._v("General Notes")]
                 ),
                 _vm._v(" "),
-                _c("form", { attrs: { action: "project->path()" } }, [
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.project.notes,
-                        expression: "project.notes"
-                      }
-                    ],
-                    staticClass: "card w-full",
-                    staticStyle: { "min-height": "200px" },
-                    attrs: {
-                      name: "notes",
-                      placeholder: "Anything special you want to take note of?"
-                    },
-                    domProps: { value: _vm.project.notes },
+                _c(
+                  "form",
+                  {
+                    attrs: { action: "project->path()" },
                     on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.project, "notes", $event.target.value)
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.addNote()
                       }
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "button",
-                    attrs: { type: "submit", value: "Add note" }
-                  })
-                ])
+                  },
+                  [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.project.notes,
+                          expression: "project.notes"
+                        }
+                      ],
+                      staticClass: "card w-full",
+                      staticStyle: { "min-height": "200px" },
+                      attrs: {
+                        name: "notes",
+                        placeholder:
+                          "Anything special you want to take note of?"
+                      },
+                      domProps: { value: _vm.project.notes },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.project, "notes", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "button",
+                      attrs: { type: "submit", value: "Update note" }
+                    })
+                  ]
+                )
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "lg:w-1/4 px-3" }, [
-              _vm._v(
-                "\n\n                @include('projects.card')\n                @include('projects.activity.card')\n                @can('manage', $project)\n                    @include('projects.invite')\n                @endcan\n\n\n            "
-              )
-            ])
+            _c(
+              "div",
+              { staticClass: "lg:w-1/4 px-3" },
+              [
+                _c("card", {
+                  attrs: { project: _vm.project },
+                  on: { deleteProject: _vm.deleteProject }
+                }),
+                _vm._v(
+                  "\n                \n                @include('projects.activity.card')\n                @can('manage', $project)\n                    @include('projects.invite')\n                @endcan\n\n\n            "
+                )
+              ],
+              1
+            )
           ])
         ])
       ])
@@ -1667,6 +1895,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./resources/js/config.js");
 
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -1832,6 +2064,48 @@ var ProjectEndpoints = {
     }
 
     return _delete;
+  }(),
+  addNote: function () {
+    var _addNote = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(dargs) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.prev = 0;
+              ProjectEndpoints.setToken(dargs.token);
+              delete dargs.user;
+              delete dargs.users;
+              delete dargs.tasks;
+              delete dargs.token;
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.id, _objectSpread({
+                _method: 'patch'
+              }, dargs), {
+                headers: headers
+              });
+              return _context5.abrupt("return", response);
+
+            case 10:
+              _context5.prev = 10;
+              _context5.t0 = _context5["catch"](0);
+              console.log(_context5.t0);
+              return _context5.abrupt("return", false);
+
+            case 14:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this, [[0, 10]]);
+    }));
+
+    function addNote(_x5) {
+      return _addNote.apply(this, arguments);
+    }
+
+    return addNote;
   }()
 };
 /* harmony default export */ __webpack_exports__["default"] = (ProjectEndpoints);
@@ -1869,7 +2143,7 @@ var TaskEndpoints = {
   /**
    * Routes
    */
-  task: 'tasks',
+  task: 'tasks/',
   all: function () {
     var _all = _asyncToGenerator(
     /*#__PURE__*/
@@ -1943,8 +2217,8 @@ var TaskEndpoints = {
 
     return create;
   }(),
-  get: function () {
-    var _get = _asyncToGenerator(
+  update: function () {
+    var _update = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(dargs) {
       var response;
@@ -1954,30 +2228,31 @@ var TaskEndpoints = {
             case 0:
               _context3.prev = 0;
               TaskEndpoints.setToken(dargs.token);
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.task + '/' + dargs.id, {
+              dargs._method = 'patch';
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post('projects/' + dargs.project_id + '/' + this.task + dargs.id, dargs, {
                 headers: headers
               });
               return _context3.abrupt("return", response);
 
-            case 6:
-              _context3.prev = 6;
+            case 7:
+              _context3.prev = 7;
               _context3.t0 = _context3["catch"](0);
               console.log(_context3.t0);
               return _context3.abrupt("return", false);
 
-            case 10:
+            case 11:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[0, 6]]);
+      }, _callee3, this, [[0, 7]]);
     }));
 
-    function get(_x3) {
-      return _get.apply(this, arguments);
+    function update(_x3) {
+      return _update.apply(this, arguments);
     }
 
-    return get;
+    return update;
   }(),
   "delete": function () {
     var _delete2 = _asyncToGenerator(
@@ -1990,7 +2265,7 @@ var TaskEndpoints = {
             case 0:
               _context4.prev = 0;
               TaskEndpoints.setToken(dargs.token);
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.task + '/' + dargs.id, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.task + dargs.id, {
                 _method: 'delete'
               }, {
                 headers: headers
@@ -2285,7 +2560,7 @@ __webpack_require__.r(__webpack_exports__);
 var API = '';
 
 if (true) {
-  API = 'http://localhost:8000/api';
+  API = 'http://localhost:8000/api/';
 } else {} // console.log(API)
 
 
@@ -2510,14 +2785,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./resources/js/views/projects/View.vue ***!
   \**********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _View_vue_vue_type_template_id_7f7df3cb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./View.vue?vue&type=template&id=7f7df3cb& */ "./resources/js/views/projects/View.vue?vue&type=template&id=7f7df3cb&");
 /* harmony import */ var _View_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./View.vue?vue&type=script&lang=js& */ "./resources/js/views/projects/View.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _View_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _View_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -2547,7 +2823,7 @@ component.options.__file = "resources/js/views/projects/View.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/views/projects/View.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

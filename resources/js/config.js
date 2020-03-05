@@ -3,7 +3,7 @@ import axios from 'axios';
 export let API = '';
 
 if (process.env.NODE_ENV === 'development') {
-  API = 'http://localhost:8000/api'
+  API = 'http://localhost:8000/api/'
 } else {
   API = 'https://collab.weokafor.com/'
 }

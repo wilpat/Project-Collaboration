@@ -1,5 +1,5 @@
 <template>
-     <div v-if="project.user">
+     <div v-if="project.id">
        <header class="py-4">
 
             <div class="flex items-end justify-between">
@@ -37,34 +37,31 @@
 
                         <h2 class="text-grey font-normal text-lg mb-3">Tasks</h2>
                         <div class="card mb-3" v-for="(task, index) in project.tasks" :key="index">
-                            <form>
+                            <form @submit.prevent="updateTask(task)">
                                 <!-- @method('PATCH') -->
                                 <!-- @csrf -->
                                 <div class="flex">
                                     <input 
                                         class="w-full"
-                                        :class="{ 'text-grey' : task.completed }" type="text" name="body" :value="task.body" /> 
-                                    <input type="checkbox" name="completed" @keyup.enter="update()" :checked="task.completed"/>
-                                    Tasks {{task}}
+                                        :class="{ 'text-grey' : task.completed }" 
+                                        type="text" name="body" 
+                                        v-model="task.body" /> 
+                                    <input type="checkbox" name="completed" v-model="task.completed" @change="updateTask(task)"/>
                                 </div>
 
                             </form>
                         </div>
 
-                        <!-- <form action="$project->path() . '/tasks' " method="POST"> -->
                         <form @submit.prevent>
-                            <!-- @csrf -->
-                            <input class="card mb-3 w-full" type="text" placeholder="Add a new task and hit enter." name="body" @keyup.enter="addTask($event.target.value)">
+                            <input class="card mb-3 w-full" type="text" placeholder="Add a new task and hit enter." v-model="newTask" @keyup.enter="addTask()">
                         </form>
 
                     </div>
                     <div class="mb-3">
                         <h2 class="text-grey font-normal text-lg mb-3">General Notes</h2>
-                        <form action="project->path()" >
-                            <!-- @csrf -->
-                            <!-- @method('PATCH') -->
+                        <form action="project->path()" @submit.prevent="addNote()" >
                             <textarea name ="notes" class="card w-full" style="min-height: 200px" placeholder="Anything special you want to take note of?" v-model="project.notes"></textarea>
-                            <input type="submit" class="button" value="Add note">
+                            <input type="submit" class="button" value="Update note">
                             <!-- @include('errors') -->
                         </form>
                         
@@ -74,7 +71,8 @@
 
                 <div class="lg:w-1/4 px-3">
 
-                    @include('projects.card')
+                    <card :project='project' @deleteProject="deleteProject"></card>
+                    
                     @include('projects.activity.card')
                     @can('manage', $project)
                         @include('projects.invite')
@@ -91,15 +89,20 @@
 import { mapGetters } from 'vuex';
 import projectApi from '../../api/project';
 import taskApi from '../../api/task';
+import Card from '../../components/projects/Card.vue'
 
 export default {
     name: 'project-view',
+    components: {
+        Card
+    },
     mounted () {
-        this.getProject()
+        this.getProject();
     },
     data () {
         return {
-            project:{}
+            project:[],
+            newTask: '',
         }
     },
     methods: {
@@ -112,6 +115,8 @@ export default {
                 let response = await projectApi.get(data)
                 if (response.status === 200) {
                     this.project = response.data;
+                } else if( response.status === 404 ) {
+                    this.$router.push({name:'projects'});
                 } else if( response.status === 401 ) {
                     this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
                 }
@@ -124,32 +129,70 @@ export default {
             try {
                 let data = {
                     token:this.user.token,
-                    body,
+                    body: this.newTask,
                     ...this.$route.params
                 }
                 let response = await taskApi.create(data);
-                console.log(response);
-                // if (response.status === 200) {
-                //     this.project = response.data;
-                // } else if( response.status === 401 ) {
-                //     this.$router.push({name:'login'});
-                // }
+                if (response.status === 201) {
+                    this.getProject();
+                    this.newTask ='';
+                } else if( response.status === 401 ) {
+                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
+                }
             } catch (error) {
                 console.log(error);
             }
         },
 
-        async updateTask() {
+        async updateTask(task) {
+            try {
+
+                let data = {
+                    token:this.user.token,
+                    ...task
+                }
+                let response = await taskApi.update(data)
+                // console.log(response);
+                if (response.status === 200) {
+                    // this.project = response.data;
+                } else if( response.status === 401 ) {
+                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async addNote() {
             try {
                 let data = {
                     token:this.user.token,
-                    ...this.$route.params
+                    ...this.project
+
                 }
-                let response = await projectApi.get(data)
+                let response = await projectApi.addNote(data);
                 if (response.status === 200) {
                     this.project = response.data;
                 } else if( response.status === 401 ) {
-                    this.$router.push({name:'login'});
+                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async deleteProject(id) {
+            // console.log(id);
+            try {
+                let data = {
+                    token:this.user.token,
+                    id
+                }
+                let response = await projectApi.delete(data)
+                if (response.status === 200) {
+                    this.$router.push({name:'projects'})
+                } else if( response.status === 401 ) {
+                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
                 }
             } catch (error) {
                 console.log(error);

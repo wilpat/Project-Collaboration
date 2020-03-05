@@ -21,13 +21,19 @@ export default {
     components : {
         AppForm
     },
+    data () {
+        return {
+            project: []
+        }
+    },
     methods: {
         async submit (project){
             try {
                 let response = await projectApi.create({token:this.user.token, ...project})
                 if (response.status === 201) {
-                    // this.projects = response.data;
-                    console.log(response)
+                    this.project = response.data;
+                    this.$router.push({name:'view', params:{id: this.project.id}});
+                    // console.log(response)
                 } else if( response.status === 401 ) {
                     this.$router.push('login');
                 }
