@@ -36,25 +36,25 @@
                     <div class="mb-8">
 
                         <h2 class="text-grey font-normal text-lg mb-3">Tasks</h2>
-                        <template v-if="project.tasks">
-                            <div class="card mb-3" v-for="(task, index) in project.tasks" :key="index">
-                                <form>
-                                    <!-- @method('PATCH') -->
-                                    <!-- @csrf -->
-                                    <div class="flex">
-                                        <input 
-                                            class="w-full"
-                                            :class="{ 'text-grey' : task.completed }" type="text" name="body" :value="task.body" /> 
-                                        <input type="checkbox" name="completed" @keyup="submit()" :checked="task.completed"/>
-                                    </div>
+                        <div class="card mb-3" v-for="(task, index) in project.tasks" :key="index">
+                            <form>
+                                <!-- @method('PATCH') -->
+                                <!-- @csrf -->
+                                <div class="flex">
+                                    <input 
+                                        class="w-full"
+                                        :class="{ 'text-grey' : task.completed }" type="text" name="body" :value="task.body" /> 
+                                    <input type="checkbox" name="completed" @keyup.enter="update()" :checked="task.completed"/>
+                                    Tasks {{task}}
+                                </div>
 
-                                </form>
-                            </div>
-                        </template>
+                            </form>
+                        </div>
 
-                        <form action="$project->path() . '/tasks' " method="POST">
+                        <!-- <form action="$project->path() . '/tasks' " method="POST"> -->
+                        <form @submit.prevent>
                             <!-- @csrf -->
-                            <input class="card mb-3 w-full" type="text" placeholder="Add a new task and hit enter." name="body">
+                            <input class="card mb-3 w-full" type="text" placeholder="Add a new task and hit enter." name="body" @keyup.enter="addTask($event.target.value)">
                         </form>
 
                     </div>
@@ -90,6 +90,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import projectApi from '../../api/project';
+import taskApi from '../../api/task';
 
 export default {
     name: 'project-view',
@@ -112,14 +113,33 @@ export default {
                 if (response.status === 200) {
                     this.project = response.data;
                 } else if( response.status === 401 ) {
-                    this.$router.push({name:'login'});
+                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
                 }
             } catch (error) {
                 console.log(error);
             }
         },
 
-        async upgate() {
+        async addTask(body) {
+            try {
+                let data = {
+                    token:this.user.token,
+                    body,
+                    ...this.$route.params
+                }
+                let response = await taskApi.create(data);
+                console.log(response);
+                // if (response.status === 200) {
+                //     this.project = response.data;
+                // } else if( response.status === 401 ) {
+                //     this.$router.push({name:'login'});
+                // }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async updateTask() {
             try {
                 let data = {
                     token:this.user.token,

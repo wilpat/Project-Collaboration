@@ -125,7 +125,7 @@ export default {
                     this.clearUserError()
                     const destination = this.$route.query.redirect;
                     if(typeof destination !== 'undefined'){
-                        this.$router.push(destination)
+                        this.$router.push('/projects/4');
                     } else {
                         this.$router.push('/projects')
                     }

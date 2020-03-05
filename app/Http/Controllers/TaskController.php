@@ -16,9 +16,9 @@ class TaskController extends Controller
             'body' => 'required',
         ]);
 
-    	$project->addTask(request('body'));
+    	$response = $project->addTask(request('body'));
 
-    	return redirect($project->path());
+    	return $response;
     }
 
 

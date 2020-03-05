@@ -30833,7 +30833,6 @@ var ProjectEndpoints = {
    * Routes
    */
   project: 'projects',
-  register: 'auth/create',
   all: function () {
     var _all = _asyncToGenerator(
     /*#__PURE__*/
@@ -31630,41 +31629,85 @@ var render = function() {
                     [_vm._v("Tasks")]
                   ),
                   _vm._v(" "),
-                  _vm.project.tasks
-                    ? _vm._l(_vm.project.tasks, function(task, index) {
-                        return _c(
-                          "div",
-                          { key: index, staticClass: "card mb-3" },
-                          [
-                            _c("form", [
-                              _c("div", { staticClass: "flex" }, [
-                                _c("input", {
-                                  staticClass: "w-full",
-                                  class: { "text-grey": task.completed },
-                                  attrs: { type: "text", name: "body" },
-                                  domProps: { value: task.body }
-                                }),
-                                _vm._v(" "),
-                                _c("input", {
-                                  attrs: {
-                                    type: "checkbox",
-                                    name: "completed"
-                                  },
-                                  domProps: { checked: task.completed },
-                                  on: {
-                                    keyup: function($event) {
-                                      return _vm.submit()
-                                    }
-                                  }
-                                })
-                              ])
-                            ])
-                          ]
-                        )
-                      })
-                    : _vm._e(),
+                  _vm._l(_vm.project.tasks, function(task, index) {
+                    return _c("div", { key: index, staticClass: "card mb-3" }, [
+                      _c("form", [
+                        _c("div", { staticClass: "flex" }, [
+                          _c("input", {
+                            staticClass: "w-full",
+                            class: { "text-grey": task.completed },
+                            attrs: { type: "text", name: "body" },
+                            domProps: { value: task.body }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "checkbox", name: "completed" },
+                            domProps: { checked: task.completed },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.update()
+                              }
+                            }
+                          }),
+                          _vm._v(
+                            "\n                                Tasks " +
+                              _vm._s(task) +
+                              "\n                            "
+                          )
+                        ])
+                      ])
+                    ])
+                  }),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                        }
+                      }
+                    },
+                    [
+                      _c("input", {
+                        staticClass: "card mb-3 w-full",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Add a new task and hit enter.",
+                          name: "body"
+                        },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.addTask($event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
                 ],
                 2
               ),
@@ -31721,27 +31764,7 @@ var render = function() {
       ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "form",
-      { attrs: { action: "$project->path() . '/tasks' ", method: "POST" } },
-      [
-        _c("input", {
-          staticClass: "card mb-3 w-full",
-          attrs: {
-            type: "text",
-            placeholder: "Add a new task and hit enter.",
-            name: "body"
-          }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 __webpack_require__.r(__webpack_exports__);
@@ -31751,6 +31774,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _api_project__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/project */ "./resources/js/api/project.js");
+/* harmony import */ var _api_task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/task */ "./resources/js/api/task.js");
 
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -31852,6 +31876,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'project-view',
   mounted: function mounted() {
@@ -31886,7 +31911,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.project = response.data;
                 } else if (response.status === 401) {
                   this.$router.push({
-                    name: 'login'
+                    name: 'login',
+                    query: {
+                      redirect: this.$route.fullPath
+                    }
                   });
                 }
 
@@ -31912,10 +31940,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return getProject;
     }(),
-    upgate: function () {
-      var _upgate = _asyncToGenerator(
+    addTask: function () {
+      var _addTask = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(body) {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -31923,21 +31951,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.prev = 0;
                 data = _objectSpread({
-                  token: this.user.token
+                  token: this.user.token,
+                  body: body
                 }, this.$route.params);
                 _context2.next = 4;
-                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].get(data);
+                return _api_task__WEBPACK_IMPORTED_MODULE_3__["default"].create(data);
 
               case 4:
                 response = _context2.sent;
-
-                if (response.status === 200) {
-                  this.project = response.data;
-                } else if (response.status === 401) {
-                  this.$router.push({
-                    name: 'login'
-                  });
-                }
+                console.log(response); // if (response.status === 200) {
+                //     this.project = response.data;
+                // } else if( response.status === 401 ) {
+                //     this.$router.push({name:'login'});
+                // }
 
                 _context2.next = 11;
                 break;
@@ -31955,15 +31981,236 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2, this, [[0, 8]]);
       }));
 
-      function upgate() {
-        return _upgate.apply(this, arguments);
+      function addTask(_x) {
+        return _addTask.apply(this, arguments);
       }
 
-      return upgate;
+      return addTask;
+    }(),
+    updateTask: function () {
+      var _updateTask = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var data, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                data = _objectSpread({
+                  token: this.user.token
+                }, this.$route.params);
+                _context3.next = 4;
+                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].get(data);
+
+              case 4:
+                response = _context3.sent;
+
+                if (response.status === 200) {
+                  this.project = response.data;
+                } else if (response.status === 401) {
+                  this.$router.push({
+                    name: 'login'
+                  });
+                }
+
+                _context3.next = 11;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+                console.log(_context3.t0);
+
+              case 11:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[0, 8]]);
+      }));
+
+      function updateTask() {
+        return _updateTask.apply(this, arguments);
+      }
+
+      return updateTask;
     }()
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
 });__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./resources/js/config.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var headers = {
+  'Accept': 'application/json'
+};
+var TaskEndpoints = {
+  setToken: function setToken(token) {
+    headers.authorization = "Bearer ".concat(token);
+    return true;
+  },
+
+  /**
+   * Routes
+   */
+  task: 'tasks',
+  all: function () {
+    var _all = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(dargs) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              TaskEndpoints.setToken(dargs.token);
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.task, {
+                headers: headers
+              });
+              return _context.abrupt("return", response);
+
+            case 6:
+              _context.prev = 6;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+              return _context.abrupt("return", false);
+
+            case 10:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this, [[0, 6]]);
+    }));
+
+    function all(_x) {
+      return _all.apply(this, arguments);
+    }
+
+    return all;
+  }(),
+  create: function () {
+    var _create = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dargs) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              TaskEndpoints.setToken(dargs.token);
+              delete dargs.token;
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post("projects/".concat(dargs.id, "/").concat(this.task), dargs, {
+                headers: headers
+              });
+              return _context2.abrupt("return", response);
+
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+              console.log(_context2.t0);
+              return _context2.abrupt("return", false);
+
+            case 11:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this, [[0, 7]]);
+    }));
+
+    function create(_x2) {
+      return _create.apply(this, arguments);
+    }
+
+    return create;
+  }(),
+  get: function () {
+    var _get = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(dargs) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              TaskEndpoints.setToken(dargs.token);
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.task + '/' + dargs.id, {
+                headers: headers
+              });
+              return _context3.abrupt("return", response);
+
+            case 6:
+              _context3.prev = 6;
+              _context3.t0 = _context3["catch"](0);
+              console.log(_context3.t0);
+              return _context3.abrupt("return", false);
+
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this, [[0, 6]]);
+    }));
+
+    function get(_x3) {
+      return _get.apply(this, arguments);
+    }
+
+    return get;
+  }(),
+  "delete": function () {
+    var _delete2 = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(dargs) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              TaskEndpoints.setToken(dargs.token);
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.task + '/' + dargs.id, {
+                _method: 'delete'
+              }, {
+                headers: headers
+              });
+              return _context4.abrupt("return", response);
+
+            case 6:
+              _context4.prev = 6;
+              _context4.t0 = _context4["catch"](0);
+              console.log(_context4.t0);
+              return _context4.abrupt("return", false);
+
+            case 10:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this, [[0, 6]]);
+    }));
+
+    function _delete(_x4) {
+      return _delete2.apply(this, arguments);
+    }
+
+    return _delete;
+  }()
+};
+/* harmony default export */ __webpack_exports__["default"] = (TaskEndpoints);__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Login_vue_vue_type_template_id_46ec553e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Login.vue?vue&type=template&id=46ec553e& */ "./resources/js/views/auth/Login.vue?vue&type=template&id=46ec553e&");
 /* harmony import */ var _Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Login.vue?vue&type=script&lang=js& */ "./resources/js/views/auth/Login.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
@@ -32356,7 +32603,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 destination = this.$route.query.redirect;
 
                 if (typeof destination !== 'undefined') {
-                  this.$router.push(destination);
+                  this.$router.push('/projects/4');
                 } else {
                   this.$router.push('/projects');
                 }

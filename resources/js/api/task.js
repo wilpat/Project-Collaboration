@@ -3,7 +3,7 @@ import {blackAxios} from '../config';
 const headers = {
     'Accept': 'application/json'
 }
-const ProjectEndpoints =  {
+const TaskEndpoints =  {
     setToken (token) {
         headers.authorization = `Bearer ${token}`
         return true
@@ -13,13 +13,13 @@ const ProjectEndpoints =  {
      * Routes
      */
 
-    project: 'projects',
+    task: 'tasks',
     
 
     async all (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
-        const response = blackAxios.get(this.project, {
+        TaskEndpoints.setToken(dargs.token)
+        const response = blackAxios.get(this.task, {
             headers
         })
         return response
@@ -31,9 +31,9 @@ const ProjectEndpoints =  {
 
     async create (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
+        TaskEndpoints.setToken(dargs.token)
         delete dargs.token;
-        const response = blackAxios.post(this.project, dargs, {
+        const response = blackAxios.post(`projects/${dargs.id}/${this.task}`, dargs, {
             headers
         })
         return response
@@ -45,8 +45,8 @@ const ProjectEndpoints =  {
 
     async get (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
-        const response = blackAxios.get(this.project + '/' + dargs.id, {
+        TaskEndpoints.setToken(dargs.token)
+        const response = blackAxios.get(this.task + '/' + dargs.id, {
             headers
         })
         return response
@@ -58,8 +58,8 @@ const ProjectEndpoints =  {
 
     async delete (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
-        const response = blackAxios.post(this.project+ '/' + dargs.id,{_method: 'delete'}, {
+        TaskEndpoints.setToken(dargs.token)
+        const response = blackAxios.post(this.task+ '/' + dargs.id,{_method: 'delete'}, {
             headers
         })
         return response
@@ -72,4 +72,4 @@ const ProjectEndpoints =  {
     
 }
 
-export default ProjectEndpoints
+export default TaskEndpoints
