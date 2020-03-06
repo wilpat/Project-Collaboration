@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
@@ -9,6 +9,18 @@ class Activity extends Model
     protected $guarded = [];
 
     protected $casts = ['changes' => 'array'];
+
+
+    /**
+     * Make the created_at timestamp human readable
+     *
+     * @param  date  $created_at
+     * @return string
+     */
+    public function getCreatedAtAttribute($created_at)
+    {
+        return Carbon::parse($created_at)->diffForHumans();
+    }
 
     /**
      * Get the owning model.

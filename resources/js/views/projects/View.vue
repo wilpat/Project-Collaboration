@@ -72,8 +72,7 @@
                 <div class="lg:w-1/4 px-3">
 
                     <card :project='project' @deleteProject="deleteProject"></card>
-                    
-                    @include('projects.activity.card')
+                    <activities-card :activities="project.activities" :userId="user.id"></activities-card>
                     @can('manage', $project)
                         @include('projects.invite')
                     @endcan
@@ -89,12 +88,14 @@
 import { mapGetters } from 'vuex';
 import projectApi from '../../api/project';
 import taskApi from '../../api/task';
-import Card from '../../components/projects/Card.vue'
+import Card from '../../components/projects/Card.vue';
+import ActivitiesCard from '../../components/projects/activity/Card.vue';
 
 export default {
     name: 'project-view',
     components: {
-        Card
+        Card,
+        ActivitiesCard
     },
     mounted () {
         this.getProject();

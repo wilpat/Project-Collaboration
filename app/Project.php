@@ -11,6 +11,18 @@ class Project extends Model
 
     protected $guarded = [];
 
+	protected $appends = ['path'];
+
+
+	/**
+     * Get each project's path for use on the frontend.
+     *
+     * @return string
+     */
+	public function getPathAttribute(){
+		return $this->path();
+	}
+
     /**
 	* Generates the url of the project
 	* 

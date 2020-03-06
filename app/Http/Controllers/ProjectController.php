@@ -72,7 +72,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {   
         $this->authorize('update', $project);
-        return $project->with('tasks','users','user')->get()[0];
+        return $project->with('tasks','users','user','activities.user', 'activities.subject')->get()[0];
     }
 
     /**
