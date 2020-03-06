@@ -86,6 +86,19 @@ const ProjectEndpoints =  {
         }
     },
 
+    async inviteUser (dargs) {
+        try {
+        ProjectEndpoints.setToken(dargs.token);
+        const response = blackAxios.post(this.project+ '/' + dargs.project_id +'/invitations', {email:dargs.email}, {
+            headers
+        })
+        return response
+        } catch (e) {
+        console.log(e)
+        return false
+        }
+    },
+
     
 }
 

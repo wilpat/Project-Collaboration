@@ -73,10 +73,7 @@
 
                     <card :project='project' @deleteProject="deleteProject"></card>
                     <activities-card :activities="project.activities" :userId="user.id"></activities-card>
-                    @can('manage', $project)
-                        @include('projects.invite')
-                    @endcan
-
+                    <invite-user v-if="project.user_id === user.id" :project="project" @invited="invited"></invite-user>
 
                 </div>
             </div>
@@ -90,12 +87,14 @@ import projectApi from '../../api/project';
 import taskApi from '../../api/task';
 import Card from '../../components/projects/Card.vue';
 import ActivitiesCard from '../../components/projects/activity/Card.vue';
+import InviteUser from '../../components/projects/InviteUser.vue';
 
 export default {
     name: 'project-view',
     components: {
         Card,
-        ActivitiesCard
+        InviteUser,
+        ActivitiesCard,
     },
     mounted () {
         this.getProject();
@@ -198,6 +197,9 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        invited(user) {
+            this.project.users.push(user);
         }
     },
     computed: {

@@ -20,7 +20,7 @@ class InvitationController extends Controller
         // ]);
         $user = User::whereEmail(request('email'))->first();
         $project->invite($user);
-        return redirect($project->path());
+        return $user;
     }
 }
 // Invite@gmail.com

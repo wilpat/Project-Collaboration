@@ -78,7 +78,6 @@ class Project extends Model
 	
 	public function invite(User $user)
 	{
-
 		return $this->users()->attach($user);
 	}
 
