@@ -14,7 +14,7 @@ const UserEndpoints =  {
      */
 
     login_url: 'auth/login',
-    register_url: 'auth/create',
+    register_url: 'auth/register',
     logout_url: 'auth/logout',
     
 

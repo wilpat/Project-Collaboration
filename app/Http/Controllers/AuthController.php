@@ -16,8 +16,10 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
+    protected $loginAfterSignUp = true;
 
     /**
      * Get a JWT token via given credentials.
@@ -43,8 +45,13 @@ class AuthController extends Controller
      * @param RegistrationFormRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(RegistrationFormRequest $request)
+    public function register(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|min:3|max:50',
+            'email' => 'email|unique:users',
+            'password' => 'required|confirmed|min:6',
+        ]);
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -58,7 +65,7 @@ class AuthController extends Controller
         return response()->json([
             'success'   =>  true,
             'data'      =>  $user
-        ], 200);
+        ], 201);
     }
 
     /**
@@ -118,6 +125,6 @@ class AuthController extends Controller
      */
     public function guard()
     {
-        return \Auth::guard('api');
+        return Auth::guard('api');
     }
 }

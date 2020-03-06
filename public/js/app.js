@@ -3788,25 +3788,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 3:
                 response = _context.sent;
-                console.log(response);
+                // console.log(response);
                 this.logoutUser();
                 this.$router.push({
                   name: 'login'
                 });
-                _context.next = 12;
+                _context.next = 11;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 9]]);
+        }, _callee, this, [[0, 8]]);
       }));
 
       function logout() {
@@ -28219,15 +28219,29 @@ var render = function() {
         _vm._v(" "),
         _c("div", {}, [
           !_vm.user.id
-            ? _c("div", [
-                _c("a", { staticClass: "navbar-item ", attrs: { href: "" } }, [
-                  _vm._v("Login")
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "navbar-item ", attrs: { href: "" } }, [
-                  _vm._v("Register")
-                ])
-              ])
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "navbar-item ",
+                      attrs: { to: { name: "login" } }
+                    },
+                    [_vm._v("Login")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "navbar-item ",
+                      attrs: { to: { name: "register" } }
+                    },
+                    [_vm._v("Register")]
+                  )
+                ],
+                1
+              )
             : _c(
                 "div",
                 { staticClass: "navbar-item has-dropdown is-hoverable" },
@@ -44942,7 +44956,7 @@ var UserEndpoints = {
    * Routes
    */
   login_url: 'auth/login',
-  register_url: 'auth/create',
+  register_url: 'auth/register',
   logout_url: 'auth/logout',
   login: function () {
     var _login = _asyncToGenerator(
@@ -45377,6 +45391,12 @@ __webpack_require__.r(__webpack_exports__);
       name: 'login',
       component: function component() {
         return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/auth/Login.vue */ "./resources/js/views/auth/Login.vue"));
+      }
+    }, {
+      path: 'register',
+      name: 'register',
+      component: function component() {
+        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/auth/Register.vue */ "./resources/js/views/auth/Register.vue"));
       }
     }]
   }]

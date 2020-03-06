@@ -25,8 +25,8 @@
 
                 <div class="">
                     <div v-if="!user.id">
-                        <a class="navbar-item " href="">Login</a>
-                        <a class="navbar-item " href="">Register</a>
+                        <router-link class="navbar-item " :to="{name:'login'}">Login</router-link>
+                        <router-link class="navbar-item " :to="{name:'register'}">Register</router-link>
                     </div>
                     <div v-else class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link" href="#">{{ user.name }}</a>
@@ -56,7 +56,7 @@
             async logout() {
                 try {
                     let response = await userApi.logout({token: this.user.token});
-                    console.log(response);
+                    // console.log(response);
                     this.logoutUser();
                     this.$router.push({name:'login'});
                 } catch (error) {
