@@ -115,7 +115,7 @@ export default {
       ...mapActions('user', ['clearUserError', 'addUser']),
         async login() {
             try {
-                let response = await userApi.userLogin(this.credentials);
+                let response = await userApi.login(this.credentials);
                 if (response.status === 200) {
                     // console.log(response.data)
                     let user = this.cleanObject(response.data.user);

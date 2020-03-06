@@ -617,7 +617,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].userLogin(this.credentials);
+                return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].login(this.credentials);
 
               case 3:
                 response = _context.sent;
@@ -2984,114 +2984,6 @@ var TaskEndpoints = {
 
 /***/ }),
 
-/***/ "./resources/js/api/user.js":
-/*!**********************************!*\
-  !*** ./resources/js/api/user.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./resources/js/config.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-var headers = {
-  'Accept': 'application/json'
-};
-var UserEndpoints = {
-  setToken: function setToken(token) {
-    headers.authorization = "Bearer ".concat(token);
-    return true;
-  },
-
-  /**
-   * Routes
-   */
-  login: 'auth/login',
-  register: 'auth/create',
-  userLogin: function () {
-    var _userLogin = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(dargs) {
-      var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.login, dargs, {
-                headers: headers
-              });
-              return _context.abrupt("return", response);
-
-            case 5:
-              _context.prev = 5;
-              _context.t0 = _context["catch"](0);
-              console.log(_context.t0);
-              return _context.abrupt("return", false);
-
-            case 9:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, this, [[0, 5]]);
-    }));
-
-    function userLogin(_x) {
-      return _userLogin.apply(this, arguments);
-    }
-
-    return userLogin;
-  }(),
-  userRegister: function () {
-    var _userRegister = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dargs) {
-      var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.register, dargs, {
-                headers: headers
-              });
-              return _context2.abrupt("return", response);
-
-            case 5:
-              _context2.prev = 5;
-              _context2.t0 = _context2["catch"](0);
-              console.log(_context2.t0);
-              return _context2.abrupt("return", false);
-
-            case 9:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this, [[0, 5]]);
-    }));
-
-    function userRegister(_x2) {
-      return _userRegister.apply(this, arguments);
-    }
-
-    return userRegister;
-  }()
-};
-/* harmony default export */ __webpack_exports__["default"] = (UserEndpoints);
-
-/***/ }),
-
 /***/ "./resources/js/components/projects/Card.vue":
 /*!***************************************************!*\
   !*** ./resources/js/components/projects/Card.vue ***!
@@ -3745,37 +3637,6 @@ component.options.__file = "resources/js/components/projects/activity/UpdatedTas
 
 /***/ }),
 
-/***/ "./resources/js/config.js":
-/*!********************************!*\
-  !*** ./resources/js/config.js ***!
-  \********************************/
-/*! exports provided: API, blackAxios */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "API", function() { return API; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "blackAxios", function() { return blackAxios; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-var API = '';
-
-if (true) {
-  API = 'http://localhost:8000/api/';
-} else {} // console.log(API)
-
-
-var blackAxios = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: API,
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 510; // default
-  },
-  timeout: 30000
-});
-
-/***/ }),
-
 /***/ "./resources/js/views/auth/Login.vue":
 /*!*******************************************!*\
   !*** ./resources/js/views/auth/Login.vue ***!
@@ -3987,15 +3848,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./resources/js/views/projects/View.vue ***!
   \**********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _View_vue_vue_type_template_id_7f7df3cb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./View.vue?vue&type=template&id=7f7df3cb& */ "./resources/js/views/projects/View.vue?vue&type=template&id=7f7df3cb&");
 /* harmony import */ var _View_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./View.vue?vue&type=script&lang=js& */ "./resources/js/views/projects/View.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _View_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _View_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -4025,7 +3885,7 @@ component.options.__file = "resources/js/views/projects/View.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/views/projects/View.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

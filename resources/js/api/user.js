@@ -5,7 +5,7 @@ const headers = {
 }
 const UserEndpoints =  {
     setToken (token) {
-        headers.authorization = `Bearer ${token}`
+        headers.Authorization = `Bearer ${token}`
         return true
     },
 
@@ -13,32 +13,44 @@ const UserEndpoints =  {
      * Routes
      */
 
-    login: 'auth/login',
-    register: 'auth/create',
+    login_url: 'auth/login',
+    register_url: 'auth/create',
+    logout_url: 'auth/logout',
     
 
-    async userLogin (dargs) {
+    async login (dargs) {
         // console.log(this.headers);
         try {
-        const response = blackAxios.post(this.login, dargs, {
-            headers
-        })
-        return response
+            const response = blackAxios.post(this.login_url, dargs, {
+                headers
+            })
+            return response
         } catch (e) {
-        console.log(e)
-        return false
+            console.log(e)
+            return false
         }
     },
 
-    async userRegister (dargs) {
+    async register (dargs) {
         try {
-        const response = blackAxios.post(this.register, dargs, {
-            headers
-        })
-        return response
+            const response = blackAxios.post(this.register_url, dargs, {
+                headers
+            })
+            return response
         } catch (e) {
-        console.log(e)
-        return false
+            console.log(e)
+            return false
+        }
+    },
+
+    async logout (dargs) {
+        try {
+            UserEndpoints.setToken(dargs.token);
+            const response = blackAxios.post(this.logout_url+'?token='+dargs.token)
+            return response
+        } catch (e) {
+            console.log(e)
+            return false
         }
     }
 
