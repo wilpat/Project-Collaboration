@@ -8,8 +8,8 @@
             <div class="mb-3">
                 <input type="email" class="px-3 py-2 border border-grey-light rounded w-full" placeholder="Email address." v-model="email">
             </div>
-            <button class="text-xs button" type="submit">
-                Invite
+            <button class="text-xs button" type="submit" :disabled="inviting">
+                {{ inviteText }}
             </button>
             <!-- @include('errors', ['bag' => 'invitations']) -->
         </form>
@@ -28,7 +28,9 @@
 
         data() {
             return {
-                email: ''
+                email: '',
+                inviting: false,
+                inviteText: 'Invite'
             }
         },
         methods: {
@@ -40,15 +42,11 @@
                         project_id: this.project.id
                     }
                     let response = await projectApi.inviteUser(data)
-                    // console.log(response)
-                    if (response.status === 200) {
-                        this.email = '';
-                        this.$emit('invited', response.data);
-                    } else if( response.status === 401 ) {
-                        this.$router.push('login');
-                    }
+                    this.$emit('invited', response.data);
+                    this.email = '';
                 } catch (error) {
-                    console.log(error);
+                    this.handleError(error);
+                    // console.log(error);
                 }
             }
         },

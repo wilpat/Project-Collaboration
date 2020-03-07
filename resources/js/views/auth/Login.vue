@@ -24,18 +24,17 @@
                                         id="email" 
                                         type="email" 
                                         class="input bg-transparent border border-grey-light rounded p-2 text-ws w-full"
-                                        :class="{'border-red': error.email}"
+                                        :class="{'border-red': errors.email}"
                                         name="email" 
                                         v-model="credentials.email"
                                         required autofocus
                                     >
 
-                                    <!-- @if ($errors->has('email')) -->
-                                        <span class="text-red text-xs italic" role="alert" v-if="error.email">
-                                            <!-- <strong>{{ $errors->first('email') }}</strong> -->
-                                            <strong>Email error</strong>
+                                    <template v-if="errors.email">
+                                        <span class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.email" :key="index">
+                                            <strong>{{ email }}</strong>
                                         </span>
-                                    <!-- @endif -->
+                                    </template>
                                 </div>
                             </div>
 
@@ -47,40 +46,37 @@
                                         id="password" 
                                         type="password" 
                                         class="input bg-transparent border border-grey-light rounded p-2 text-ws w-full" 
-                                        :class="{'border-red': error.password}"
+                                        :class="{'border-red': errors.password}"
                                         name="password" 
                                         required
                                         v-model="credentials.password"
                                     >
 
-                                    <!-- @if ($errors->has('password')) -->
-                                        <span class="text-red text-xs italic" role="alert" v-if="error.password">
-                                            <!-- <strong>{{ $errors->first('password') }}</strong> -->
-                                            <strong>Password Error</strong>
+                                    <template v-if="errors.password">
+                                        <span class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.password" :key="index">
+                                            <strong>{{ error }}</strong>
                                         </span>
-                                    <!-- @endif -->
+                                    </template>
                                 </div>
                             </div>
 
                             <div class="mb-6">
                                 <!-- <input class="" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> -->
-                                <input class="" type="checkbox" name="remember" id="remember">
+                                <!-- <input class="" type="checkbox" name="remember" id="remember"> 
 
                                 <label class="label text-sm mb-2" for="remember">
                                     Remember Me
-                                </label>
+                                </label>-->
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <button type="submit" class="button">
-                                    Login
-                                </button>
+                                <button type="submit" class="button" :disabled="working">{{ loginText }}</button>
 
                                 <!-- @if (Route::has('password.request')) -->
                                     <!-- <a class="no-underline" href="{{ route('password.request') }}"> -->
-                                    <a class="no-underline" href="">
+                                    <!-- <a class="no-underline" href="">
                                         Forgot Your Password?
-                                    </a>
+                                    </a> -->
                                 <!-- @endif -->
                             </div>
                         </form>
@@ -103,39 +99,40 @@ export default {
         return {
             credentials: {
                 email: '',
-                password: ''
+                password: '',
             },
-            error: {
-                email: false,
-                password: false
-            }
+            working: false,
+            loginText: 'Login',
+            errors: {}
         }
     },
     methods: {
       ...mapActions('user', ['clearUserError', 'addUser']),
         async login() {
+            this.loginText='Please wait...';
+            this.working =true;
             try {
                 let response = await userApi.login(this.credentials);
-                if (response.status === 200) {
-                    // console.log(response.data)
-                    let user = this.cleanObject(response.data.user);
-                    user.token = response.data.access_token;
-                    this.addUser(user)
-                    userApi.setToken(user.token)
-                    this.clearUserError()
-                    const destination = this.$route.query.redirect;
-                    if(typeof destination !== 'undefined'){
-                        this.$router.push(destination);
-                    } else {
-                        this.$router.push('/projects')
-                    }
-                    
+                this.working = false;
+                let user = this.cleanObject(response.data.user);
+                user.token = response.data.access_token;
+                this.addUser(user)
+                userApi.setToken(user.token)
+                this.clearUserError()
+                const destination = this.$route.query.redirect;
+                this.loginText='Redirecting...';
+                this.$toast.success('Login Successful.', 'OK', this.notificationSystem.options.error)
+
+                if(typeof destination !== 'undefined'){
+                    this.$router.push(destination);
                 } else {
-                    // this.$toast.error(response.data.message, '', this.notificationSystem.options.error)
-                    return false
+                    this.$router.push('/projects')
                 }
             } catch (error) {
-                console.error(error)
+                this.working = false;
+                this.loginText='Login';
+                // console.log(error.response);
+                this.handleError(error, 'Invalid credentials.');
             }
         }
     }

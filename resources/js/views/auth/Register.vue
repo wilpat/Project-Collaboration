@@ -21,16 +21,16 @@
                                         id="name" 
                                         type="text" 
                                         class="input bg-transparent border border-grey-light rounded p-2 text-ws w-full"
-                                        :class="{'border-red' : errors.name.length }" 
+                                        :class="{'border-red' : errors.name }" 
                                         name="name" 
                                         v-model="credentials.name" 
                                         required 
                                         autofocus
                                     >
 
-                                    <template v-if="errors.name.length">
+                                    <template v-if="errors.name">
                                         <span class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.name" :key="index">
-                                            <!-- <strong>{{ error.first('name') }}</strong> -->
+                                            <strong>{{ error}}</strong>
                                         </span>
                                     </template>
                                 </div>
@@ -44,15 +44,15 @@
                                         id="email" 
                                         type="email" 
                                         class="input bg-transparent border border-grey-light rounded p-2 text-ws w-full"
-                                        :class="{'border-red' : errors.email.length }" 
+                                        :class="{'border-red' : errors.email }" 
                                         name="email" 
                                         v-model="credentials.email" 
                                         required
                                     >
 
-                                    <template v-if="errors.email.length">
+                                    <template v-if="errors.email">
                                         <span class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.email" :key="index">
-                                            <!-- <strong>{{ error.first('email') }}</strong> -->
+                                            <strong>{{ error }}</strong>
                                         </span>
                                     </template>
                                 </div>
@@ -66,15 +66,15 @@
                                         id="password" 
                                         type="password" 
                                         class="input bg-transparent border border-grey-light rounded p-2 text-ws w-full"
-                                        :class="{'border-red' : errors.password.length }" 
+                                        :class="{'border-red' : errors.password }" 
                                         v-model="credentials.password"
                                         name="password" 
                                         required
                                     >
 
-                                    <template v-if="errors.password.length">
+                                    <template v-if="errors.password">
                                         <span class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.password" :key="index">
-                                            <!-- <strong>{{ error.first('password') }}</strong> -->
+                                            <strong>{{ error }}</strong>
                                         </span>
                                     </template>
                                 </div>
@@ -88,6 +88,7 @@
                                         id="password-confirm" 
                                         type="password" 
                                         class="input bg-transparent border border-grey-light rounded p-2 text-ws w-full"
+                                        :class="{'border-red' : errors.password }" 
                                         v-model="credentials.password_confirmation"
                                         name="password_confirmation" 
                                         required
@@ -96,8 +97,8 @@
                             </div>
 
                             <div class="text-center">
-                                <button type="submit" class="button">
-                                    Register
+                                <button type="submit" class="button" :disabled="working">
+                                    {{ buttonText }}
                                 </button>
                             </div>
                         </form>
@@ -121,34 +122,33 @@ export default {
                 password_confirmation: ''
             },
             errors: {
-                name: [],
-                email: [],
-                password: []
-            }
+                
+            },
+            working: false,
+            buttonText: 'Register'
         }
     },
     methods: {
     //   ...mapActions('user', ['clearUserError', 'addUser']),
         ...mapActions('user', ['addUser', 'clearUserError']),
         async register(){
+            this.working = true;
             try {
                 let response = await userApi.register(this.credentials);
+                this.working = false;
                 // console.log(response)
-                if (response.status === 200) {
-                    let user = this.cleanObject(response.data.user);
-                    user.token = response.data.access_token;
-                    this.addUser(user)
-                    userApi.setToken(user.token)
-                    this.clearUserError()
-                    const destination = this.$route.query.redirect;
-                    this.$router.push('/projects')
-                    
-                } else {
-                    // this.$toast.error(response.data.message, '', this.notificationSystem.options.error)
-                    return false
-                }
+                let user = this.cleanObject(response.data.user);
+                user.token = response.data.access_token;
+                this.addUser(user)
+                userApi.setToken(user.token)
+                this.clearUserError()
+                this.$toast.success('Registration successful.', '', this.notificationSystem.options.success)
+                this.$router.push('/projects')
             } catch (error) {
-                console.error(error)
+                // console.log(error.response)
+                this.working = false;
+                this.errors = error.response.data.errors;
+                this.handleError(error, "Invalid data format.");
             }
         }
     }

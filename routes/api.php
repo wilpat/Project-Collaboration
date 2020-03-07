@@ -23,7 +23,7 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 
 });
 
-Route::group(['middleware' => 'jwt.auth'], function(){
+Route::group(['middleware' => 'auth.jwt'], function(){
 	Route::resource('projects', 'ProjectController');
 
 	Route::get('/home', 'HomeController@index')->name('home');

@@ -25,7 +25,7 @@ export default {
         'updated_project': UpdatedProject,
         'completed_task': CompletedTask,
         'created_task': CreatedTask,
-        'updated_task': UpdatedProject,
+        'updated_task': UpdatedTask,
         'incompleted_task': IncompletedTask,
     },
     props: {

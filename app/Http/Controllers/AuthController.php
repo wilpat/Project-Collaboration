@@ -38,7 +38,7 @@ class AuthController extends Controller
         }
         // dd($token);
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['error' => 'Invalid Credentials.'], 401);
     }
 
     /**
@@ -88,7 +88,7 @@ class AuthController extends Controller
         // dd($request->all());
         $this->guard()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out.']);
     }
 
     /**

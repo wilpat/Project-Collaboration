@@ -123,6 +123,6 @@ class ProjectController extends Controller
     {
         $this->authorize('manage', $project); // A Policy
         $project->delete();
-        return redirect('/projects');
+        return $project;
     }
 }

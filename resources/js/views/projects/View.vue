@@ -61,7 +61,7 @@
                         <h2 class="text-grey font-normal text-lg mb-3">General Notes</h2>
                         <form action="project->path()" @submit.prevent="addNote()" >
                             <textarea name ="notes" class="card w-full" style="min-height: 200px" placeholder="Anything special you want to take note of?" v-model="project.notes"></textarea>
-                            <input type="submit" class="button" value="Update note">
+                            <input type="submit" class="button cursor-pointer" :value="addingNote ? 'Please wait...' : 'Update note'" :disabled="addingNote">
                             <!-- @include('errors') -->
                         </form>
                         
@@ -103,6 +103,7 @@ export default {
         return {
             project:[],
             newTask: '',
+            addingNote: false
         }
     },
     methods: {
@@ -112,16 +113,11 @@ export default {
                     token:this.user.token,
                     ...this.$route.params
                 }
-                let response = await projectApi.get(data)
-                if (response.status === 200) {
-                    this.project = response.data;
-                } else if( response.status === 404 ) {
-                    this.$router.push({name:'projects'});
-                } else if( response.status === 401 ) {
-                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
-                }
+                let response = await projectApi.get(data);
+                this.project = response.data;
             } catch (error) {
                 console.log(error);
+                this.handleError(error);
             }
         },
 
@@ -133,14 +129,12 @@ export default {
                     ...this.$route.params
                 }
                 let response = await taskApi.create(data);
-                if (response.status === 201) {
-                    this.getProject();
-                    this.newTask ='';
-                } else if( response.status === 401 ) {
-                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
-                }
+                this.$toast.success('Task added!', '', this.notificationSystem.options.success);
+                this.getProject();
+                this.newTask ='';
             } catch (error) {
-                console.log(error);
+                this.handleError(error);
+                // console.log(error);
             }
         },
 
@@ -151,55 +145,50 @@ export default {
                     token:this.user.token,
                     ...task
                 }
-                let response = await taskApi.update(data)
-                // console.log(response);
-                if (response.status === 200) {
-                    // this.project = response.data;
-                } else if( response.status === 401 ) {
-                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
-                }
+                await taskApi.update(data);
+                this.$toast.success('Task updated!', '', this.notificationSystem.options.success);
+
             } catch (error) {
-                console.log(error);
+                this.handleError(error);
+                // console.log(error);
             }
         },
 
         async addNote() {
+            this.addingNote = true;
             try {
                 let data = {
                     token:this.user.token,
                     ...this.project
-
                 }
                 let response = await projectApi.addNote(data);
-                if (response.status === 200) {
-                    this.project = response.data;
-                } else if( response.status === 401 ) {
-                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
-                }
+                this.addingNote = false;
+                this.$toast.success('Note updated!', '', this.notificationSystem.options.success);
+                
             } catch (error) {
-                console.log(error);
+                this.handleError(error);
+                this.addingNote = false;
+                // console.log(error);
             }
         },
 
         async deleteProject(id) {
-            // console.log(id);
             try {
                 let data = {
                     token:this.user.token,
                     id
                 }
-                let response = await projectApi.delete(data)
-                if (response.status === 200) {
-                    this.$router.push({name:'projects'})
-                } else if( response.status === 401 ) {
-                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
-                }
+                await projectApi.delete(data);
+                this.$toast.warning(`${this.project.title.slice(0,15)} deleted.`, '', this.notificationSystem.options.warning);
+                this.$router.push({name:'projects'})
             } catch (error) {
-                console.log(error);
+                this.handleError(error);
+                // console.log(error);
             }
         },
         invited(user) {
             this.project.users.push(user);
+            this.$toast.success(`${user.name} invited successfully.`, '', this.notificationSystem.options.success);
         }
     },
     computed: {

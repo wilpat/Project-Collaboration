@@ -1,7 +1,10 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import ProjectsLayout from './layouts/ProjectsLayout.vue'
 import AuthLayout from './layouts/ProjectsLayout.vue' // I'd change the layout for authentication later
 
-export default {
+Vue.use(VueRouter);
+const router = new VueRouter({
     mode: 'history',
     linkExactActiveClass: 'active',
     routes: [
@@ -45,4 +48,6 @@ export default {
             ]
         }
     ]
-}
+});
+
+export default router;

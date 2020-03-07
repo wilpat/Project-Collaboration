@@ -1,7 +1,6 @@
 <template>
     <p>
         {{ username }} incompleted "{{ activity.subject.body }}"
-        <!-- {{ username }} created the project  -->
     </p>
 </template>
 <script>

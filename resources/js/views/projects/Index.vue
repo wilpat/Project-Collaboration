@@ -46,30 +46,25 @@ export default {
         async fetchProjects() {
             try {
                 let response = await projectApi.all({token:this.user.token})
-                if (response.status === 200) {
-                    this.projects = response.data;
-                } else if( response.status === 401 ) {
-                    this.$router.push('login');
-                }
+                this.projects = response.data;
             } catch (error) {
-                console.log(error);
+                this.handleError(error);
+                // console.log(error);
             }
         },
         async deleteProject(id) {
-            // console.log(id);
             try {
                 let data = {
                     token:this.user.token,
                     id
                 }
                 let response = await projectApi.delete(data)
-                if (response.status === 200) {
-                    this.fetchProjects();
-                } else if( response.status === 401 ) {
-                    this.$router.push({name:'login',query: { redirect: this.$route.fullPath }});
-                }
+                // console.log(response);
+                this.$toast.warning(`${response.data.title.slice(0,15)} project deleted.`, '', this.notificationSystem.options.warning);
+                this.fetchProjects();
             } catch (error) {
-                console.log(error);
+                // console.log(error);
+                this.handleError(error);
             }
         }
     },

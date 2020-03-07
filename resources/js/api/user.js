@@ -26,7 +26,6 @@ const UserEndpoints =  {
             })
             return response
         } catch (e) {
-            console.log(e)
             return false
         }
     },
@@ -38,7 +37,6 @@ const UserEndpoints =  {
             })
             return response
         } catch (e) {
-            console.log(e)
             return false
         }
     },

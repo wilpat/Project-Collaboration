@@ -29,16 +29,12 @@ export default {
     methods: {
         async submit (project){
             try {
-                let response = await projectApi.create({token:this.user.token, ...project})
-                if (response.status === 201) {
-                    this.project = response.data;
-                    this.$router.push({name:'view', params:{id: this.project.id}});
-                    // console.log(response)
-                } else if( response.status === 401 ) {
-                    this.$router.push('login');
-                }
+                let response = await projectApi.create({token:this.user.token, ...project});
+                this.project = response.data;
+                this.$router.push({name:'view', params:{id: this.project.id}});
             } catch (error) {
-                console.log(error);
+                // console.log(error);
+                this.handleError(error);
             }
         }
     },
