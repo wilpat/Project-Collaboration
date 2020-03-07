@@ -72,7 +72,7 @@
                 <div class="lg:w-1/4 px-3">
 
                     <card :project='project' @deleteProject="deleteProject"></card>
-                    <activities-card :activities="project.activities" :userId="user.id"></activities-card>
+                    <activities-card :activities="activities" :userId="user.id"></activities-card>
                     <invite-user v-if="project.user_id === user.id" :project="project" @invited="invited"></invite-user>
 
                 </div>
@@ -192,7 +192,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('user',['user'])
+        ...mapGetters('user',['user']),
+        activities() {
+            return this.project.activities.slice(0,4);
+        }
     }
 }
 </script>

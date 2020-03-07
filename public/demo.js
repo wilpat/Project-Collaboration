@@ -1684,7 +1684,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$toast.success("".concat(user.name, " invited successfully."), '', this.notificationSystem.options.success);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']), {
+    activities: function activities() {
+      return this.project.activities.slice(0, 4);
+    }
+  })
 });
 
 /***/ }),
@@ -3243,10 +3247,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("activities-card", {
-                  attrs: {
-                    activities: _vm.project.activities,
-                    userId: _vm.user.id
-                  }
+                  attrs: { activities: _vm.activities, userId: _vm.user.id }
                 }),
                 _vm._v(" "),
                 _vm.project.user_id === _vm.user.id
