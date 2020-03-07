@@ -5,7 +5,7 @@
             <div class="flex items-end justify-between">
                 
                 <p class="text-grey text-sm font-normal">
-                    <a href="/projects" class="no-underline text-grey">My Projects</a> / {{ project.title }}
+                    <router-link :to="{name:'projects'}" class="no-underline text-grey">My Projects</router-link> / {{ project.title }}
                 </p>
 
                 <div class="flex items-center">
@@ -24,7 +24,7 @@
                         :src="gravatar(project.user.email) " 
                         :alt="project.user.name"
                         class="rounded-full w-8 mr-2">
-                    <a :href="`/projects/${ project.id }/edit`" class="button ml-4">Edit Project</a>
+                    <router-link :to="{name:'edit_project', params:{id: project.id}}" class="button ml-4">Edit Project</router-link>
                 </div>
             </div>
 
@@ -116,7 +116,7 @@ export default {
                 let response = await projectApi.get(data);
                 this.project = response.data;
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 this.handleError(error);
             }
         },
@@ -161,7 +161,7 @@ export default {
                     token:this.user.token,
                     ...this.project
                 }
-                let response = await projectApi.addNote(data);
+                let response = await projectApi.update(data);
                 this.addingNote = false;
                 this.$toast.success('Note updated!', '', this.notificationSystem.options.success);
                 

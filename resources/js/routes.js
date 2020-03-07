@@ -27,6 +27,11 @@ const router = new VueRouter({
                     path: ':id',
                     name: 'view',
                     component: () => import(/* webpackChunkName: "demo" */ './views/projects/View.vue'),
+                },
+                {
+                    path: 'edit/:id',
+                    name: 'edit_project',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/projects/Edit.vue'),
                 }
             ]
         },

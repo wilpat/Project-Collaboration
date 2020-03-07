@@ -28517,8 +28517,7 @@ table {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Index_vue_vue_type_template_id_befd39c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=befd39c8& */ "./resources/js/views/projects/Index.vue?vue&type=template&id=befd39c8&");
 /* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/views/projects/Index.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -28767,11 +28766,6 @@ var headers = {
   'Accept': 'application/json'
 };
 var ProjectEndpoints = {
-  setToken: function setToken(token) {
-    headers.authorization = "Bearer ".concat(token);
-    return true;
-  },
-
   /**
    * Routes
    */
@@ -28786,24 +28780,23 @@ var ProjectEndpoints = {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              ProjectEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.project, {
                 headers: headers
               });
               return _context.abrupt("return", response);
 
-            case 6:
-              _context.prev = 6;
+            case 5:
+              _context.prev = 5;
               _context.t0 = _context["catch"](0);
               console.log(_context.t0);
               return _context.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[0, 6]]);
+      }, _callee, this, [[0, 5]]);
     }));
 
     function all(_x) {
@@ -28822,25 +28815,24 @@ var ProjectEndpoints = {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.prev = 0;
-              ProjectEndpoints.setToken(dargs.token);
               delete dargs.token;
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project, dargs, {
                 headers: headers
               });
               return _context2.abrupt("return", response);
 
-            case 7:
-              _context2.prev = 7;
+            case 6:
+              _context2.prev = 6;
               _context2.t0 = _context2["catch"](0);
               console.log(_context2.t0);
               return _context2.abrupt("return", false);
 
-            case 11:
+            case 10:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[0, 7]]);
+      }, _callee2, this, [[0, 6]]);
     }));
 
     function create(_x2) {
@@ -28859,24 +28851,23 @@ var ProjectEndpoints = {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
-              ProjectEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.project + '/' + dargs.id, {
                 headers: headers
               });
               return _context3.abrupt("return", response);
 
-            case 6:
-              _context3.prev = 6;
+            case 5:
+              _context3.prev = 5;
               _context3.t0 = _context3["catch"](0);
               console.log(_context3.t0);
               return _context3.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[0, 6]]);
+      }, _callee3, this, [[0, 5]]);
     }));
 
     function get(_x3) {
@@ -28895,7 +28886,6 @@ var ProjectEndpoints = {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
-              ProjectEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.id, {
                 _method: 'delete'
               }, {
@@ -28903,18 +28893,18 @@ var ProjectEndpoints = {
               });
               return _context4.abrupt("return", response);
 
-            case 6:
-              _context4.prev = 6;
+            case 5:
+              _context4.prev = 5;
               _context4.t0 = _context4["catch"](0);
               console.log(_context4.t0);
               return _context4.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, this, [[0, 6]]);
+      }, _callee4, this, [[0, 5]]);
     }));
 
     function _delete(_x4) {
@@ -28923,8 +28913,8 @@ var ProjectEndpoints = {
 
     return _delete;
   }(),
-  addNote: function () {
-    var _addNote = _asyncToGenerator(
+  update: function () {
+    var _update = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(dargs) {
       var response;
@@ -28933,11 +28923,11 @@ var ProjectEndpoints = {
           switch (_context5.prev = _context5.next) {
             case 0:
               _context5.prev = 0;
-              ProjectEndpoints.setToken(dargs.token);
               delete dargs.user;
               delete dargs.users;
               delete dargs.tasks;
-              delete dargs.token;
+              delete dargs.token; // console.log('Headers: ',headers)
+
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.id, _objectSpread({
                 _method: 'patch'
               }, dargs), {
@@ -28945,25 +28935,25 @@ var ProjectEndpoints = {
               });
               return _context5.abrupt("return", response);
 
-            case 10:
-              _context5.prev = 10;
+            case 9:
+              _context5.prev = 9;
               _context5.t0 = _context5["catch"](0);
               console.log(_context5.t0);
               return _context5.abrupt("return", false);
 
-            case 14:
+            case 13:
             case "end":
               return _context5.stop();
           }
         }
-      }, _callee5, this, [[0, 10]]);
+      }, _callee5, this, [[0, 9]]);
     }));
 
-    function addNote(_x5) {
-      return _addNote.apply(this, arguments);
+    function update(_x5) {
+      return _update.apply(this, arguments);
     }
 
-    return addNote;
+    return update;
   }(),
   inviteUser: function () {
     var _inviteUser = _asyncToGenerator(
@@ -28975,7 +28965,6 @@ var ProjectEndpoints = {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.prev = 0;
-              ProjectEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.project_id + '/invitations', {
                 email: dargs.email
               }, {
@@ -28983,18 +28972,18 @@ var ProjectEndpoints = {
               });
               return _context6.abrupt("return", response);
 
-            case 6:
-              _context6.prev = 6;
+            case 5:
+              _context6.prev = 5;
               _context6.t0 = _context6["catch"](0);
               console.log(_context6.t0);
               return _context6.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context6.stop();
           }
         }
-      }, _callee6, this, [[0, 6]]);
+      }, _callee6, this, [[0, 5]]);
     }));
 
     function inviteUser(_x6) {
@@ -29518,8 +29507,8 @@ __webpack_require__.r(__webpack_exports__);
       description: 'Text in the submission button'
     },
     project: {
-      type: Object,
-      description: 'Project to be worked',
+      // type: Object,
+      description: 'Project to be worked on',
       "default": function _default() {
         return {
           title: '',
@@ -29577,17 +29566,22 @@ var render = function() {
     ? _c("div", [
         _c("header", { staticClass: "py-4" }, [
           _c("div", { staticClass: "flex items-end justify-between" }, [
-            _c("p", { staticClass: "text-grey text-sm font-normal" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "no-underline text-grey",
-                  attrs: { href: "/projects" }
-                },
-                [_vm._v("My Projects")]
-              ),
-              _vm._v(" / " + _vm._s(_vm.project.title) + "\n            ")
-            ]),
+            _c(
+              "p",
+              { staticClass: "text-grey text-sm font-normal" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "no-underline text-grey",
+                    attrs: { to: { name: "projects" } }
+                  },
+                  [_vm._v("My Projects")]
+                ),
+                _vm._v(" / " + _vm._s(_vm.project.title) + "\n            ")
+              ],
+              1
+            ),
             _vm._v(" "),
             _c(
               "div",
@@ -29612,10 +29606,15 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c(
-                  "a",
+                  "router-link",
                   {
                     staticClass: "button ml-4",
-                    attrs: { href: "/projects/" + _vm.project.id + "/edit" }
+                    attrs: {
+                      to: {
+                        name: "edit_project",
+                        params: { id: _vm.project.id }
+                      }
+                    }
                   },
                   [_vm._v("Edit Project")]
                 )
@@ -30025,16 +30024,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 4:
                 response = _context.sent;
                 this.project = response.data;
-                _context.next = 12;
+                _context.next = 11;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
+                // console.log(error);
                 this.handleError(_context.t0);
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -30147,7 +30146,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   token: this.user.token
                 }, this.project);
                 _context4.next = 5;
-                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].addNote(data);
+                return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].update(data);
 
               case 5:
                 response = _context4.sent;
@@ -30241,11 +30240,6 @@ var headers = {
   'Accept': 'application/json'
 };
 var TaskEndpoints = {
-  setToken: function setToken(token) {
-    headers.authorization = "Bearer ".concat(token);
-    return true;
-  },
-
   /**
    * Routes
    */
@@ -30260,24 +30254,23 @@ var TaskEndpoints = {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              TaskEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.task, {
                 headers: headers
               });
               return _context.abrupt("return", response);
 
-            case 6:
-              _context.prev = 6;
+            case 5:
+              _context.prev = 5;
               _context.t0 = _context["catch"](0);
               console.log(_context.t0);
               return _context.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[0, 6]]);
+      }, _callee, this, [[0, 5]]);
     }));
 
     function all(_x) {
@@ -30296,25 +30289,24 @@ var TaskEndpoints = {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.prev = 0;
-              TaskEndpoints.setToken(dargs.token);
               delete dargs.token;
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post("projects/".concat(dargs.id, "/").concat(this.task), dargs, {
                 headers: headers
               });
               return _context2.abrupt("return", response);
 
-            case 7:
-              _context2.prev = 7;
+            case 6:
+              _context2.prev = 6;
               _context2.t0 = _context2["catch"](0);
               console.log(_context2.t0);
               return _context2.abrupt("return", false);
 
-            case 11:
+            case 10:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[0, 7]]);
+      }, _callee2, this, [[0, 6]]);
     }));
 
     function create(_x2) {
@@ -30333,25 +30325,24 @@ var TaskEndpoints = {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
-              TaskEndpoints.setToken(dargs.token);
               dargs._method = 'patch';
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post('projects/' + dargs.project_id + '/' + this.task + dargs.id, dargs, {
                 headers: headers
               });
               return _context3.abrupt("return", response);
 
-            case 7:
-              _context3.prev = 7;
+            case 6:
+              _context3.prev = 6;
               _context3.t0 = _context3["catch"](0);
               console.log(_context3.t0);
               return _context3.abrupt("return", false);
 
-            case 11:
+            case 10:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[0, 7]]);
+      }, _callee3, this, [[0, 6]]);
     }));
 
     function update(_x3) {
@@ -30370,7 +30361,6 @@ var TaskEndpoints = {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
-              TaskEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.task + dargs.id, {
                 _method: 'delete'
               }, {
@@ -30378,18 +30368,18 @@ var TaskEndpoints = {
               });
               return _context4.abrupt("return", response);
 
-            case 6:
-              _context4.prev = 6;
+            case 5:
+              _context4.prev = 5;
               _context4.t0 = _context4["catch"](0);
               console.log(_context4.t0);
               return _context4.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, this, [[0, 6]]);
+      }, _callee4, this, [[0, 5]]);
     }));
 
     function _delete(_x4) {
@@ -31196,6 +31186,208 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return invite;
+    }()
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
+});__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Edit_vue_vue_type_template_id_d09826a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Edit.vue?vue&type=template&id=d09826a0& */ "./resources/js/views/projects/Edit.vue?vue&type=template&id=d09826a0&");
+/* harmony import */ var _Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Edit.vue?vue&type=script&lang=js& */ "./resources/js/views/projects/Edit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Edit_vue_vue_type_template_id_d09826a0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Edit_vue_vue_type_template_id_d09826a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/projects/Edit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_template_id_d09826a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Edit.vue?vue&type=template&id=d09826a0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/projects/Edit.vue?vue&type=template&id=d09826a0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_template_id_d09826a0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_template_id_d09826a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      staticClass:
+        "lg:w-1/2 lg:mx-auto bg-white p-6 md:py-12 md:px-12 md:px-16 rounded shadow mt-6",
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+        }
+      }
+    },
+    [
+      _c("h1", { staticClass: "text-2xl font-normal mb-10 text-center" }, [
+        _vm._v("\n        Edit Project\n    ")
+      ]),
+      _vm._v(" "),
+      _c("app-form", {
+        attrs: { buttonText: "Edit Project", project: _vm.project },
+        on: { submitted: _vm.submit }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Edit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/projects/Edit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_projects_Form_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/projects/Form.vue */ "./resources/js/components/projects/Form.vue");
+/* harmony import */ var _api_project__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/project */ "./resources/js/api/project.js");
+
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'project-edit',
+  components: {
+    AppForm: _components_projects_Form_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  mounted: function mounted() {
+    this.getProject();
+  },
+  data: function data() {
+    return {
+      project: []
+    };
+  },
+  methods: {
+    getProject: function () {
+      var _getProject = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var data, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                data = _objectSpread({
+                  token: this.user.token
+                }, this.$route.params);
+                _context.next = 4;
+                return _api_project__WEBPACK_IMPORTED_MODULE_3__["default"].get(data);
+
+              case 4:
+                response = _context.sent;
+                this.project = response.data;
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                // console.log(error);
+                this.handleError(_context.t0);
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 8]]);
+      }));
+
+      function getProject() {
+        return _getProject.apply(this, arguments);
+      }
+
+      return getProject;
+    }(),
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(project) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return _api_project__WEBPACK_IMPORTED_MODULE_3__["default"].update(_objectSpread({
+                  token: this.user.token
+                }, project));
+
+              case 3:
+                this.$toast.success('Project updated!', '', this.notificationSystem.options.success);
+                this.$router.push({
+                  name: 'view',
+                  params: {
+                    id: this.project.id
+                  }
+                });
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                // console.log(error);
+                this.handleError(_context2.t0);
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 7]]);
+      }));
+
+      function submit(_x) {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
     }()
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))

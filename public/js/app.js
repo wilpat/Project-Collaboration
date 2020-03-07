@@ -45603,11 +45603,6 @@ var headers = {
   'Accept': 'application/json'
 };
 var UserEndpoints = {
-  setToken: function setToken(token) {
-    headers.Authorization = "Bearer ".concat(token);
-    return true;
-  },
-
   /**
    * Routes
    */
@@ -45692,22 +45687,21 @@ var UserEndpoints = {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
-              UserEndpoints.setToken(dargs.token);
               response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.logout_url + '?token=' + dargs.token);
               return _context3.abrupt("return", response);
 
-            case 6:
-              _context3.prev = 6;
+            case 5:
+              _context3.prev = 5;
               _context3.t0 = _context3["catch"](0);
               console.log(_context3.t0);
               return _context3.abrupt("return", false);
 
-            case 10:
+            case 9:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[0, 6]]);
+      }, _callee3, this, [[0, 5]]);
     }));
 
     function logout(_x3) {
@@ -45864,10 +45858,14 @@ var blackAxios = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: API,
   timeout: 30000
 });
+blackAxios.interceptors.request.use(function (config) {
+  config.headers.Authorization = "Bearer ".concat(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"].state.user.user.token); // console.log('Sent data: ', config);
+
+  return config;
+});
 blackAxios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  // console.log(error.response);
   if (error.message !== 'Network Error') {
     if (error.response.status == 401) {
       _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push({
@@ -46094,6 +46092,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       name: 'view',
       component: function component() {
         return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/projects/View.vue */ "./resources/js/views/projects/View.vue"));
+      }
+    }, {
+      path: 'edit/:id',
+      name: 'edit_project',
+      component: function component() {
+        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/projects/Edit.vue */ "./resources/js/views/projects/Edit.vue"));
       }
     }]
   }, {

@@ -4,11 +4,6 @@ const headers = {
     'Accept': 'application/json'
 }
 const ProjectEndpoints =  {
-    setToken (token) {
-        headers.authorization = `Bearer ${token}`
-        return true
-    },
-
     /**
      * Routes
      */
@@ -18,7 +13,6 @@ const ProjectEndpoints =  {
 
     async all (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
         const response = blackAxios.get(this.project, {
             headers
         })
@@ -31,7 +25,6 @@ const ProjectEndpoints =  {
 
     async create (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
         delete dargs.token;
         const response = blackAxios.post(this.project, dargs, {
             headers
@@ -45,7 +38,6 @@ const ProjectEndpoints =  {
 
     async get (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
         const response = blackAxios.get(this.project + '/' + dargs.id, {
             headers
         })
@@ -58,7 +50,6 @@ const ProjectEndpoints =  {
 
     async delete (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token)
         const response = blackAxios.post(this.project+ '/' + dargs.id,{_method: 'delete'}, {
             headers
         })
@@ -69,13 +60,13 @@ const ProjectEndpoints =  {
         }
     },
 
-    async addNote (dargs) {
+    async update (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token);
         delete dargs.user;
         delete dargs.users;
         delete dargs.tasks;
         delete dargs.token;
+        // console.log('Headers: ',headers)
         const response = blackAxios.post(this.project+ '/' + dargs.id, {_method: 'patch', ...dargs}, {
             headers
         })
@@ -88,7 +79,6 @@ const ProjectEndpoints =  {
 
     async inviteUser (dargs) {
         try {
-        ProjectEndpoints.setToken(dargs.token);
         const response = blackAxios.post(this.project+ '/' + dargs.project_id +'/invitations', {email:dargs.email}, {
             headers
         })

@@ -4,11 +4,6 @@ const headers = {
     'Accept': 'application/json'
 }
 const UserEndpoints =  {
-    setToken (token) {
-        headers.Authorization = `Bearer ${token}`
-        return true
-    },
-
     /**
      * Routes
      */
@@ -43,7 +38,6 @@ const UserEndpoints =  {
 
     async logout (dargs) {
         try {
-            UserEndpoints.setToken(dargs.token);
             const response = blackAxios.post(this.logout_url+'?token='+dargs.token)
             return response
         } catch (e) {

@@ -52,8 +52,8 @@ export default {
             description: 'Text in the submission button'
         },
         project: {
-            type: Object,
-            description: 'Project to be worked',
+            // type: Object,
+            description: 'Project to be worked on',
             default:  () => {return {
                 title: '',
                 description: '',

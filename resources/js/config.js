@@ -18,10 +18,15 @@ const blackAxios = axios.create({
   timeout: 30000
 })
 
+blackAxios.interceptors.request.use(function (config) {
+  config.headers.Authorization =  `Bearer ${store.state.user.user.token}`;
+  // console.log('Sent data: ', config);
+  return config;
+});
+
 blackAxios.interceptors.response.use(response => {
   return response
 }, error => {
-  // console.log(error.response);
   if(error.message !== 'Network Error'){
     if (error.response.status == 401) {
       router.push({name: 'login', query: { redirect: router.fullPath }})
