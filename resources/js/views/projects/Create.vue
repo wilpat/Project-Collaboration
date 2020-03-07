@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-normal mb-10 text-center">
             Let's start something new
         </h1>
-        <app-form :buttonText="'Create Project'" @submitted="submit"></app-form>
+        <app-form :buttonText="'Create Project'" @submitted="submit" :errors="errors"></app-form>
         
     </form>
 </template>
@@ -23,7 +23,8 @@ export default {
     },
     data () {
         return {
-            project: []
+            project: {},
+            errors: {}
         }
     },
     methods: {
@@ -35,6 +36,9 @@ export default {
             } catch (error) {
                 // console.log(error);
                 this.handleError(error);
+                if(error.message !== 'Network Error'){
+                    this.errors = error.response.data.errors;
+                }
             }
         }
     },

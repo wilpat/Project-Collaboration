@@ -16,7 +16,7 @@ export default {
     },
     computed: {
         username() {
-            return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+            return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
         }
     }
 }

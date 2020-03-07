@@ -14,21 +14,32 @@
                     required 
                     >
             </div>
+            <template v-if="errors.title">
+                <p class="text-red text-xs italic my-2" role="alert" v-for="(error, index) in errors.title" :key="index">
+                    <strong>{{ error }}</strong>
+                </p>
+            </template>
         </div>
 
 
         <div class="field">
-        <label class="description">Description:</label>
-        <div class="control">
-            <textarea 
-            class="textarea bg-transparent border border-grey-light rounded p-2 text-ws w-full"
-            placeholder=""
-            name="description"
-            style="min-height: 200px"
-            v-model="project.description"
-            required></textarea>
+            <label class="description">Description:</label>
+            <div class="control">
+                <textarea 
+                class="textarea bg-transparent border border-grey-light rounded p-2 text-ws w-full"
+                placeholder=""
+                name="description"
+                style="min-height: 200px"
+                v-model="project.description"
+                required></textarea>
+            </div>
+            <template v-if="errors.description">
+                <p class="text-red text-xs italic my-2" role="alert" v-for="(error, index) in errors.description" :key="index">
+                    <strong>{{ error }}</strong>
+                </p>
+            </template>
         </div>
-        </div>
+        
 
         <div class="field">
             <div class="control flex justify-between">
@@ -37,9 +48,6 @@
             </div>
         </div>
 
-        <div class="field mt-6" v-if="errors.length">
-                <li class="text-sm text-red" v-for="(error, index) in errors" :key="index">{{ error }}</li>
-        </div>
     </div>
 </template>
 
@@ -54,12 +62,17 @@ export default {
         project: {
             // type: Object,
             description: 'Project to be worked on',
-            default:  () => {return {
-                title: '',
-                description: '',
-                id: ''
+            default:  () => {
+                return {
+                    title: '',
+                    description: '',
+                    id: ''
+                }
             }
-            }
+        },
+        errors: {
+            type: Object,
+            description: 'Errors on submission'
         }
     },
     mounted () {
@@ -67,7 +80,7 @@ export default {
     },
     data() {
         return {
-            errors: [],
+            
         }
     }
 }

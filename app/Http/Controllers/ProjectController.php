@@ -69,10 +69,10 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show(Project $project, Request $request)
     {   
         $this->authorize('update', $project);
-        return $project->with('tasks','users','user','activities.user', 'activities.subject')->get()[0];
+        return $project->load('tasks','users','user','activities.user', 'activities.subject');
     }
 
     /**

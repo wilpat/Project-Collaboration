@@ -100,6 +100,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Form',
   props: {
@@ -117,13 +125,15 @@ __webpack_require__.r(__webpack_exports__);
           id: ''
         };
       }
+    },
+    errors: {
+      type: Object,
+      description: 'Errors on submission'
     }
   },
   mounted: function mounted() {},
   data: function data() {
-    return {
-      errors: []
-    };
+    return {};
   }
 });
 
@@ -336,7 +346,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     username: function username() {
-      return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+      return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
     }
   }
 });
@@ -369,8 +379,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     username: function username() {
-      // console.log(this.activity.user_id, this.userId)
-      return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+      return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
     }
   }
 });
@@ -405,7 +414,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     username: function username() {
       // console.log(this.activity.user_id, this.userId)
-      return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+      return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
     }
   }
 });
@@ -438,7 +447,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     username: function username() {
-      return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+      return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
     }
   }
 });
@@ -474,8 +483,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     username: function username() {
-      // console.log(this.activity.user_id, this.userId)
-      return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+      return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
     }
   }
 });
@@ -508,7 +516,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     username: function username() {
-      return this.activity.user_id === this.userId ? 'You' : this.activity.user.name;
+      return parseInt(this.activity.user_id) === this.userId ? 'You' : this.activity.user.name;
     }
   }
 });
@@ -1013,7 +1021,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      project: []
+      project: {},
+      errors: {}
     };
   },
   methods: {
@@ -1043,7 +1052,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-                _context.next = 11;
+                _context.next = 12;
                 break;
 
               case 8:
@@ -1053,7 +1062,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 // console.log(error);
                 _this.handleError(_context.t0);
 
-              case 11:
+                if (_context.t0.message !== 'Network Error') {
+                  _this.errors = _context.t0.response.data.errors;
+                }
+
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -1878,73 +1891,114 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "field mb-6" }, [
-      _c(
-        "label",
-        { staticClass: "label text-sm mb-2 block", attrs: { title: "title" } },
-        [_vm._v("Title:")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "control" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.project.title,
-              expression: "project.title"
-            }
-          ],
-          staticClass:
-            "input bg-transparent border border-grey-light rounded p-2 text-ws w-full",
-          attrs: {
-            type: "text",
-            placeholder: "My next awesome project",
-            name: "title",
-            required: ""
+    _c(
+      "div",
+      { staticClass: "field mb-6" },
+      [
+        _c(
+          "label",
+          {
+            staticClass: "label text-sm mb-2 block",
+            attrs: { title: "title" }
           },
-          domProps: { value: _vm.project.title },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+          [_vm._v("Title:")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "control" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.title,
+                expression: "project.title"
               }
-              _vm.$set(_vm.project, "title", $event.target.value)
+            ],
+            staticClass:
+              "input bg-transparent border border-grey-light rounded p-2 text-ws w-full",
+            attrs: {
+              type: "text",
+              placeholder: "My next awesome project",
+              name: "title",
+              required: ""
+            },
+            domProps: { value: _vm.project.title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.project, "title", $event.target.value)
+              }
             }
-          }
-        })
-      ])
-    ]),
+          })
+        ]),
+        _vm._v(" "),
+        _vm.errors.title
+          ? _vm._l(_vm.errors.title, function(error, index) {
+              return _c(
+                "p",
+                {
+                  key: index,
+                  staticClass: "text-red text-xs italic my-2",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(error))])]
+              )
+            })
+          : _vm._e()
+      ],
+      2
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "field" }, [
-      _c("label", { staticClass: "description" }, [_vm._v("Description:")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "control" }, [
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.project.description,
-              expression: "project.description"
-            }
-          ],
-          staticClass:
-            "textarea bg-transparent border border-grey-light rounded p-2 text-ws w-full",
-          staticStyle: { "min-height": "200px" },
-          attrs: { placeholder: "", name: "description", required: "" },
-          domProps: { value: _vm.project.description },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+    _c(
+      "div",
+      { staticClass: "field" },
+      [
+        _c("label", { staticClass: "description" }, [_vm._v("Description:")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "control" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.description,
+                expression: "project.description"
               }
-              _vm.$set(_vm.project, "description", $event.target.value)
+            ],
+            staticClass:
+              "textarea bg-transparent border border-grey-light rounded p-2 text-ws w-full",
+            staticStyle: { "min-height": "200px" },
+            attrs: { placeholder: "", name: "description", required: "" },
+            domProps: { value: _vm.project.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.project, "description", $event.target.value)
+              }
             }
-          }
-        })
-      ])
-    ]),
+          })
+        ]),
+        _vm._v(" "),
+        _vm.errors.description
+          ? _vm._l(_vm.errors.description, function(error, index) {
+              return _c(
+                "p",
+                {
+                  key: index,
+                  staticClass: "text-red text-xs italic my-2",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(error))])]
+              )
+            })
+          : _vm._e()
+      ],
+      2
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "field" }, [
       _c(
@@ -1975,20 +2029,7 @@ var render = function() {
         ],
         1
       )
-    ]),
-    _vm._v(" "),
-    _vm.errors.length
-      ? _c(
-          "div",
-          { staticClass: "field mt-6" },
-          _vm._l(_vm.errors, function(error, index) {
-            return _c("li", { key: index, staticClass: "text-sm text-red" }, [
-              _vm._v(_vm._s(error))
-            ])
-          }),
-          0
-        )
-      : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = []
@@ -2977,7 +3018,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("app-form", {
-        attrs: { buttonText: "Create Project" },
+        attrs: { buttonText: "Create Project", errors: _vm.errors },
         on: { submitted: _vm.submit }
       })
     ],
