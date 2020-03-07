@@ -3799,7 +3799,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
+                this.handleError(_context.t0); // console.log(error);
 
               case 11:
               case "end":
@@ -45868,13 +45868,15 @@ blackAxios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   // console.log(error.response);
-  if (error.response.status == 401) {
-    _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push({
-      name: 'login',
-      query: {
-        redirect: _routes__WEBPACK_IMPORTED_MODULE_1__["default"].fullPath
-      }
-    });
+  if (error.message !== 'Network Error') {
+    if (error.response.status == 401) {
+      _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+        name: 'login',
+        query: {
+          redirect: _routes__WEBPACK_IMPORTED_MODULE_1__["default"].fullPath
+        }
+      });
+    }
   }
 
   return Promise.reject(error);
@@ -46034,8 +46036,10 @@ var crypto = __webpack_require__(/*! crypto */ "./node_modules/crypto-browserify
       // console.log(error);
       if (error.message === 'Network Error') {
         this.$toast.error('Connection not established, please check your internet connection', '', this.notificationSystem.options.error);
-      } else if (error.response.status === 401 || error.response.status === 422) {
+      } else if (error.response.status === 401) {
         this.$toast.error(customMessage ? customMessage : 'You have been logged out.', '', this.notificationSystem.options.error);
+      } else if (error.response.status === 422) {
+        this.$toast.error(customMessage ? customMessage : 'Invalid data given.', '', this.notificationSystem.options.error);
       } else {
         this.$toast.error(error.message, '', this.notificationSystem.options.error);
       }

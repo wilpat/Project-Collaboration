@@ -31044,11 +31044,26 @@ var render = function() {
           "button",
           {
             staticClass: "text-xs button",
-            attrs: { type: "submit", disabled: _vm.inviting }
+            attrs: { type: "submit", disabled: _vm.working }
           },
           [_vm._v("\n            " + _vm._s(_vm.inviteText) + "\n        ")]
-        )
-      ]
+        ),
+        _vm._v(" "),
+        _vm.errors.email
+          ? _vm._l(_vm.errors.email, function(error, index) {
+              return _c(
+                "span",
+                {
+                  key: index,
+                  staticClass: "text-red text-xs italic",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(error))])]
+              )
+            })
+          : _vm._e()
+      ],
+      2
     )
   ])
 }
@@ -31103,6 +31118,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -31115,8 +31135,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       email: '',
-      inviting: false,
-      inviteText: 'Invite'
+      working: false,
+      inviteText: 'Invite',
+      errors: {}
     };
   },
   methods: {
@@ -31129,33 +31150,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
+                this.inviteText = 'Please wait.';
+                this.working = true;
+                _context.prev = 2;
                 data = {
                   token: this.user.token,
                   email: this.email,
                   project_id: this.project.id
                 };
-                _context.next = 4;
+                _context.next = 6;
                 return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].inviteUser(data);
 
-              case 4:
+              case 6:
                 response = _context.sent;
+                this.inviteText = 'Invite';
+                this.working = false;
                 this.$emit('invited', response.data);
                 this.email = '';
-                _context.next = 12;
+                _context.next = 19;
                 break;
 
-              case 9:
-                _context.prev = 9;
-                _context.t0 = _context["catch"](0);
-                this.handleError(_context.t0); // console.log(error);
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](2);
+                // console.log(error.message);
+                this.inviteText = 'Invite';
+                this.working = false;
 
-              case 12:
+                if (_context.t0.message !== 'Network Error') {
+                  this.errors = _context.t0.response.data.errors;
+                }
+
+                this.handleError(_context.t0);
+
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 9]]);
+        }, _callee, this, [[2, 13]]);
       }));
 
       function invite() {
@@ -32064,13 +32097,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                this.buttonText = 'Please wait...';
                 this.working = true;
-                _context.prev = 1;
-                _context.next = 4;
+                _context.prev = 2;
+                _context.next = 5;
                 return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].register(this.credentials);
 
-              case 4:
+              case 5:
                 response = _context.sent;
+                this.buttonText = 'Redirecting...';
                 this.working = false; // console.log(response)
 
                 user = this.cleanObject(response.data.user);
@@ -32080,23 +32115,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.clearUserError();
                 this.$toast.success('Registration successful.', '', this.notificationSystem.options.success);
                 this.$router.push('/projects');
-                _context.next = 20;
+                _context.next = 23;
                 break;
 
-              case 15:
-                _context.prev = 15;
-                _context.t0 = _context["catch"](1);
+              case 17:
+                _context.prev = 17;
+                _context.t0 = _context["catch"](2);
                 // console.log(error.response)
+                this.buttonText = 'Register.';
                 this.working = false;
-                this.errors = _context.t0.response.data.errors;
-                this.handleError(_context.t0, "Invalid data format.");
 
-              case 20:
+                if (_context.t0.message !== 'Network Error') {
+                  this.errors = _context.t0.response.data.errors;
+                }
+
+                this.handleError(_context.t0);
+
+              case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 15]]);
+        }, _callee, this, [[2, 17]]);
       }));
 
       function register() {

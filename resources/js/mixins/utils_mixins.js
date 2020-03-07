@@ -40,8 +40,10 @@ export default {
             // console.log(error);
             if (error.message === 'Network Error') {
               this.$toast.error('Connection not established, please check your internet connection', '', this.notificationSystem.options.error)
-            } else if(error.response.status === 401 || error.response.status === 422 ){
+            } else if(error.response.status === 401 ){
               this.$toast.error(customMessage ? customMessage : 'You have been logged out.', '', this.notificationSystem.options.error)
+            }else if(error.response.status === 422 ){
+              this.$toast.error(customMessage ? customMessage : 'Invalid data given.', '', this.notificationSystem.options.error)
             }else {
                 this.$toast.error(error.message, '', this.notificationSystem.options.error)
             }

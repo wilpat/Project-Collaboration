@@ -132,9 +132,11 @@ export default {
     //   ...mapActions('user', ['clearUserError', 'addUser']),
         ...mapActions('user', ['addUser', 'clearUserError']),
         async register(){
+            this.buttonText= 'Please wait...';
             this.working = true;
             try {
                 let response = await userApi.register(this.credentials);
+                this.buttonText= 'Redirecting...';
                 this.working = false;
                 // console.log(response)
                 let user = this.cleanObject(response.data.user);
@@ -146,9 +148,12 @@ export default {
                 this.$router.push('/projects')
             } catch (error) {
                 // console.log(error.response)
+                this.buttonText= 'Register.';
                 this.working = false;
-                this.errors = error.response.data.errors;
-                this.handleError(error, "Invalid data format.");
+                if(error.message !== 'Network Error'){
+                    this.errors = error.response.data.errors;
+                }
+                this.handleError(error);
             }
         }
     }

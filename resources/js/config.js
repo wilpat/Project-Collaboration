@@ -22,9 +22,11 @@ blackAxios.interceptors.response.use(response => {
   return response
 }, error => {
   // console.log(error.response);
-  if (error.response.status == 401) {
-    router.push({name: 'login', query: { redirect: router.fullPath }})
-  } 
+  if(error.message !== 'Network Error'){
+    if (error.response.status == 401) {
+      router.push({name: 'login', query: { redirect: router.fullPath }})
+    }
+  }
   return Promise.reject(error);
 })
 

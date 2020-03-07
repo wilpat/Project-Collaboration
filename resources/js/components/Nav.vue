@@ -60,7 +60,8 @@
                     this.logoutUser();
                     this.$router.push({name:'login'});
                 } catch (error) {
-                    console.log(error);
+                    this.handleError(error);
+                    // console.log(error);
                 }
             }
         },
