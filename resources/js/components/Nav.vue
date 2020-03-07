@@ -62,14 +62,16 @@
         methods: {
             ...mapActions('user', ['clearUserError', 'logoutUser']),
             async logout() {
+                let loader = this.$loading.show();
                 try {
                     let response = await userApi.logout({token: this.user.token});
+                    loader.hide()
                     // console.log(response);
                     this.logoutUser();
                     this.$router.push({name:'login'});
                 } catch (error) {
-                    this.handleError(error);
-                    console.log(error);
+                    this.handleError(error, '', loader);
+                    // console.log(error);
                 }
             }
         },
