@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-normal mb-10 text-center">
             Edit Project
         </h1>
-        <app-form :buttonText="'Edit Project'" @submitted="submit" :project="project"></app-form>
+        <app-form :buttonText="'Edit Project'" @submitted="submit" :project="project" :errors="errors"></app-form>
         
     </form>
 </template>
@@ -26,31 +26,39 @@ export default {
     },
     data () {
         return {
-            project: []
+            project: {},
+            errors: {}
         }
     },
     methods: {
         async getProject() {
+            let loader = this.$loading.show();
             try {
                 let data = {
                     token:this.user.token,
                     ...this.$route.params
                 }
                 let response = await projectApi.get(data);
+                loader.hide();
                 this.project = response.data;
             } catch (error) {
                 // console.log(error);
-                this.handleError(error);
+                this.handleError(error, '', loader);
             }
         },
         async submit (project){
+            let loader = this.$loading.show();
             try {
                 await projectApi.update({token:this.user.token, ...project});
+                loader.hide();
                 this.$toast.success('Project updated!', '', this.notificationSystem.options.success);
                 this.$router.push({name:'view', params:{id: this.project.id}});
             } catch (error) {
                 // console.log(error);
-                this.handleError(error);
+                this.handleError(error, '', loader);
+                if(error.message !== 'Network Error'){
+                    this.errors = error.response.data.errors;
+                }
             }
         }
     },

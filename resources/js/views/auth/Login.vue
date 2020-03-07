@@ -111,13 +111,14 @@ export default {
         async login() {
             this.loginText='Please wait...';
             this.working =true;
+            let loader = this.$loading.show();
             try {
                 let response = await userApi.login(this.credentials);
+                loader.hide();
                 this.working = false;
                 let user = this.cleanObject(response.data.user);
                 user.token = response.data.access_token;
-                this.addUser(user)
-                this.clearUserError()
+                this.addUser(user);
                 const destination = this.$route.query.redirect;
                 this.loginText='Redirecting...';
                 this.$toast.success('Login Successful.', 'OK', this.notificationSystem.options.error)
@@ -131,7 +132,7 @@ export default {
                 this.working = false;
                 this.loginText='Login';
                 // console.log(error.response);
-                this.handleError(error, 'Invalid credentials.');
+                this.handleError(error, 'Invalid credentials.', loader);
             }
         }
     }

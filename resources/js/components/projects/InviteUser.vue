@@ -41,6 +41,7 @@
         },
         methods: {
             async invite() {
+                let loader = this.$loading.show();
                 this.inviteText = 'Please wait.';
                 this.working = true;
                 try {
@@ -50,6 +51,7 @@
                         project_id: this.project.id
                     }
                     let response = await projectApi.inviteUser(data)
+                    loader.hide();
                     this.inviteText = 'Invite';
                     this.working = false;
                     this.$emit('invited', response.data);
@@ -61,7 +63,7 @@
                     if(error.message !== 'Network Error'){
                         this.errors = error.response.data.errors;
                     }
-                    this.handleError(error);
+                    this.handleError(error,'',loader);
                 }
             }
         },

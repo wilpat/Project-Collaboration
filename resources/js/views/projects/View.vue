@@ -73,14 +73,14 @@
 
                     <card :project='project' @deleteProject="deleteProject"></card>
                     <activities-card :activities="activities" :userId="user.id"></activities-card>
-                    <invite-user v-if="project.user_id === user.id" :project="project" @invited="invited"></invite-user>
+                    <invite-user v-if="project.user_id == user.id" :project="project" @invited="invited"></invite-user>
 
                 </div>
             </div>
         </main>
          
     </div>
-    <div v-else>
+    <div v-else-if="!project.id && !working">
         <div class="flex flex-col w-full justify-center mt-12 text-center">
             <p class="text-3xl">This project does not exist</p>
             <p class="text-grey text-sm font-normal mt-8">
@@ -112,25 +112,31 @@ export default {
         return {
             project:[],
             newTask: '',
-            addingNote: false
+            addingNote: false,
+            working: true
         }
     },
     methods: {
         async getProject() {
+            let loader = this.$loading.show()
             try {
                 let data = {
                     token:this.user.token,
                     ...this.$route.params
                 }
                 let response = await projectApi.get(data);
+                loader.hide();
+                this.working = false;
                 this.project = response.data;
             } catch (error) {
                 // console.log(error);
-                this.handleError(error);
+                this.working = false;
+                this.handleError(error, '', loader);
             }
         },
 
         async addTask(body) {
+            let loader = this.$loading.show();
             try {
                 let data = {
                     token:this.user.token,
@@ -138,16 +144,18 @@ export default {
                     ...this.$route.params
                 }
                 let response = await taskApi.create(data);
+                loader.hide();
                 this.$toast.success('Task added!', '', this.notificationSystem.options.success);
                 this.getProject();
                 this.newTask ='';
             } catch (error) {
-                this.handleError(error);
+                this.handleError(error, '', loader);
                 // console.log(error);
             }
         },
 
         async updateTask(task) {
+            let loader = this.$loading.show();
             try {
 
                 let data = {
@@ -155,15 +163,17 @@ export default {
                     ...task
                 }
                 await taskApi.update(data);
+                loader.hide();
                 this.$toast.success('Task updated!', '', this.notificationSystem.options.success);
 
             } catch (error) {
-                this.handleError(error);
+                this.handleError(error, '', loader);
                 // console.log(error);
             }
         },
 
         async addNote() {
+            let loader = this.$loading.show();
             this.addingNote = true;
             try {
                 let data = {
@@ -171,27 +181,30 @@ export default {
                     ...this.project
                 }
                 let response = await projectApi.update(data);
+                loader.hide();
                 this.addingNote = false;
                 this.$toast.success('Note updated!', '', this.notificationSystem.options.success);
                 
             } catch (error) {
-                this.handleError(error);
-                this.addingNote = false;
                 // console.log(error);
+                this.addingNote = false;
+                this.handleError(error,'',loader);
             }
         },
 
         async deleteProject(id) {
+            let loader = this.$loading.show();
             try {
                 let data = {
                     token:this.user.token,
                     id
                 }
                 await projectApi.delete(data);
+                loader.hide();
                 this.$toast.warning(`${this.project.title.slice(0,15)} deleted.`, '', this.notificationSystem.options.warning);
                 this.$router.push({name:'projects'})
             } catch (error) {
-                this.handleError(error);
+                this.handleError(error, '', loader);
                 // console.log(error);
             }
         },

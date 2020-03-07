@@ -36,7 +36,7 @@ export default {
             return `https://s.gravatar.com/avatar/${hash}?s=60`;
 
         },
-        handleError (error, customMessage='') {
+        handleError (error, customMessage='', loader) {
             // console.log(error);
             if (error.message === 'Network Error') {
               this.$toast.error('Connection not established, please check your internet connection', '', this.notificationSystem.options.error)
@@ -46,8 +46,13 @@ export default {
                 this.$toast.error(customMessage ? customMessage : 'Invalid data given.', '', this.notificationSystem.options.error)
             }else if(error.response.status === 404 ){
                 this.$toast.error(customMessage ? customMessage : 'Not found.', '', this.notificationSystem.options.error)
+            }else if(error.response.status === 403 ){
+                this.$toast.error(customMessage ? customMessage : 'You are unauthorized for this action.', '', this.notificationSystem.options.error)
             }else {
                 this.$toast.error(error.message, '', this.notificationSystem.options.error)
+            }
+            if (loader) {
+                loader.hide()
             }
         }
     }

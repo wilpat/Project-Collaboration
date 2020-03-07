@@ -29,13 +29,15 @@ export default {
     },
     methods: {
         async submit (project){
+            let loader = this.$loading.show();
             try {
                 let response = await projectApi.create({token:this.user.token, ...project});
+                loader.hide()
                 this.project = response.data;
                 this.$router.push({name:'view', params:{id: this.project.id}});
             } catch (error) {
                 // console.log(error);
-                this.handleError(error);
+                this.handleError(error,'', loader);
                 if(error.message !== 'Network Error'){
                     this.errors = error.response.data.errors;
                 }

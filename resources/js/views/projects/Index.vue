@@ -17,9 +17,9 @@
                     <card :project='project' @deleteProject="deleteProject"></card>
                 </div>
             </template>
-            <template v-else>
+            <template v-else-if="projects.length == 0 && !working">
                 <div class="flex flex-col w-full justify-center mt-12 text-center">
-                    <p class="text-3xl">No project at the moment.</p>
+                    <p class="text-3xl">{{ emptyMessage }}</p>
                 </div>
             </template>
            
@@ -38,7 +38,8 @@ export default {
     },
     data() {
         return {
-            projects: []
+            projects: [],
+            working: true
         }
     },
     components: {
@@ -46,12 +47,16 @@ export default {
     },
     methods: {
         async fetchProjects() {
+            let loader = this.$loading.show();
             try {
                 let response = await projectApi.all({token:this.user.token})
+                loader.hide();
+                this.working = false;
                 this.projects = response.data;
             } catch (error) {
-                this.handleError(error);
                 // console.log(error);
+                this.working = false;
+                this.handleError(error, '', loader);
             }
         },
         async deleteProject(id) {

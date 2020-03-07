@@ -134,8 +134,10 @@ export default {
         async register(){
             this.buttonText= 'Please wait...';
             this.working = true;
+            let loader = this.$loading.show();
             try {
                 let response = await userApi.register(this.credentials);
+                loader.hide();
                 this.buttonText= 'Redirecting...';
                 this.working = false;
                 // console.log(response)
@@ -152,7 +154,7 @@ export default {
                 if(error.message !== 'Network Error'){
                     this.errors = error.response.data.errors;
                 }
-                this.handleError(error);
+                this.handleError(error, '', loader);
             }
         }
     }
