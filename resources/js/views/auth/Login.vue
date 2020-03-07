@@ -117,7 +117,6 @@ export default {
                 let user = this.cleanObject(response.data.user);
                 user.token = response.data.access_token;
                 this.addUser(user)
-                userApi.setToken(user.token)
                 this.clearUserError()
                 const destination = this.$route.query.redirect;
                 this.loginText='Redirecting...';

@@ -18,7 +18,9 @@
                 </div>
             </template>
             <template v-else>
-                <li>No projects at the moment</li>
+                <div class="flex flex-col w-full justify-center mt-12 text-center">
+                    <p class="text-3xl">No project at the moment.</p>
+                </div>
             </template>
            
         </main>

@@ -41,6 +41,11 @@ const router = new VueRouter({
             component: AuthLayout,
             children: [
                 {
+                    path: '',
+                    name: 'home',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Home.vue'),
+                },
+                {
                     path: 'login',
                     name: 'login',
                     component: () => import(/* webpackChunkName: "demo" */ './views/auth/Login.vue'),

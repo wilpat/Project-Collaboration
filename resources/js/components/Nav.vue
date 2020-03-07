@@ -6,7 +6,7 @@
 
                 <div class="navbar-brand">
                     <h1>
-                        <a href="/" class="navbar-item">
+                        <router-link to="/" class="navbar-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="291" height="45" viewBox="0 0 291 45" class="text-default relative" style="top: 2px">
                                 <g fill="none" fill-rule="evenodd">
                                     <g class="fill-current">
@@ -19,23 +19,29 @@
                                     <path fill="#47D5Fa" d="M42.273 4C27.487 4 15.326 15.078 14.037 29.157c2.457-3.374 5.466-6.621 9.223-10.354a.738.738 0 0 1 1.029-.01c.286.273.29.722.01 1.001a169.806 169.806 0 0 0-2.688 2.732l-.175.184c-4.643 4.842-7.962 9.057-10.372 14.291a.702.702 0 0 0 .365.937.74.74 0 0 0 .963-.356 38.585 38.585 0 0 1 2.974-5.273c10.159-.253 19.406-5.757 24.252-14.515a.696.696 0 0 0-.016-.7.737.737 0 0 0-.625-.344h-2.694l4.83-2.689a.714.714 0 0 0 .328-.384A26.88 26.88 0 0 0 43 4.708.718.718 0 0 0 42.273 4z"></path>
                                 </g>
                             </svg>
-                        </a>
+                        </router-link>
                     </h1>
                 </div>
 
                 <div class="">
                     <div v-if="!user.id">
-                        <router-link class="navbar-item " :to="{name:'login'}">Login</router-link>
-                        <router-link class="navbar-item " :to="{name:'register'}">Register</router-link>
+                        <router-link class="navbar-item text-gray-800 no-underline" :to="{name:'login'}">Login</router-link>
+                        <router-link class="navbar-item text-gray-800 no-underline" :to="{name:'register'}">Register</router-link>
                     </div>
-                    <div v-else class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link" href="#">{{ user.name }}</a>
+                    <div v-else class="navbar-item has-dropdown is-hoverable flex">
+                        <button class="block h-8 w-8 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white">
+                            <img class="h-full w-full object-cover" :src="gravatar(user.email)" alt="Your avatar">
+                        </button>
+                        <div class="bg-white rounded-lg shadow-xl">
+                            <p class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-blue cursor-pointer" @click="logout()">Logout</p>
+                        </div>
+                        <!-- <a class="navbar-link" href="#">{{ user.name }}</a>
 
                         <div class="navbar-dropdown">
                             <p class="navbar-item cursor-pointer underline" @click="logout()">
                                 Logout
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- @endif -->
                 </div>
