@@ -78,7 +78,16 @@
                 </div>
             </div>
         </main>
-    </div> 
+         
+    </div>
+    <div v-else>
+        <div class="flex flex-col w-full justify-center mt-12 text-center">
+            <p class="text-3xl">This project does not exist</p>
+            <p class="text-grey text-sm font-normal mt-8">
+                <router-link  :to="{name:'projects'}" class="button">Back to my projects</router-link>
+            </p>
+        </div>
+    </div>
 </template>
 
 <script>

@@ -31,9 +31,6 @@ class TaskController extends Controller
     * @throws \Illuminate\Auth\Access\AuthorizationException
     */
     public function update(Project $project, Task $task){
-    	// if(auth()->user()->isNot($task->project->user)){
-    	// 	abort(403);
-    	// }
 
         $this->authorize('update', $task->project);
 

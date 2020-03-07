@@ -95,22 +95,9 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {   
-        // $this->authorize('update', $project); // This is a policy
-        /*if(auth()->user()->isNot($project->user)){
-            abort(403);
-        }*/
-        // dd(request()->all());
-        // $attributes = request(['notes']);
-        // $attributes = $this->validateProject();
-
-        // Now validation is done with the UpdateProjectRequest form request class
-        // $attributes = $request->validated();
-        // $project->update($attributes);
-
         // Now the update happens with the save method of the UpdateProjectRequest form request handler
         $request->save();
         return $project;
-        // return redirect($project->path());
     }
 
     /**

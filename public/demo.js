@@ -144,7 +144,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_project__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/project */ "./resources/js/api/project.js");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -192,32 +194,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    invite: function () {
-      var _invite = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    invite: function invite() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.inviteText = 'Please wait.';
-                this.working = true;
+                _this.inviteText = 'Please wait.';
+                _this.working = true;
                 _context.prev = 2;
                 data = {
-                  token: this.user.token,
-                  email: this.email,
-                  project_id: this.project.id
+                  token: _this.user.token,
+                  email: _this.email,
+                  project_id: _this.project.id
                 };
                 _context.next = 6;
                 return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].inviteUser(data);
 
               case 6:
                 response = _context.sent;
-                this.inviteText = 'Invite';
-                this.working = false;
-                this.$emit('invited', response.data);
-                this.email = '';
+                _this.inviteText = 'Invite';
+                _this.working = false;
+
+                _this.$emit('invited', response.data);
+
+                _this.email = '';
                 _context.next = 19;
                 break;
 
@@ -225,29 +229,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 13;
                 _context.t0 = _context["catch"](2);
                 // console.log(error.message);
-                this.inviteText = 'Invite';
-                this.working = false;
+                _this.inviteText = 'Invite';
+                _this.working = false;
 
                 if (_context.t0.message !== 'Network Error') {
-                  this.errors = _context.t0.response.data.errors;
+                  _this.errors = _context.t0.response.data.errors;
                 }
 
-                this.handleError(_context.t0);
+                _this.handleError(_context.t0);
 
               case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 13]]);
-      }));
-
-      function invite() {
-        return _invite.apply(this, arguments);
-      }
-
-      return invite;
-    }()
+        }, _callee, null, [[2, 13]]);
+      }))();
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
 });
@@ -527,7 +525,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -579,7 +579,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -689,36 +691,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])('user', ['clearUserError', 'addUser']), {
-    login: function () {
-      var _login = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    login: function login() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response, user, destination;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.loginText = 'Please wait...';
-                this.working = true;
+                _this.loginText = 'Please wait...';
+                _this.working = true;
                 _context.prev = 2;
                 _context.next = 5;
-                return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].login(this.credentials);
+                return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].login(_this.credentials);
 
               case 5:
                 response = _context.sent;
-                this.working = false;
-                user = this.cleanObject(response.data.user);
+                _this.working = false;
+                user = _this.cleanObject(response.data.user);
                 user.token = response.data.access_token;
-                this.addUser(user);
-                this.clearUserError();
-                destination = this.$route.query.redirect;
-                this.loginText = 'Redirecting...';
-                this.$toast.success('Login Successful.', 'OK', this.notificationSystem.options.error);
+
+                _this.addUser(user);
+
+                _this.clearUserError();
+
+                destination = _this.$route.query.redirect;
+                _this.loginText = 'Redirecting...';
+
+                _this.$toast.success('Login Successful.', 'OK', _this.notificationSystem.options.error);
 
                 if (typeof destination !== 'undefined') {
-                  this.$router.push(destination);
+                  _this.$router.push(destination);
                 } else {
-                  this.$router.push('/projects');
+                  _this.$router.push('/projects');
                 }
 
                 _context.next = 22;
@@ -727,25 +733,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 17:
                 _context.prev = 17;
                 _context.t0 = _context["catch"](2);
-                this.working = false;
-                this.loginText = 'Login'; // console.log(error.response);
+                _this.working = false;
+                _this.loginText = 'Login'; // console.log(error.response);
 
-                this.handleError(_context.t0, 'Invalid credentials.');
+                _this.handleError(_context.t0, 'Invalid credentials.');
 
               case 22:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 17]]);
-      }));
-
-      function login() {
-        return _login.apply(this, arguments);
-      }
-
-      return login;
-    }()
+        }, _callee, null, [[2, 17]]);
+      }))();
+    }
   })
 });
 
@@ -770,7 +770,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -902,33 +904,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])('user', ['addUser', 'clearUserError']), {
-    register: function () {
-      var _register = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    register: function register() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response, user;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.buttonText = 'Please wait...';
-                this.working = true;
+                _this.buttonText = 'Please wait...';
+                _this.working = true;
                 _context.prev = 2;
                 _context.next = 5;
-                return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].register(this.credentials);
+                return _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].register(_this.credentials);
 
               case 5:
                 response = _context.sent;
-                this.buttonText = 'Redirecting...';
-                this.working = false; // console.log(response)
+                _this.buttonText = 'Redirecting...';
+                _this.working = false; // console.log(response)
 
-                user = this.cleanObject(response.data.user);
+                user = _this.cleanObject(response.data.user);
                 user.token = response.data.access_token;
-                this.addUser(user);
+
+                _this.addUser(user);
+
                 _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(user.token);
-                this.clearUserError();
-                this.$toast.success('Registration successful.', '', this.notificationSystem.options.success);
-                this.$router.push('/projects');
+
+                _this.clearUserError();
+
+                _this.$toast.success('Registration successful.', '', _this.notificationSystem.options.success);
+
+                _this.$router.push('/projects');
+
                 _context.next = 23;
                 break;
 
@@ -936,29 +944,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _context.prev = 17;
                 _context.t0 = _context["catch"](2);
                 // console.log(error.response)
-                this.buttonText = 'Register.';
-                this.working = false;
+                _this.buttonText = 'Register.';
+                _this.working = false;
 
                 if (_context.t0.message !== 'Network Error') {
-                  this.errors = _context.t0.response.data.errors;
+                  _this.errors = _context.t0.response.data.errors;
                 }
 
-                this.handleError(_context.t0);
+                _this.handleError(_context.t0);
 
               case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 17]]);
-      }));
-
-      function register() {
-        return _register.apply(this, arguments);
-      }
-
-      return register;
-    }()
+        }, _callee, null, [[2, 17]]);
+      }))();
+    }
   })
 });
 
@@ -980,7 +982,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_project__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/project */ "./resources/js/api/project.js");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1015,10 +1019,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(project) {
+    submit: function submit(project) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -1027,41 +1031,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 0;
                 _context.next = 3;
                 return _api_project__WEBPACK_IMPORTED_MODULE_3__["default"].create(_objectSpread({
-                  token: this.user.token
+                  token: _this.user.token
                 }, project));
 
               case 3:
                 response = _context.sent;
-                this.project = response.data;
-                this.$router.push({
+                _this.project = response.data;
+
+                _this.$router.push({
                   name: 'view',
                   params: {
-                    id: this.project.id
+                    id: _this.project.id
                   }
                 });
+
                 _context.next = 11;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+
                 // console.log(error);
-                this.handleError(_context.t0);
+                _this.handleError(_context.t0);
 
               case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 8]]);
-      }));
-
-      function submit(_x) {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+        }, _callee, null, [[0, 8]]);
+      }))();
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
 });
@@ -1084,7 +1085,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_project__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/project */ "./resources/js/api/project.js");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1122,10 +1125,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    getProject: function () {
-      var _getProject = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    getProject: function getProject() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -1133,41 +1136,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 data = _objectSpread({
-                  token: this.user.token
-                }, this.$route.params);
+                  token: _this.user.token
+                }, _this.$route.params);
                 _context.next = 4;
                 return _api_project__WEBPACK_IMPORTED_MODULE_3__["default"].get(data);
 
               case 4:
                 response = _context.sent;
-                this.project = response.data;
+                _this.project = response.data;
                 _context.next = 11;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+
                 // console.log(error);
-                this.handleError(_context.t0);
+                _this.handleError(_context.t0);
 
               case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 8]]);
-      }));
+        }, _callee, null, [[0, 8]]);
+      }))();
+    },
+    submit: function submit(project) {
+      var _this2 = this;
 
-      function getProject() {
-        return _getProject.apply(this, arguments);
-      }
-
-      return getProject;
-    }(),
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(project) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1175,40 +1173,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.prev = 0;
                 _context2.next = 3;
                 return _api_project__WEBPACK_IMPORTED_MODULE_3__["default"].update(_objectSpread({
-                  token: this.user.token
+                  token: _this2.user.token
                 }, project));
 
               case 3:
-                this.$toast.success('Project updated!', '', this.notificationSystem.options.success);
-                this.$router.push({
+                _this2.$toast.success('Project updated!', '', _this2.notificationSystem.options.success);
+
+                _this2.$router.push({
                   name: 'view',
                   params: {
-                    id: this.project.id
+                    id: _this2.project.id
                   }
                 });
+
                 _context2.next = 10;
                 break;
 
               case 7:
                 _context2.prev = 7;
                 _context2.t0 = _context2["catch"](0);
+
                 // console.log(error);
-                this.handleError(_context2.t0);
+                _this2.handleError(_context2.t0);
 
               case 10:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 7]]);
-      }));
-
-      function submit(_x) {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
 });
@@ -1231,7 +1226,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_projects_Card_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/projects/Card.vue */ "./resources/js/components/projects/Card.vue");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1284,10 +1281,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Card: _components_projects_Card_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
-    fetchProjects: function () {
-      var _fetchProjects = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    fetchProjects: function fetchProjects() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -1296,38 +1293,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 0;
                 _context.next = 3;
                 return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].all({
-                  token: this.user.token
+                  token: _this.user.token
                 });
 
               case 3:
                 response = _context.sent;
-                this.projects = response.data;
+                _this.projects = response.data;
                 _context.next = 10;
                 break;
 
               case 7:
                 _context.prev = 7;
                 _context.t0 = _context["catch"](0);
-                this.handleError(_context.t0); // console.log(error);
+
+                _this.handleError(_context.t0); // console.log(error);
+
 
               case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 7]]);
-      }));
+        }, _callee, null, [[0, 7]]);
+      }))();
+    },
+    deleteProject: function deleteProject(id) {
+      var _this2 = this;
 
-      function fetchProjects() {
-        return _fetchProjects.apply(this, arguments);
-      }
-
-      return fetchProjects;
-    }(),
-    deleteProject: function () {
-      var _deleteProject = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -1335,7 +1328,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.prev = 0;
                 data = {
-                  token: this.user.token,
+                  token: _this2.user.token,
                   id: id
                 };
                 _context2.next = 4;
@@ -1343,32 +1336,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 response = _context2.sent;
+
                 // console.log(response);
-                this.$toast.warning("".concat(response.data.title.slice(0, 15), " project deleted."), '', this.notificationSystem.options.warning);
-                this.fetchProjects();
+                _this2.$toast.warning("".concat(response.data.title.slice(0, 15), " project deleted."), '', _this2.notificationSystem.options.warning);
+
+                _this2.fetchProjects();
+
                 _context2.next = 12;
                 break;
 
               case 9:
                 _context2.prev = 9;
                 _context2.t0 = _context2["catch"](0);
+
                 // console.log(error);
-                this.handleError(_context2.t0);
+                _this2.handleError(_context2.t0);
 
               case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 9]]);
-      }));
-
-      function deleteProject(_x) {
-        return _deleteProject.apply(this, arguments);
-      }
-
-      return deleteProject;
-    }()
+        }, _callee2, null, [[0, 9]]);
+      }))();
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['user']))
 });
@@ -1394,7 +1385,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_projects_InviteUser_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/projects/InviteUser.vue */ "./resources/js/components/projects/InviteUser.vue");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1402,6 +1395,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1509,10 +1511,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    getProject: function () {
-      var _getProject = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    getProject: function getProject() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -1520,41 +1522,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 data = _objectSpread({
-                  token: this.user.token
-                }, this.$route.params);
+                  token: _this.user.token
+                }, _this.$route.params);
                 _context.next = 4;
                 return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].get(data);
 
               case 4:
                 response = _context.sent;
-                this.project = response.data;
+                _this.project = response.data;
                 _context.next = 11;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+
                 // console.log(error);
-                this.handleError(_context.t0);
+                _this.handleError(_context.t0);
 
               case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 8]]);
-      }));
+        }, _callee, null, [[0, 8]]);
+      }))();
+    },
+    addTask: function addTask(body) {
+      var _this2 = this;
 
-      function getProject() {
-        return _getProject.apply(this, arguments);
-      }
-
-      return getProject;
-    }(),
-    addTask: function () {
-      var _addTask = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(body) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -1562,43 +1559,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.prev = 0;
                 data = _objectSpread({
-                  token: this.user.token,
-                  body: this.newTask
-                }, this.$route.params);
+                  token: _this2.user.token,
+                  body: _this2.newTask
+                }, _this2.$route.params);
                 _context2.next = 4;
                 return _api_task__WEBPACK_IMPORTED_MODULE_3__["default"].create(data);
 
               case 4:
                 response = _context2.sent;
-                this.$toast.success('Task added!', '', this.notificationSystem.options.success);
-                this.getProject();
-                this.newTask = '';
+
+                _this2.$toast.success('Task added!', '', _this2.notificationSystem.options.success);
+
+                _this2.getProject();
+
+                _this2.newTask = '';
                 _context2.next = 13;
                 break;
 
               case 10:
                 _context2.prev = 10;
                 _context2.t0 = _context2["catch"](0);
-                this.handleError(_context2.t0); // console.log(error);
+
+                _this2.handleError(_context2.t0); // console.log(error);
+
 
               case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 10]]);
-      }));
+        }, _callee2, null, [[0, 10]]);
+      }))();
+    },
+    updateTask: function updateTask(task) {
+      var _this3 = this;
 
-      function addTask(_x) {
-        return _addTask.apply(this, arguments);
-      }
-
-      return addTask;
-    }(),
-    updateTask: function () {
-      var _updateTask = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(task) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
@@ -1606,83 +1602,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.prev = 0;
                 data = _objectSpread({
-                  token: this.user.token
+                  token: _this3.user.token
                 }, task);
                 _context3.next = 4;
                 return _api_task__WEBPACK_IMPORTED_MODULE_3__["default"].update(data);
 
               case 4:
-                this.$toast.success('Task updated!', '', this.notificationSystem.options.success);
+                _this3.$toast.success('Task updated!', '', _this3.notificationSystem.options.success);
+
                 _context3.next = 10;
                 break;
 
               case 7:
                 _context3.prev = 7;
                 _context3.t0 = _context3["catch"](0);
-                this.handleError(_context3.t0); // console.log(error);
+
+                _this3.handleError(_context3.t0); // console.log(error);
+
 
               case 10:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[0, 7]]);
-      }));
+        }, _callee3, null, [[0, 7]]);
+      }))();
+    },
+    addNote: function addNote() {
+      var _this4 = this;
 
-      function updateTask(_x2) {
-        return _updateTask.apply(this, arguments);
-      }
-
-      return updateTask;
-    }(),
-    addNote: function () {
-      var _addNote = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var data, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                this.addingNote = true;
+                _this4.addingNote = true;
                 _context4.prev = 1;
                 data = _objectSpread({
-                  token: this.user.token
-                }, this.project);
+                  token: _this4.user.token
+                }, _this4.project);
                 _context4.next = 5;
                 return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"].update(data);
 
               case 5:
                 response = _context4.sent;
-                this.addingNote = false;
-                this.$toast.success('Note updated!', '', this.notificationSystem.options.success);
+                _this4.addingNote = false;
+
+                _this4.$toast.success('Note updated!', '', _this4.notificationSystem.options.success);
+
                 _context4.next = 14;
                 break;
 
               case 10:
                 _context4.prev = 10;
                 _context4.t0 = _context4["catch"](1);
-                this.handleError(_context4.t0);
-                this.addingNote = false; // console.log(error);
+
+                _this4.handleError(_context4.t0);
+
+                _this4.addingNote = false; // console.log(error);
 
               case 14:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[1, 10]]);
-      }));
+        }, _callee4, null, [[1, 10]]);
+      }))();
+    },
+    deleteProject: function deleteProject(id) {
+      var _this5 = this;
 
-      function addNote() {
-        return _addNote.apply(this, arguments);
-      }
-
-      return addNote;
-    }(),
-    deleteProject: function () {
-      var _deleteProject = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
@@ -1690,39 +1681,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.prev = 0;
                 data = {
-                  token: this.user.token,
+                  token: _this5.user.token,
                   id: id
                 };
                 _context5.next = 4;
                 return _api_project__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"](data);
 
               case 4:
-                this.$toast.warning("".concat(this.project.title.slice(0, 15), " deleted."), '', this.notificationSystem.options.warning);
-                this.$router.push({
+                _this5.$toast.warning("".concat(_this5.project.title.slice(0, 15), " deleted."), '', _this5.notificationSystem.options.warning);
+
+                _this5.$router.push({
                   name: 'projects'
                 });
+
                 _context5.next = 11;
                 break;
 
               case 8:
                 _context5.prev = 8;
                 _context5.t0 = _context5["catch"](0);
-                this.handleError(_context5.t0); // console.log(error);
+
+                _this5.handleError(_context5.t0); // console.log(error);
+
 
               case 11:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[0, 8]]);
-      }));
-
-      function deleteProject(_x3) {
-        return _deleteProject.apply(this, arguments);
-      }
-
-      return deleteProject;
-    }(),
+        }, _callee5, null, [[0, 8]]);
+      }))();
+    },
     invited: function invited(user) {
       this.project.users.push(user);
       this.$toast.success("".concat(user.name, " invited successfully."), '', this.notificationSystem.options.success);
@@ -2078,7 +2067,7 @@ var render = function() {
         _vm.errors.email
           ? _vm._l(_vm.errors.email, function(error, index) {
               return _c(
-                "span",
+                "p",
                 {
                   key: index,
                   staticClass: "text-red text-xs italic",
@@ -3453,7 +3442,35 @@ var render = function() {
           ])
         ])
       ])
-    : _vm._e()
+    : _c("div", [
+        _c(
+          "div",
+          {
+            staticClass: "flex flex-col w-full justify-center mt-12 text-center"
+          },
+          [
+            _c("p", { staticClass: "text-3xl" }, [
+              _vm._v("This project does not exist")
+            ]),
+            _vm._v(" "),
+            _c(
+              "p",
+              { staticClass: "text-grey text-sm font-normal mt-8" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "button",
+                    attrs: { to: { name: "projects" } }
+                  },
+                  [_vm._v("Back to my projects")]
+                )
+              ],
+              1
+            )
+          ]
+        )
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3476,7 +3493,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./resources/js/config.js");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3493,17 +3512,17 @@ var ProjectEndpoints = {
    * Routes
    */
   project: 'projects',
-  all: function () {
-    var _all = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(dargs) {
+  all: function all(dargs) {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.project, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(_this.project, {
                 headers: headers
               });
               return _context.abrupt("return", response);
@@ -3519,19 +3538,13 @@ var ProjectEndpoints = {
               return _context.stop();
           }
         }
-      }, _callee, this, [[0, 5]]);
-    }));
+      }, _callee, null, [[0, 5]]);
+    }))();
+  },
+  create: function create(dargs) {
+    var _this2 = this;
 
-    function all(_x) {
-      return _all.apply(this, arguments);
-    }
-
-    return all;
-  }(),
-  create: function () {
-    var _create = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
@@ -3539,7 +3552,7 @@ var ProjectEndpoints = {
             case 0:
               _context2.prev = 0;
               delete dargs.token;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project, dargs, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(_this2.project, dargs, {
                 headers: headers
               });
               return _context2.abrupt("return", response);
@@ -3555,26 +3568,20 @@ var ProjectEndpoints = {
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[0, 6]]);
-    }));
+      }, _callee2, null, [[0, 6]]);
+    }))();
+  },
+  get: function get(dargs) {
+    var _this3 = this;
 
-    function create(_x2) {
-      return _create.apply(this, arguments);
-    }
-
-    return create;
-  }(),
-  get: function () {
-    var _get = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.project + '/' + dargs.id, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(_this3.project + '/' + dargs.id, {
                 headers: headers
               });
               return _context3.abrupt("return", response);
@@ -3590,26 +3597,20 @@ var ProjectEndpoints = {
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[0, 5]]);
-    }));
+      }, _callee3, null, [[0, 5]]);
+    }))();
+  },
+  "delete": function _delete(dargs) {
+    var _this4 = this;
 
-    function get(_x3) {
-      return _get.apply(this, arguments);
-    }
-
-    return get;
-  }(),
-  "delete": function () {
-    var _delete2 = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.id, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(_this4.project + '/' + dargs.id, {
                 _method: 'delete'
               }, {
                 headers: headers
@@ -3627,19 +3628,13 @@ var ProjectEndpoints = {
               return _context4.stop();
           }
         }
-      }, _callee4, this, [[0, 5]]);
-    }));
+      }, _callee4, null, [[0, 5]]);
+    }))();
+  },
+  update: function update(dargs) {
+    var _this5 = this;
 
-    function _delete(_x4) {
-      return _delete2.apply(this, arguments);
-    }
-
-    return _delete;
-  }(),
-  update: function () {
-    var _update = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
@@ -3651,7 +3646,7 @@ var ProjectEndpoints = {
               delete dargs.tasks;
               delete dargs.token; // console.log('Headers: ',headers)
 
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.id, _objectSpread({
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(_this5.project + '/' + dargs.id, _objectSpread({
                 _method: 'patch'
               }, dargs), {
                 headers: headers
@@ -3669,26 +3664,20 @@ var ProjectEndpoints = {
               return _context5.stop();
           }
         }
-      }, _callee5, this, [[0, 9]]);
-    }));
+      }, _callee5, null, [[0, 9]]);
+    }))();
+  },
+  inviteUser: function inviteUser(dargs) {
+    var _this6 = this;
 
-    function update(_x5) {
-      return _update.apply(this, arguments);
-    }
-
-    return update;
-  }(),
-  inviteUser: function () {
-    var _inviteUser = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.project + '/' + dargs.project_id + '/invitations', {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(_this6.project + '/' + dargs.project_id + '/invitations', {
                 email: dargs.email
               }, {
                 headers: headers
@@ -3706,15 +3695,9 @@ var ProjectEndpoints = {
               return _context6.stop();
           }
         }
-      }, _callee6, this, [[0, 5]]);
-    }));
-
-    function inviteUser(_x6) {
-      return _inviteUser.apply(this, arguments);
-    }
-
-    return inviteUser;
-  }()
+      }, _callee6, null, [[0, 5]]);
+    }))();
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = (ProjectEndpoints);
 
@@ -3747,17 +3730,17 @@ var TaskEndpoints = {
    * Routes
    */
   task: 'tasks/',
-  all: function () {
-    var _all = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(dargs) {
+  all: function all(dargs) {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(this.task, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].get(_this.task, {
                 headers: headers
               });
               return _context.abrupt("return", response);
@@ -3773,19 +3756,13 @@ var TaskEndpoints = {
               return _context.stop();
           }
         }
-      }, _callee, this, [[0, 5]]);
-    }));
+      }, _callee, null, [[0, 5]]);
+    }))();
+  },
+  create: function create(dargs) {
+    var _this2 = this;
 
-    function all(_x) {
-      return _all.apply(this, arguments);
-    }
-
-    return all;
-  }(),
-  create: function () {
-    var _create = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
@@ -3793,7 +3770,7 @@ var TaskEndpoints = {
             case 0:
               _context2.prev = 0;
               delete dargs.token;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post("projects/".concat(dargs.id, "/").concat(this.task), dargs, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post("projects/".concat(dargs.id, "/").concat(_this2.task), dargs, {
                 headers: headers
               });
               return _context2.abrupt("return", response);
@@ -3809,19 +3786,13 @@ var TaskEndpoints = {
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[0, 6]]);
-    }));
+      }, _callee2, null, [[0, 6]]);
+    }))();
+  },
+  update: function update(dargs) {
+    var _this3 = this;
 
-    function create(_x2) {
-      return _create.apply(this, arguments);
-    }
-
-    return create;
-  }(),
-  update: function () {
-    var _update = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
@@ -3829,7 +3800,7 @@ var TaskEndpoints = {
             case 0:
               _context3.prev = 0;
               dargs._method = 'patch';
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post('projects/' + dargs.project_id + '/' + this.task + dargs.id, dargs, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post('projects/' + dargs.project_id + '/' + _this3.task + dargs.id, dargs, {
                 headers: headers
               });
               return _context3.abrupt("return", response);
@@ -3845,26 +3816,20 @@ var TaskEndpoints = {
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[0, 6]]);
-    }));
+      }, _callee3, null, [[0, 6]]);
+    }))();
+  },
+  "delete": function _delete(dargs) {
+    var _this4 = this;
 
-    function update(_x3) {
-      return _update.apply(this, arguments);
-    }
-
-    return update;
-  }(),
-  "delete": function () {
-    var _delete2 = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(dargs) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
-              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(this.task + dargs.id, {
+              response = _config__WEBPACK_IMPORTED_MODULE_1__["blackAxios"].post(_this4.task + dargs.id, {
                 _method: 'delete'
               }, {
                 headers: headers
@@ -3882,15 +3847,9 @@ var TaskEndpoints = {
               return _context4.stop();
           }
         }
-      }, _callee4, this, [[0, 5]]);
-    }));
-
-    function _delete(_x4) {
-      return _delete2.apply(this, arguments);
-    }
-
-    return _delete;
-  }()
+      }, _callee4, null, [[0, 5]]);
+    }))();
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = (TaskEndpoints);
 

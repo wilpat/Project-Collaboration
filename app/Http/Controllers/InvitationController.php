@@ -12,15 +12,8 @@ class InvitationController extends Controller
 {
     public function store(Project $project, InvitationRequest $request)
     {
-        // $this->authorize('manage', $project);
-        // request()->validate([
-        //     'email' => ['required','exists:users,email'] //Email must exist in the users table, specifically in the email column
-        // ],[
-        //     'email.exists' => 'Only emails with a collab account can be invited.'
-        // ]);
         $user = User::whereEmail(request('email'))->first();
         $project->invite($user);
         return $user;
     }
 }
-// Invite@gmail.com

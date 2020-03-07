@@ -13,9 +13,9 @@
             </button>
             <!-- @include('errors', ['bag' => 'invitations']) -->
             <template v-if="errors.email">
-                <span class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.email" :key="index">
+                <p class="text-red text-xs italic" role="alert" v-for="(error, index) in errors.email" :key="index">
                     <strong>{{ error }}</strong>
-                </span>
+                </p>
             </template>
         </form>
     </div>
