@@ -142,7 +142,6 @@ export default {
                 let user = this.cleanObject(response.data.user);
                 user.token = response.data.access_token;
                 this.addUser(user)
-                userApi.setToken(user.token)
                 this.clearUserError()
                 this.$toast.success('Registration successful.', '', this.notificationSystem.options.success)
                 this.$router.push('/projects')

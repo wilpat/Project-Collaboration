@@ -929,19 +929,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this.addUser(user);
 
-                _api_user__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(user.token);
-
                 _this.clearUserError();
 
                 _this.$toast.success('Registration successful.', '', _this.notificationSystem.options.success);
 
                 _this.$router.push('/projects');
 
-                _context.next = 23;
+                _context.next = 22;
                 break;
 
-              case 17:
-                _context.prev = 17;
+              case 16:
+                _context.prev = 16;
                 _context.t0 = _context["catch"](2);
                 // console.log(error.response)
                 _this.buttonText = 'Register.';
@@ -953,12 +951,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this.handleError(_context.t0);
 
-              case 23:
+              case 22:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 17]]);
+        }, _callee, null, [[2, 16]]);
       }))();
     }
   })

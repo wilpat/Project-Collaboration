@@ -56,7 +56,9 @@
     import { mapGetters, mapActions } from 'vuex';
     import userApi from '../api/user';
     export default {
-        
+        mounted() {
+            // this.logoutUser();
+        },
         methods: {
             ...mapActions('user', ['clearUserError', 'logoutUser']),
             async logout() {
@@ -67,7 +69,7 @@
                     this.$router.push({name:'login'});
                 } catch (error) {
                     this.handleError(error);
-                    // console.log(error);
+                    console.log(error);
                 }
             }
         },

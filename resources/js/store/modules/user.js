@@ -10,8 +10,10 @@ const state = {
       state.is_auth = true
     },
     'LOGOUT_USER' (state) {
+      // console.log('old state: ', state.user)
       state.user = {}
       state.is_auth = false
+      // console.log('new state: ', state.user)
     },
     'setUserError' (state, message) {
       state.error = message

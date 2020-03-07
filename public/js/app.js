@@ -3778,6 +3778,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {// this.logoutUser();
+  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('user', ['clearUserError', 'logoutUser']), {
     logout: function logout() {
       var _this = this;
@@ -3804,17 +3806,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   name: 'login'
                 });
 
-                _context.next = 11;
+                _context.next = 12;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
 
-                _this.handleError(_context.t0); // console.log(error);
+                _this.handleError(_context.t0);
 
+                console.log(_context.t0);
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -46180,8 +46183,9 @@ var mutations = {
     state.is_auth = true;
   },
   'LOGOUT_USER': function LOGOUT_USER(state) {
+    // console.log('old state: ', state.user)
     state.user = {};
-    state.is_auth = false;
+    state.is_auth = false; // console.log('new state: ', state.user)
   },
   'setUserError': function setUserError(state, message) {
     state.error = message;
